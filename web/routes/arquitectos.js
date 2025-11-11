@@ -5,7 +5,7 @@ import supabase from "../config.js";
 const router = express.Router();
 
 // Listado de arquitectos
-router.get("/arquitectos", async (req, res) => {
+router.get("/", async (req, res) => {
   const { data: architects, error } = await supabase
     .from("architects")
     .select("*");

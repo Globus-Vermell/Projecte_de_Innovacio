@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos de Supabase</title>
+    <title>Arquitectos</title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
         h1 { color: #333; }
@@ -13,19 +13,19 @@
     </style>
 </head>
 <body>
-    <h1>Listado de architects</h1>
+    <h1>Listado de arquitectos</h1>
 
     <% if (architects && architects.length > 0) { %>
         <ul>
-            <% architects.forEach(architects => { %>
+            <% architects.forEach(architect => { %>
                 <li>
-                    <strong><%= producto.nombre %></strong> - Precio: $<%= producto.precio %>
-                    <p><%= architects.descripcion %></p>
+                    <strong><%= architect.name %></strong>
+                    <p><%= architect.description %></p>
                 </li>
             <% }); %>
         </ul>
     <% } else { %>
-        <p class="no-data">No hay architects disponibles.</p>
+        <p class="no-data">No hay arquitectos disponibles.</p>
     <% } %>
 </body>
 </html>

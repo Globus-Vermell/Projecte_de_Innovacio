@@ -15,7 +15,7 @@ const readPublicaciones = () => {
 };
 
 // Página principal — muestra los títulos en una lista
-router.get("/", (req, res) => {
+router.get("/3233", (req, res) => {
   const publicaciones = readPublicaciones();
   res.render("publicaciones", { publicaciones });
 });
