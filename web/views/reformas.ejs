@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reformas</title>
+</head>
+<body>
+  <h1>Listado de Reformas</h1>
+
+  <% if (reformas && reformas.length > 0) { %>
+    <ul>
+      <% reformas.forEach(reforma => { %>
+        <li>
+          Reforma del año <strong><%= reforma.year %></strong> 
+          (Arquitecto ID: <%= reforma.id_architect %>)  
+          — <a href="/reformas/<%= reforma.id_reform %>">Ver detalle</a>
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No hay reformas registradas.</p>
+  <% } %>
+</body>
+</html>
