@@ -1,25 +1,34 @@
 import express from "express";
-import fs from "fs";
-
+import supabase from "../config.js";
 const router = express.Router();
 
-// Leer publicaciones del JSON
-const readPublicaciones = () => {
-  try {
-    const data = fs.readFileSync("publicacionesdb.json", "utf8");
-    return JSON.parse(data);
-  } catch (error) {
-    console.error("Error leyendo el archivo:", error);
-    return [];
-  }
-};
 
 // Página principal — muestra los títulos en una lista
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
+ const {data:publications, error } = await supabase
+    .from("publications")
+    .select("*");
 
-  const publicaciones = readPublicaciones();
-  res.render("publicaciones", { publicaciones });
+    if (error) {
+      console.error("Error al obtener publicaciones:", error);
+      return res.status(500).send("Error al obtener publicaciones");
+    }
+    res.render("publicaciones", { publications });
 });
 
+router.get("/:id", async (req, res) => {
+  const {id} = req.params;
+  const {data: publication, error } =await supabase
+    .from("publications")
+    .select("*")
+    .eq("id_publication", id)
+    .single();
 
+    if (error || !publication){
+      console.error("Error al obtener la publicación:", error);
+      return res.status(404).send("Publicación no encontrada");
+    }
+
+    res.render("publicacionDetall", { publication });
+});
 export default router;

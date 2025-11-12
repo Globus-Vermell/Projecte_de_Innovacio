@@ -1,8 +1,37 @@
-<h1>Publicaciones</h1>
-<ul>
-  <% publicaciones.forEach(p => { %>
-    <li>
-      <a href="/<%= p.id_Publication %>"><%= p.title %></a>
-    </li>
-  <% }) %>
-</ul>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publicaciones</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background-color: #f4f4f4; }
+        h1 { color: #333; }
+        ul { list-style: none; padding: 0; }
+        li { background-color: #fff; margin-bottom: 10px; padding: 10px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .no-data { color: #888; }
+        a { text-decoration: none; color: #007bff; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h1>Listado de publicaciones</h1>
+
+    <% if (publications && publications.length > 0) { %>
+        <ul>
+            <% publications.forEach(publication => { %>
+                <li>
+                    <strong>
+                        <a href="/publicaciones/<%= publication.id_publication %>">
+                            <%= publication.title %>
+                        </a>
+                    </strong>
+                    <p><%= publication.description %></p>
+                </li>
+            <% }); %>
+        </ul>
+    <% } else { %>
+        <p class="no-data">No hay publicaciones disponibles.</p>
+    <% } %>
+</body>
+</html>
