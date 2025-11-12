@@ -3,7 +3,6 @@ import supabase from "../config.js";
 
 const router = express.Router();
 
-// 🧱 Listado de arquitectos
 router.get("/", async (req, res) => {
   const { data: architects, error } = await supabase
     .from("architects")
