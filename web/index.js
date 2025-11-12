@@ -10,8 +10,9 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 // Rutas
-app.use('/3233', publicacionesRouter);
-app.use("/", arquitectosRouter);
+app.use('/publicaciones', publicacionesRouter);
+app.use("/arquitectos", arquitectosRouter);
+
 
 // Start
 app.listen(PORT, () => {
