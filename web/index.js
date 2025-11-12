@@ -4,6 +4,8 @@ import arquitectosRouter from './routes/arquitectos.js';
 import reformasRouter from "./routes/reformas.js";
 import premiosRouter from "./routes/premios.js";
 import nomenclaturaRouter from "./routes/nomenclatura.js";
+import tipologiaRouter from "./routes/tipologia.js";
+import proteccionRouter from "./routes/proteccion.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -27,6 +29,10 @@ app.use("/arquitectos", arquitectosRouter);
 app.use("/reformas", reformasRouter);
 app.use("/premios", premiosRouter);
 app.use("/nomenclatura", nomenclaturaRouter);
+app.use("/tipologia", tipologiaRouter);
+app.use("/proteccion", proteccionRouter);
+
+
 
 
 
