@@ -9,8 +9,7 @@ import tipologiaRouter from "./routes/tipologia.js";
 import proteccionRouter from "./routes/proteccion.js";
 import construccionesRouter from "./routes/construcciones.js";
 import loginRouter from "./routes/login.js";
-const PORT = process.env.PORT || 3000;
-
+import { PORT } from './config.js';
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
