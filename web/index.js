@@ -18,9 +18,7 @@ app.use(express.static('public'));
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-app.get("/", (req, res) => {
-    res.render("home", { user: req.session?.user });
-});
+
 
 app.use(session({
     secret: 'secretosecreto',
@@ -28,6 +26,10 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+app.get("/home", (req, res) => {
+    res.render("home", { user: req.session?.user });
+});
 
 app.use('/publicaciones', publicacionesRouter);
 app.use("/arquitectos", arquitectosRouter);
@@ -38,7 +40,7 @@ app.use("/nomenclatura", nomenclaturaRouter);
 app.use("/tipologia", tipologiaRouter);
 app.use("/proteccion", proteccionRouter);
 app.use("/construcciones", construccionesRouter);
-app.use("/login", loginRouter);
+app.use("/", loginRouter);
 
 
 

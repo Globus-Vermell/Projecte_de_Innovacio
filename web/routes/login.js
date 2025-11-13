@@ -4,6 +4,9 @@ import supabase from "../config.js";
 const router = express.Router();
 
 router.get("/", (req, res) => {
+    if (req.session?.user) {
+        return res.redirect("/home");
+    }
     res.render("login", { error: "" });
 });
 
@@ -25,10 +28,9 @@ router.post("/", async (req, res) => {
         if (!user) {
             return res.render("login", { error: "Usuario o contraseña incorrectos." });
         }
-        
-       req.session.user = { id: user.id_user, username: user.name, email: user.email };
 
-        res.redirect("/");
+        req.session.user = { id: user.id_user, username: user.name, email: user.email };
+        res.redirect("/home");
     } catch {
         res.status(500).send("Error interno del servidor");
     }
