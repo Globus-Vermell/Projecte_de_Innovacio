@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     console.error("Error al obtener las construcciones:", error);
     return res.status(500).send("Error al obtener construcciones");
   }
-  res.render("construcciones", { buildings });
+  res.render("construcciones/construcciones", { buildings });
 });
 
 router.get("/:id", async (req, res) => {
@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
     return res.status(404).send("Construcción no encontrada");
   }
 
-  res.render("construccionesDetall", { building });
+  res.render("construcciones/construccionesDetall", { building });
 });
 
 router.get("/:id/prizes", async (req, res) => {

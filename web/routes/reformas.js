@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     return res.status(500).send("Error al obtener reformas");
   }
 
-  res.render("reformas", { reformas });
+  res.render("reformas/reformas", { reformas });
 });
 
 router.get("/:id", async (req, res) => {
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
     return res.status(404).send("Reforma no encontrada");
   }
 
-  res.render("reformaDetall", { reforma });
+  res.render("reformas/reformaDetall", { reforma });
 });
 
 
