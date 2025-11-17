@@ -8,53 +8,78 @@ router.get("/", (req, res) => {
 });
 
 router.get("/publications", async (req, res) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
         .from("publications")
         .select("id_publication, title");
-
-    if (error) return res.status(500).json([]);
-    res.json(data);
+    res.json(data || []);
 });
 
 router.get("/architects", async (req, res) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
         .from("architects")
         .select("id_architect, name");
-
-    if (error) return res.status(500).json([]);
-    res.json(data);
+    res.json(data || []);
 });
 
 router.get("/typologies", async (req, res) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
         .from("typology")
         .select("id_typology, name");
+    res.json(data || []);
+});
 
-    if (error) return res.status(500).json([]);
-    res.json(data);
+router.get("/prizes", async (req, res) => {
+    const { data } = await supabase
+        .from("prizes")
+        .select("id_prize, name");
+    res.json(data || []);
+});
+
+router.get("/reforms", async (req, res) => {
+    const { data } = await supabase
+        .from("reform")
+        .select("id_reform, year");
+    res.json(data || []);
+});
+
+router.get("/protection", async (req, res) => {
+    const { data } = await supabase
+        .from("protection")
+        .select("id_protection, level");
+    res.json(data || []);
+});
+
+router.get("/nomenclature", async (req, res) => {
+    const { data } = await supabase
+        .from("nomenclature")
+        .select("id_nomenclature, name");
+    res.json(data || []);
 });
 
 router.post("/", async (req, res) => {
-    const { nom, adreca, any_construccio, publicacio_id, arquitectes, tipologia } = req.body;
+    const {
+        nom, adreca, any_construccio, description, surface_area,
+        publicacio_id, arquitectes, tipologia, id_prize, id_reform, id_protection, id_nomenclature
+    } = req.body;
 
     try {
-        const { error } = await supabase
-            .from("buildings")
-            .insert([{
-                name: nom,
-                picture: "provisional.jpg",
-                coordinates: adreca,
-                constuction_year:  parseInt(any_construccio),
-                id_publication:  parseInt(publicacio_id),
-                id_architect:   parseInt(arquitectes),
-                id_typology:  parseInt(tipologia)
-            }]);
+        const { error } = await supabase.from("buildings").insert([{
+            name: nom,
+            picture: "provisional.jpg",
+            coordinates: adreca,
+            constuction_year: parseInt(any_construccio),
+            description,
+            surface_area: parseInt(surface_area),
+            id_publication: parseInt(publicacio_id),
+            id_architect: parseInt(arquitectes),
+            id_typology: parseInt(tipologia),
+            id_prize: parseInt(id_prize),
+            id_reform: parseInt(id_reform),
+            id_protection: parseInt(id_protection),
+            id_nomenclature: parseInt(id_nomenclature)
+        }]);
 
-        if (error) {
-            console.error("Error al guardar:", error);
-            return res.status(400).json({ success: false, message: "Error al guardar la edificación" });
-        }
-
+        if (error) throw error;
         res.json({ success: true, message: "Edificació guardada correctament!" });
     } catch (err) {
         console.error("Error:", err);

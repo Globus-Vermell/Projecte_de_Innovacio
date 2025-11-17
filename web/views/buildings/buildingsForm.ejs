@@ -20,6 +20,12 @@
         <label>Any construcció:</label>
         <input type="number" name="any_construccio" required />
 
+        <label>Descripció:</label>
+        <textarea name="description"></textarea>
+
+        <label>Superfície (m²):</label>
+        <input type="number" name="surface_area" />
+
         <label>Publicació:</label>
         <select id="publicacio_id" name="publicacio_id" required></select>
 
@@ -28,6 +34,26 @@
 
         <label>Tipologia:</label>
         <select id="tipologia" name="tipologia"></select>
+
+        <label>Premi:</label>
+        <select id="id_prize" name="id_prize">
+            <option value="">-- Cap --</option>
+        </select>
+
+        <label>Reforma:</label>
+        <select id="id_reform" name="id_reform">
+            <option value="">-- Cap --</option>
+        </select>
+
+        <label>Protecció:</label>
+        <select id="id_protection" name="id_protection">
+            <option value="">-- Cap --</option>
+        </select>
+
+        <label>Nomenclatura:</label>
+        <select id="id_nomenclature" name="id_nomenclature">
+            <option value="">-- Cap --</option>
+        </select>
 
         <button type="submit">Guardar</button>
     </form>
@@ -38,12 +64,15 @@
             const selectPublicacions = document.getElementById("publicacio_id");
             const selectArquitectes = document.getElementById("arquitectes");
             const selectTipologia = document.getElementById("tipologia");
+            const selectPrizes = document.getElementById("id_prize");
+            const selectReforms = document.getElementById("id_reform");
+            const selectProtection = document.getElementById("id_protection");
+            const selectNomenclature = document.getElementById("id_nomenclature");
 
             async function carregarDesplegables() {
 
                 const resPub = await fetch("/buildings/form/publications");
                 const publicacions = await resPub.json();
-
                 selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
                 publicacions.forEach(pub => {
                     const opt = document.createElement("option");
@@ -54,7 +83,6 @@
 
                 const resArq = await fetch("/buildings/form/architects");
                 const arquitectes = await resArq.json();
-
                 selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
                 arquitectes.forEach(arq => {
                     const opt = document.createElement("option");
@@ -65,13 +93,52 @@
 
                 const resTip = await fetch("/buildings/form/typologies");
                 const tipologies = await resTip.json();
-
                 selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
                 tipologies.forEach(t => {
                     const opt = document.createElement("option");
                     opt.value = t.id_typology;
                     opt.textContent = t.name;
                     selectTipologia.appendChild(opt);
+                });
+
+                const resPrize = await fetch("/buildings/form/prizes");
+                const prizes = await resPrize.json();
+                selectPrizes.innerHTML = '<option value="">-- Cap --</option>';
+                prizes.forEach(p => {
+                    const opt = document.createElement("option");
+                    opt.value = p.id_prize;
+                    opt.textContent = p.name;
+                    selectPrizes.appendChild(opt);
+                });
+
+                const resReforms = await fetch("/buildings/form/reforms");
+                const reforms = await resReforms.json();
+                selectReforms.innerHTML = '<option value="">-- Cap --</option>';
+                reforms.forEach(r => {
+                    const opt = document.createElement("option");
+                    opt.value = r.id_reform;
+                    opt.textContent = r.year;
+                    selectReforms.appendChild(opt);
+                });
+
+                const resProtection = await fetch("/buildings/form/protection");
+                const protections = await resProtection.json();
+                selectProtection.innerHTML = '<option value="">-- Cap --</option>';
+                protections.forEach(p => {
+                    const opt = document.createElement("option");
+                    opt.value = p.id_protection;
+                    opt.textContent = p.level;
+                    selectProtection.appendChild(opt);
+                });
+
+                const resNomenclature = await fetch("/buildings/form/nomenclature");
+                const nomenclatures = await resNomenclature.json();
+                selectNomenclature.innerHTML = '<option value="">-- Cap --</option>';
+                nomenclatures.forEach(n => {
+                    const opt = document.createElement("option");
+                    opt.value = n.id_nomenclature;
+                    opt.textContent = n.name;
+                    selectNomenclature.appendChild(opt);
                 });
             }
 
@@ -91,7 +158,7 @@
                 }
 
                 try {
-                    const res = await fetch("/FormularioEdificacion", {
+                    const res = await fetch("/buildings", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(data),
@@ -108,5 +175,4 @@
         });
     </script>
 </body>
-
 </html>
