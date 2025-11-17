@@ -38,11 +38,6 @@
         <label>Tipologia:</label>
         <select id="tipologia" name="tipologia"></select>
 
-        <label>Premi:</label>
-        <select id="id_prize" name="id_prize">
-            <option value="">-- Cap --</option>
-        </select>
-
         <label>Reforma:</label>
         <select id="id_reform" name="id_reform">
             <option value="">-- Cap --</option>
@@ -67,7 +62,6 @@
             const selectPublicacions = document.getElementById("publicacio_id");
             const selectArquitectes = document.getElementById("arquitectes");
             const selectTipologia = document.getElementById("tipologia");
-            const selectPrizes = document.getElementById("id_prize");
             const selectReforms = document.getElementById("id_reform");
             const selectProtection = document.getElementById("id_protection");
             const selectNomenclature = document.getElementById("id_nomenclature");
@@ -103,17 +97,7 @@
                     opt.textContent = t.name;
                     selectTipologia.appendChild(opt);
                 });
-
-                const resPrize = await fetch("/buildings/form/prizes");
-                const prizes = await resPrize.json();
-                selectPrizes.innerHTML = '<option value="">-- Cap --</option>';
-                prizes.forEach(p => {
-                    const opt = document.createElement("option");
-                    opt.value = p.id_prize;
-                    opt.textContent = p.name;
-                    selectPrizes.appendChild(opt);
-                });
-
+            
                 const resReforms = await fetch("/buildings/form/reforms");
                 const reforms = await resReforms.json();
                 selectReforms.innerHTML = '<option value="">-- Cap --</option>';

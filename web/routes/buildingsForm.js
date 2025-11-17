@@ -28,13 +28,6 @@ router.get("/typologies", async (req, res) => {
     res.json(data || []);
 });
 
-router.get("/prizes", async (req, res) => {
-    const { data } = await supabase
-        .from("prizes")
-        .select("id_prize, name");
-    res.json(data || []);
-});
-
 router.get("/reforms", async (req, res) => {
     const { data } = await supabase
         .from("reform")
@@ -59,7 +52,7 @@ router.get("/nomenclature", async (req, res) => {
 router.post("/", async (req, res) => {
     const {
         nom, adreca, any_construccio, imatge, description, surface_area,
-        publicacio_id, arquitectes, tipologia, id_prize, id_reform, id_protection, id_nomenclature
+        publicacio_id, arquitectes, tipologia, id_protection, id_nomenclature
     } = req.body;
 
     try {
@@ -74,12 +67,9 @@ router.post("/", async (req, res) => {
             id_publication: parseInt(publicacio_id),
             id_architect: parseInt(arquitectes),
             id_typology: parseInt(tipologia),
-            id_prize: parseInt(id_prize),
-            id_reform: parseInt(id_reform),
             id_protection: parseInt(id_protection),
             id_nomenclature: parseInt(id_nomenclature)
         }]);
-
         if (error) throw error;
         res.json({ success: true, message: "Edificació guardada correctament!" });
     } catch (err) {
