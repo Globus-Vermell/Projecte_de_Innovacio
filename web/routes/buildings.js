@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
     console.error("Error al obtener las construcciones:", error);
     return res.status(500).send("Error al obtener construcciones");
   }
-  res.render("construcciones/construcciones", { buildings });
+  res.render("buildings/buildings", { buildings });
 });
 
 
