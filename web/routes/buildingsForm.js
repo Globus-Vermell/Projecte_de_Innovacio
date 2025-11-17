@@ -44,14 +44,14 @@ router.get("/nomenclature", async (req, res) => {
 
 router.post("/", async (req, res) => {
     const {
-        nom, adreca, any_construccio, imatge, description, surface_area,
+        nom, adreca, any_construccio, picture, description, surface_area,
         publicacio_id, arquitectes, tipologia, id_protection, id_nomenclature
     } = req.body;
 
     try {
         const { error } = await supabase.from("buildings").insert([{
             name: nom,
-            picture: imatge,
+            picture: picture,
             coordinates: adreca,
             constuction_year: parseInt(any_construccio),
             description,
