@@ -28,13 +28,6 @@ router.get("/typologies", async (req, res) => {
     res.json(data || []);
 });
 
-router.get("/reforms", async (req, res) => {
-    const { data } = await supabase
-        .from("reform")
-        .select("id_reform, year");
-    res.json(data || []);
-});
-
 router.get("/protection", async (req, res) => {
     const { data } = await supabase
         .from("protection")
