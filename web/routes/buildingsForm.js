@@ -63,7 +63,7 @@ router.post("/", async (req, res) => {
             id_nomenclature: parseInt(id_nomenclature)
         }]);
         if (error) throw error;
-        res.json({ success: true, message: "Edificació guardada correctament!" });
+        res.json({ success: true, message: "Edificación guardada correctamente!" });
     } catch (err) {
         console.error("Error:", err);
         res.status(500).json({ success: false, message: "Error interno del servidor" });

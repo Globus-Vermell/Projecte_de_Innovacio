@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Publicació</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body class="p-6">
+    <h1>Afegir una nova publicació</h1>
+
+    <form id="form-publication">
+
+        <label>Títol:</label>
+        <input type="text" name="title" required />
+
+        <label>Descripció:</label>
+        <textarea name="description"></textarea>
+
+        <label>Temàtica:</label>
+        <select name="themes" required>
+            <option value="">-- Selecciona una temàtica --</option>
+            <option value="etapes">Etapes</option>
+            <option value="arquitectura tematica">Arquitectura Temàtica</option>
+            <option value="barris">Barris</option>
+        </select>
+
+        <label>Agradecimientos:</label>
+        <textarea name="acknowledgment"></textarea>
+
+        <label>Edició publicació:</label>
+        <input type="text" name="publication_edition" required />
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const form = document.getElementById("form-publication");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const res = await fetch("/publications/form", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await res.json();
+                    alert(result.message);
+
+                    if (result.success) form.reset();
+                } catch (err) {
+                    console.error("Error:", err);
+                    alert("Error al enviar el formulari.");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

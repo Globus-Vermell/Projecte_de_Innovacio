@@ -1,0 +1,54 @@
+
+
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Nova Nomenclatura</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+
+<body class="p-6">
+    <h1>Afegir una nova nomenclatura</h1>
+
+    <form id="form-nomenclature">
+        <label>Nom:</label>
+        <input type="text" name="name" required />
+
+        <label>Descripció:</label>
+        <textarea name="description"></textarea>
+
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("form-nomenclature");
+
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const res = await fetch("/nomenclature/form", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+
+                    const result = await res.json();
+                    alert(result.message);
+
+                    if (result.success) form.reset();
+                } catch (err) {
+                    console.error("Error:", err);
+                    alert("Error al enviar el formulari.");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

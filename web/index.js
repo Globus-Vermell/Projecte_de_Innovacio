@@ -10,6 +10,13 @@ import proteccionRouter from "./routes/protection.js";
 import construccionesRouter from "./routes/buildings.js";
 import loginRouter from "./routes/login.js";
 import FormularioEdificacionRouter from "./routes/buildingsForm.js";
+import architectsFormRouter from "./routes/architectsForm.js";
+import nomenclatureFormRouter from "./routes/nomenclatureForm.js";
+import prizesFormRouter from "./routes/prizesForm.js";
+import proteccionFormRouter from "./routes/protectionForm.js";
+import reformasFormRouter from "./routes/reformForm.js";
+import tipologiaFormRouter from "./routes/typologyForm.js";
+import publicacionesFormRouter from "./routes/publicationsForm.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -31,15 +38,22 @@ app.get("/home", (req, res) => {
 });
 
 app.use("/architects", arquitectosRouter);
+app.use("/architects/form", architectsFormRouter);
 app.use("/buildings", construccionesRouter);
 app.use("/buildings/form", FormularioEdificacionRouter);
 app.use("/", loginRouter);
 app.use("/nomenclature", nomenclaturaRouter);
+app.use("/nomenclature/form", nomenclatureFormRouter);
 app.use("/prizes", premiosRouter);
+app.use("/prizes/form", prizesFormRouter);
 app.use("/protection", proteccionRouter);
+app.use("/protection/form", proteccionFormRouter);
 app.use('/publications', publicacionesRouter);
+app.use("/publications/form", publicacionesFormRouter);
 app.use("/reform", reformasRouter);
+app.use("/reform/form", reformasFormRouter);
 app.use("/typology", tipologiaRouter);
+app.use("/typology/form", tipologiaFormRouter);
 
 
 // Start
