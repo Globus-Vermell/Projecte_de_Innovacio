@@ -4,40 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Arquitecte</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/editForm.css">
+    <!-- Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="p-6">
-    <h1>Editar Arquitecte</h1>
+<body>
+    <header class="form-header">
+        <a href="/architects" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <h1 class="page-title">Editar Arquitecte</h1>
+    </header>
 
-    <form id="form-edit-architect">
-        <label>Nom:</label>
-        <input type="text" name="name" value="<%= architect.name %>" required />
+    <main class="form-container">
+        <form id="form-edit-architect">
+            <div class="form-group">
+                <label for="name">Nom <span class="required">*</span></label>
+                <input type="text" id="name" name="name" value="<%= architect.name %>" required />
+            </div>
 
-        <label>Descripció:</label>
-        <textarea name="description"><%= architect.description %></textarea>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="birth_year">Any de naixement <span class="required">*</span></label>
+                    <input type="number" id="birth_year" name="birth_year" value="<%= architect.birth_year %>" required />
+                </div>
+                <div class="form-group">
+                    <label for="death_year">Any de defunció</label>
+                    <input type="number" id="death_year" name="death_year" value="<%= architect.death_year %>" />
+                </div>
+            </div>
 
-        <button type="submit">Guardar canvis</button>
-    </form>
+            <div class="form-group">
+                <label for="nationality">Nacionalitat <span class="required">*</span></label>
+                <input type="text" id="nationality" name="nationality" value="<%= architect.nationality %>" required />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Biografia <span class="required">*</span></label>
+                <textarea id="description" name="description" required><%= architect.description %></textarea>
+            </div>
+
+            <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Canvis</button>
+        </form>
+    </main>
 
     <script>
-        const form = document.getElementById("form-edit-architect");
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const data = Object.fromEntries(new FormData(form).entries());
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("form-edit-architect");
 
-            try {
-                const res = await fetch(`/architects/edit/<%= architect.id_architect %>`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data)
-                });
-                const result = await res.json();
-                alert(result.message);
-                if (result.success) window.location.href = "/architects";
-            } catch (err) {
-                console.error(err);
-                alert("Error al actualizar el arquitecte");
-            }
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+
+                try {
+                    const res = await fetch(`/architects/edit/<%= architect.id_architect %>`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data)
+                    });
+                    const result = await res.json();
+                    alert(result.message);
+                    if (result.success) window.location.href = "/architects";
+                } catch (err) {
+                    console.error(err);
+                    alert("Error al actualizar el arquitecte");
+                }
+            });
         });
     </script>
 </body>

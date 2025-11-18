@@ -3,22 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <title>Nou Arquitecte</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/createForm.css">
+    <!-- Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body class="p-6">
-    <h1>Afegir un nou arquitecte</h1>
+<body>
+    <header class="form-header">
+        <a href="/architects" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <h1 class="page-title">Nou Arquitecte</h1>
+    </header>
 
-    <form id="form-arquitecte">
-        <label>Nom:</label>
-        <input type="text" name="name" required />
+    <main class="form-container">
+        <form id="form-arquitecte">
+            <div class="form-group">
+                <label for="name">Nom <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required />
+            </div>
 
-        <label>Descripció:</label>
-        <textarea name="description"></textarea>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="birth_year">Any de naixement <span class="required">*</span></label>
+                    <input type="number" id="birth_year" name="birth_year" required />
+                </div>
+                <div class="form-group">
+                    <label for="death_year">Any de defunció</label>
+                    <input type="number" id="death_year" name="death_year" />
+                </div>
+            </div>
 
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/architects">Tornar a la llista d'arquitectes</a>
+            <div class="form-group">
+                <label for="nationality">Nacionalitat <span class="required">*</span></label>
+                <input type="text" id="nationality" name="nationality" required />
+            </div>
+
+            <div class="form-group">
+                <label for="description">Biografia <span class="required">*</span></label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Arquitecte</button>
+        </form>
+    </main>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {

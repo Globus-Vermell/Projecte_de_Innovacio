@@ -1,0 +1,181 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f5f5f5; /* Fondo claro */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-right: 30px;
+}
+
+.logo img {
+    height: 40px; /* Ajusta el tamaño del logo */
+    margin-right: 10px;
+}
+
+.logo h1 {
+    font-size: 1.2em;
+    color: #cc0000; /* Color rojo del logo */
+    margin: 0;
+}
+
+.header-info {
+    flex-grow: 1;
+}
+
+.page-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin: 0;
+    color: #333;
+}
+
+.page-description {
+    font-size: 0.9em;
+    color: #777;
+    margin-top: 5px;
+}
+
+.user-session {
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+.session-label {
+    background-color: #cc0000; /* Fondo rojo para la sesión */
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 15px;
+}
+
+.logout-link {
+    color: #cc0000;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.logout-link i {
+    margin-left: 5px;
+}
+
+.logout-link:hover {
+    text-decoration: underline;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea las tarjetas al inicio del contenedor */
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columnas */
+    gap: 20px; /* Espacio entre tarjetas */
+    max-width: 1000px; /* Ancho máximo para el grid */
+    width: 100%;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #333;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out; /* Añadido border a la transición */
+    min-height: 150px; /* Altura mínima para las tarjetas */
+    border: 2px solid transparent; /* Borde transparente por defecto */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border: 2px solid #cc0000; /* Borde rojo al pasar el ratón */
+}
+
+.card i {
+    font-size: 3em; /* Tamaño de los iconos */
+    color: #a0a0a0; /* Color gris de los iconos */
+    margin-bottom: 15px;
+    transition: color 0.2s ease-in-out; /* Transición para el color del icono */
+}
+
+.card span {
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: center;
+    transition: color 0.2s ease-in-out; /* Transición para el color del texto */
+}
+
+.card:hover i,
+.card:hover span {
+    color: #cc0000; /* Color rojo para el icono y el texto al pasar el ratón */
+}
+
+
+/* Para dispositivos más pequeños (móviles) */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 15px 20px;
+    }
+
+    .logo {
+        margin-bottom: 15px;
+    }
+
+    .user-session {
+        margin-top: 15px;
+    }
+
+    .page-title {
+        font-size: 1.3em;
+    }
+
+    .page-description {
+        font-size: 0.8em;
+    }
+
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en móviles */
+        gap: 15px;
+        padding: 20px;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+}
+
+/* Para tabletas */
+@media (max-width: 992px) and (min-width: 769px) {
+    .card-grid {
+        grid-template-columns: repeat(3, 1fr); /* 3 columnas en tabletas */
+    }
+}

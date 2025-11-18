@@ -4,27 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arquitectes</title>
+    <link rel="stylesheet" href="/css/paginaPrincipal.css">
+    <!-- Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>Llistat d'arquitectes</h1>
+    <header class="page-header">
+        <div class="header-left">
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Tornar al menú principal</a>
+            <h1 class="page-title">Arquitectes</h1>
+        </div>
+        <div class="header-right">
+            <a href="/architects/form" class="add-button"><i class="fas fa-plus"></i> Nou arquitecte</a>
+        </div>
+    </header>
 
-    <% if (architects && architects.length > 0) { %>
-        <ul>
-            <% architects.forEach(architect => { %>
-                <li>
-                    <strong>
-                        <a href="/architects/edit/<%= architect.id_architect %>"><%= architect.name %></a></strong>
-                    <p><%= architect.description %></p>
-                    <button type="button" onclick="deleteArchitect('<%= architect.id_architect %>')">Eliminar</button>
-                </li>
-            <% }); %>
-        </ul>
-    <% } else { %>
-        <p>No hi ha arquitectes registrats.</p>
-    <% } %>
+    <main class="main-content">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar per nom, nacionalitat, biografia..." onkeyup="filterArchitects(this.value)">
+        </div>
 
-    <a href="/">Tornar al menú principal</a> |
-    <a href="/architects/form">Afegir nou arquitecte</a>
+        <div class="architect-list">
+            <% if (architects && architects.length > 0) { %>
+                <% architects.forEach(architect => { %>
+                    <div class="architect-card" data-name="<%= architect.name.toLowerCase() %>" data-description="<%= architect.description.toLowerCase() %>">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <a href="/architects/edit/<%= architect.id_architect %>" class="edit-icon"><i class="fas fa-pencil-alt"></i></a>
+                                <h3><%= architect.name %></h3>
+                            </div>
+                            <div class="card-meta-info">
+                                <span class="dates"><%= architect.birth_year %> - <%= architect.death_year %></span>
+                                <span class="nationality"><%= architect.nationality %></span>
+                            </div>
+                            <button type="button" class="delete-button" onclick="deleteArchitect('<%= architect.id_architect %>')"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                        <p class="card-description"><%= architect.description %></p>
+                        <div class="card-footer">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span class="creation-date"><%= new Date(architect.creation_date).toLocaleDateString('ca-ES') %></span>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-architects">No hi ha arquitectes registrats.</p>
+            <% } %>
+        </div>
+    </main>
 
     <script>
         async function deleteArchitect(id) {
@@ -43,6 +70,21 @@
                 console.error(err);
                 alert("Error al eliminar l'arquitecte");
             }
+        }
+
+        function filterArchitects(searchTerm) {
+            const cards = document.querySelectorAll('.architect-card');
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+            cards.forEach(card => {
+                const name = card.dataset.name;
+                const description = card.dataset.description;
+                if (name.includes(lowerCaseSearchTerm) || description.includes(lowerCaseSearchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>
