@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Arquitecte</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body class="p-6">
+    <h1>Editar Arquitecte</h1>
+
+    <form id="form-edit-architect">
+        <label>Nom:</label>
+        <input type="text" name="name" value="<%= architect.name %>" required />
+
+        <label>Descripció:</label>
+        <textarea name="description"><%= architect.description %></textarea>
+
+        <button type="submit">Guardar canvis</button>
+    </form>
+
+    <script>
+        const form = document.getElementById("form-edit-architect");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(`/architects/edit/<%= architect.id_architect %>`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) window.location.href = "/architects";
+            } catch (err) {
+                console.error(err);
+                alert("Error al actualizar el arquitecte");
+            }
+        });
+    </script>
+</body>
+</html>

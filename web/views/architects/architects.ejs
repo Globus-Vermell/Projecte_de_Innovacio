@@ -12,7 +12,8 @@
         <ul>
             <% architects.forEach(architect => { %>
                 <li>
-                    <strong><%= architect.name %></strong>
+                    <strong>
+                        <a href="/architects/edit/<%= architect.id_architect %>"><%= architect.name %></a></strong>
                     <p><%= architect.description %></p>
                     <button type="button" onclick="deleteArchitect('<%= architect.id_architect %>')">Eliminar</button>
                 </li>

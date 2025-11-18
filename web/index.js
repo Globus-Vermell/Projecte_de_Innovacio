@@ -17,6 +17,8 @@ import proteccionFormRouter from "./routes/protectionForm.js";
 import reformasFormRouter from "./routes/reformForm.js";
 import tipologiaFormRouter from "./routes/typologyForm.js";
 import publicacionesFormRouter from "./routes/publicationsForm.js";
+import architectsEditRouter from "./routes/architectsEdit.js";
+import buildingsEditRouter from "./routes/buildingsEdit.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -39,8 +41,10 @@ app.get("/home", (req, res) => {
 
 app.use("/architects", arquitectosRouter);
 app.use("/architects/form", architectsFormRouter);
+app.use("/architects/edit", architectsEditRouter);
 app.use("/buildings", construccionesRouter);
 app.use("/buildings/form", FormularioEdificacionRouter);
+app.use("/buildings/edit", buildingsEditRouter);
 app.use("/", loginRouter);
 app.use("/nomenclature", nomenclaturaRouter);
 app.use("/nomenclature/form", nomenclatureFormRouter);
