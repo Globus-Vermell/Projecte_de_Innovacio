@@ -4,42 +4,75 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proteccions</title>
+  <link rel="stylesheet" href="/css/paginaPrincipal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <h1>Llistat de Proteccions</h1>
+  <header class="page-header">
+    <div class="header-left">
+      <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Tornar al menú principal</a>
+      <h1 class="page-title">Proteccions</h1>
+    </div>
+    <div class="header-right">
+      <a href="/protection/form" class="add-button"><i class="fas fa-plus"></i> Nova protecció</a>
+    </div>
+  </header>
 
-  <% if (protections && protections.length > 0) { %>
-    <ul>
-      <% protections.forEach(p => { %>
-        <li>
-          <strong><a href="/protection/edit/<%= p.id_protection %>">Nivell:</a></strong> <%= p.level %>  
-          <button type="button" onclick="deleteProtection('<%= p.id_protection %>')">Eliminar</button>
-        </li>
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>No hi ha proteccions registrades.</p>
-  <% } %>
+  <main class="main-content">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Buscar per nivell o descripció..." onkeyup="filterProtections(this.value)">
+    </div>
 
-  <a href="/">Tornar a l'inici</a>
-  <a href="/protection/form">Afegir nova protecció</a>
+    <div class="architect-list">
+      <% if (protections && protections.length > 0) { %>
+        <% protections.forEach(p => { %>
+          <div class="architect-card" data-level="<%= p.level.toLowerCase() %>" data-description="<%= (p.description || '').toLowerCase() %>">
+            <div class="card-header">
+              <div class="card-title-group">
+                <a href="/protection/edit/<%= p.id_protection %>" class="edit-icon"><i class="fas fa-pencil-alt"></i></a>
+                <h3>Nivell: <%= p.level %></h3>
+              </div>
+              <button type="button" class="delete-button" onclick="deleteProtection('<%= p.id_protection %>')"><i class="fas fa-trash-alt"></i></button>
+            </div>
+            <% if (p.description) { %>
+              <p class="card-description"><%= p.description %></p>
+            <% } %>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p class="no-architects">No hi ha proteccions registrades.</p>
+      <% } %>
+    </div>
+  </main>
+
   <script>
     async function deleteProtection(id) {
       if (!confirm("Segur que vols eliminar aquesta protecció?")) return;
 
       try {
-        const res = await fetch(`/protection/delete/${id}`, {
-          method: "DELETE"
-        });
-
+        const res = await fetch(`/protection/delete/${id}`, { method: "DELETE" });
         const data = await res.json();
         alert(data.message);
-
         if (data.success) location.reload();
       } catch (err) {
         console.error(err);
         alert("Error al eliminar la protecció");
       }
+    }
+
+    function filterProtections(searchTerm) {
+      const cards = document.querySelectorAll('.architect-card');
+      const lower = searchTerm.toLowerCase();
+      cards.forEach(card => {
+        const level = card.dataset.level;
+        const description = card.dataset.description;
+        if (level.includes(lower) || description.includes(lower)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
   </script>
 </body>

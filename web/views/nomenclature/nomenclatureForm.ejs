@@ -1,26 +1,35 @@
-
-
 <!DOCTYPE html>
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Nomenclatura</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/createForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body class="p-6">
-    <h1>Afegir una nova nomenclatura</h1>
+<body>
+    <header class="form-header">
+        <a href="/nomenclature" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <h1 class="page-title">Nova Nomenclatura</h1>
+    </header>
 
-    <form id="form-nomenclature">
-        <label>Nom:</label>
-        <input type="text" name="name" required />
+    <main class="form-container">
+        <form id="form-nomenclature">
+            <div class="form-group">
+                <label for="name">Nom <span class="required">*</span></label>
+                <input type="text" id="name" name="name" required />
+            </div>
 
-        <label>Descripció:</label>
-        <textarea name="description"></textarea>
+            <div class="form-group">
+                <label for="description">Descripció</label>
+                <textarea id="description" name="description"></textarea>
+            </div>
 
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/nomenclature">Tornar a la llista de nomenclatures</a>
+            <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Nomenclatura</button>
+        </form>
+    </main>
+
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const form = document.getElementById("form-nomenclature");
@@ -49,6 +58,5 @@
             });
         });
     </script>
-
 </body>
 </html>

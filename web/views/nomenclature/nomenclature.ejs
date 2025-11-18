@@ -1,47 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nomenclatures</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nomenclatures</title>
+    <link rel="stylesheet" href="/css/paginaPrincipal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <h1>Llistat de Nomenclatures</h1>
+    <header class="page-header">
+        <div class="header-left">
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Tornar al menú principal</a>
+            <h1 class="page-title">Nomenclatures</h1>
+        </div>
+        <div class="header-right">
+            <a href="/nomenclature/form" class="add-button"><i class="fas fa-plus"></i> Nova nomenclatura</a>
+        </div>
+    </header>
 
-  <% if (nomenclaturas && nomenclaturas.length > 0) { %>
-    <ul>
-      <% nomenclaturas.forEach(n => { %>
-        <li>
-          <strong><a href="/nomenclature/edit/<%= n.id_nomenclature %>"><%= n.name %></a></strong>  
-          <button type="button" onclick="deleteNomenclature('<%= n.id_nomenclature %>')">Eliminar</button>
-        </li>
-      <% }) %>
-    </ul>
-  <% } else { %>
-    <p>No hi ha nomenclatures registrades.</p>
-  <% } %>
+    <main class="main-content">
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Buscar per nom o descripció..." onkeyup="filterNomenclature(this.value)">
+        </div>
 
-  <a href="/">Tornar a l'inici</a> |
-  <a href="/nomenclature/form">Afegir nova nomenclatura</a>
+        <div class="architect-list">
+            <% if (nomenclaturas && nomenclaturas.length > 0) { %>
+                <% nomenclaturas.forEach(n => { %>
+                    <div class="architect-card" data-name="<%= n.name.toLowerCase() %>" data-description="<%= (n.description || '').toLowerCase() %>">
+                        <div class="card-header">
+                            <div class="card-title-group">
+                                <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="edit-icon"><i class="fas fa-pencil-alt"></i></a>
+                                <h3><%= n.name %></h3>
+                            </div>
+                            <button type="button" class="delete-button" onclick="deleteNomenclature('<%= n.id_nomenclature %>')"><i class="fas fa-trash-alt"></i></button>
+                        </div>
+                        <% if (n.description) { %>
+                            <p class="card-description"><%= n.description %></p>
+                        <% } %>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p class="no-architects">No hi ha nomenclatures registrades.</p>
+            <% } %>
+        </div>
+    </main>
 
-  <script>
-    async function deleteNomenclature(id) {
-      if (!confirm("Segur que vols eliminar aquesta nomenclatura?")) return;
+    <script>
+        async function deleteNomenclature(id) {
+            if (!confirm("Segur que vols eliminar aquesta nomenclatura?")) return;
 
-      try {
-        const res = await fetch(`/nomenclature/delete/${id}`, {
-          method: "DELETE"
-        });
+            try {
+                const res = await fetch(`/nomenclature/delete/${id}`, {
+                    method: "DELETE"
+                });
 
-        const data = await res.json();
-        alert(data.message);
+                const data = await res.json();
+                alert(data.message);
 
-        if (data.success) location.reload();
-      } catch (err) {
-        console.error(err);
-        alert("Error al eliminar la nomenclatura");
-      }
-    }
-  </script>
+                if (data.success) location.reload();
+            } catch (err) {
+                console.error(err);
+                alert("Error al eliminar la nomenclatura");
+            }
+        }
+
+        function filterNomenclature(searchTerm) {
+            const cards = document.querySelectorAll('.architect-card');
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+
+            cards.forEach(card => {
+                const name = card.dataset.name;
+                const description = card.dataset.description;
+                if (name.includes(lowerCaseSearchTerm) || description.includes(lowerCaseSearchTerm)) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>

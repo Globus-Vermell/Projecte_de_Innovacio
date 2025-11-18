@@ -4,43 +4,76 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Reformes</title>
+  <link rel="stylesheet" href="/css/paginaPrincipal.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <h1>Llistat de Reformes</h1>
+  <header class="page-header">
+    <div class="header-left">
+      <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Tornar al menú principal</a>
+      <h1 class="page-title">Reformes</h1>
+    </div>
+    <div class="header-right">
+      <a href="/reform/form" class="add-button"><i class="fas fa-plus"></i> Nova reforma</a>
+    </div>
+  </header>
 
-  <% if (reformas && reformas.length > 0) { %>
-    <ul>
-      <% reformas.forEach(reforma => { %>
-        <li>
-          Reforma del año <strong><a href="/reform/edit/<%= reforma.id_reform %>"><%= reforma.year %></a></strong> 
-          (Arquitecto ID: <%= reforma.id_architect %>)  
-          <button type="button" onclick="deleteReform('<%= reforma.id_reform %>')">Eliminar</button>
-        </li>
-      <% }); %>
-    </ul>
-  <% } else { %>
-    <p>No hi ha reformes registrades.</p>
-  <% } %>
-    <a href="/">Tornar al menú principal</a>
-    <a href="/reform/form">Afegir nova reforma</a>
-    <script>
-      async function deleteReform(id) {
-        if (!confirm("Segur que vols eliminar aquesta reforma?")) return;
+  <main class="main-content">
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" placeholder="Buscar per any o arquitecte..." onkeyup="filterReforms(this.value)">
+    </div>
 
-        try {
-          const res = await fetch(`/reform/delete/${id}`, {
-            method: "DELETE"
-          });
+    <div class="architect-list">
+      <% if (reformas && reformas.length > 0) { %>
+        <% reformas.forEach(r => { %>
+          <div class="architect-card" data-year="<%= r.year %>" data-architect="<%= r.id_architect %>">
+            <div class="card-header">
+              <div class="card-title-group">
+                <a href="/reform/edit/<%= r.id_reform %>" class="edit-icon"><i class="fas fa-pencil-alt"></i></a>
+                <h3>Reforma del año <%= r.year %></h3>
+              </div>
+              <div class="card-meta-info">
+                Arquitecto ID: <%= r.id_architect %>
+              </div>
+              <button type="button" class="delete-button" onclick="deleteReform('<%= r.id_reform %>')"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p class="no-architects">No hi ha reformes registrades.</p>
+      <% } %>
+    </div>
+  </main>
 
-          const data = await res.json();
-          alert(data.message);
+  <script>
+    async function deleteReform(id) {
+      if (!confirm("Segur que vols eliminar aquesta reforma?")) return;
 
-          if (data.success) location.reload();
-        } catch (err) {
-          console.error(err);
-          alert("Error al eliminar la reforma");
-        }
+      try {
+        const res = await fetch(`/reform/delete/${id}`, { method: "DELETE" });
+        const data = await res.json();
+        alert(data.message);
+        if (data.success) location.reload();
+      } catch (err) {
+        console.error(err);
+        alert("Error al eliminar la reforma");
       }
-    </script>
+    }
+
+    function filterReforms(searchTerm) {
+      const cards = document.querySelectorAll('.architect-card');
+      const lower = searchTerm.toLowerCase();
+      cards.forEach(card => {
+        const year = card.dataset.year.toString();
+        const architect = card.dataset.architect.toString();
+        if (year.includes(lower) || architect.includes(lower)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
 </body>
 </html>

@@ -2,44 +2,55 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Nomenclatura</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/editForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="p-6">
-    <h1>Editar Nomenclatura</h1>
+<body>
+    <header class="form-header">
+        <a href="/nomenclature" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <h1 class="page-title">Editar Nomenclatura</h1>
+    </header>
 
-    <form id="form-nomenclature-edit">
-        <label>Nom:</label>
-        <input type="text" name="name" value="<%= nomenclature.name %>" required />
+    <main class="form-container">
+        <form id="form-nomenclature-edit">
+            <div class="form-group">
+                <label for="name">Nom <span class="required">*</span></label>
+                <input type="text" id="name" name="name" value="<%= nomenclature.name %>" required />
+            </div>
 
-        <label>Descripció:</label>
-        <textarea name="description"><%= nomenclature.description %></textarea>
+            <div class="form-group">
+                <label for="description">Descripció</label>
+                <textarea id="description" name="description"><%= nomenclature.description %></textarea>
+            </div>
 
-        <button type="submit">Guardar canvis</button>
-    </form>
-
-    <a href="/nomenclature">Tornar a la llista de nomenclatures</a>
+            <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar canvis</button>
+        </form>
+    </main>
 
     <script>
-        const form = document.getElementById("form-nomenclature-edit");
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const data = Object.fromEntries(new FormData(form).entries());
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById("form-nomenclature-edit");
 
-            try {
-                const res = await fetch(`/nomenclature/edit/<%= nomenclature.id_nomenclature %>`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                });
+            form.addEventListener("submit", async (e) => {
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(form).entries());
 
-                const result = await res.json();
-                alert(result.message);
-                if (result.success) window.location.href = "/nomenclature";
-            } catch (err) {
-                console.error(err);
-                alert("Error al actualizar la nomenclatura");
-            }
+                try {
+                    const res = await fetch(`/nomenclature/edit/<%= nomenclature.id_nomenclature %>`, {
+                        method: "PUT",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data),
+                    });
+                    const result = await res.json();
+                    alert(result.message);
+                    if (result.success) window.location.href = "/nomenclature";
+                } catch (err) {
+                    console.error(err);
+                    alert("Error al actualizar la nomenclatura");
+                }
+            });
         });
     </script>
 </body>

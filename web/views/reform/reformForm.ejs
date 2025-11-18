@@ -2,23 +2,36 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Reforma</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/createForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body class="p-6">
-    <h1>Afegir una nova reforma</h1>
+<body>
+    <header class="form-header">
+        <a href="/reform" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <h1 class="page-title">Nova Reforma</h1>
+    </header>
 
-    <form id="form-reform">
-        <label>Any de reforma:</label>
-        <input type="number" name="year" />
+    <main class="form-container">
+        <form id="form-reform">
+            <div class="form-group">
+                <label for="year">Any de reforma</label>
+                <input type="number" id="year" name="year" />
+            </div>
 
-        <label>Arquitecte responsable:</label>
-        <select id="id_architect" name="id_architect" required></select>
+            <div class="form-group">
+                <label for="id_architect">Arquitecte responsable <span class="required">*</span></label>
+                <select id="id_architect" name="id_architect" required>
+                    <option value="">-- Selecciona un arquitecte --</option>
+                </select>
+            </div>
 
-        <button type="submit">Guardar</button>
-    </form>
-    <a href="/reform">Tornar a la llista de reformes</a>
+            <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar Reforma</button>
+        </form>
+    </main>
+
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
             const form = document.getElementById("form-reform");
@@ -26,7 +39,6 @@
 
             const resArq = await fetch("/reform/form/architects");
             const architects = await resArq.json();
-            selectArchitects.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
             architects.forEach(a => {
                 const opt = document.createElement("option");
                 opt.value = a.id_architect;
@@ -36,9 +48,7 @@
 
             form.addEventListener("submit", async (e) => {
                 e.preventDefault();
-
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
+                const data = Object.fromEntries(new FormData(form).entries());
 
                 try {
                     const res = await fetch("/reform/form", {
@@ -49,7 +59,6 @@
 
                     const result = await res.json();
                     alert(result.message);
-
                     if (result.success) form.reset();
                 } catch (err) {
                     console.error("Error:", err);
@@ -58,6 +67,5 @@
             });
         });
     </script>
-
 </body>
 </html>

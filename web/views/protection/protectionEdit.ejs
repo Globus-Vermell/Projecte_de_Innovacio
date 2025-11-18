@@ -2,44 +2,56 @@
 <html lang="ca">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Protecció</title>
-    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/editForm.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body class="p-6">
-    <h1>Editar Protecció</h1>
+<body>
+    <header class="form-header">
+        <a href="/protection" class="back-link"><i class="fas fa-arrow-left"></i></a>
+        <h1 class="page-title">Editar Protecció</h1>
+    </header>
 
-    <form id="form-protection-edit">
-        <label>Nivell:</label>
-        <input type="text" name="level" value="<%= protection.level %>" required />
+    <main class="form-container">
+        <form id="form-protection-edit">
+            <div class="form-group">
+                <label for="level">Nivell <span class="required">*</span></label>
+                <input type="text" id="level" name="level" value="<%= protection.level %>" required />
+            </div>
 
-        <label>Descripció:</label>
-        <textarea name="description"><%= protection.description %></textarea>
+            <div class="form-group">
+                <label for="description">Descripció</label>
+                <textarea id="description" name="description"><%= protection.description %></textarea>
+            </div>
 
-        <button type="submit">Guardar canvis</button>
-    </form>
-
-    <a href="/protection">Tornar a la llista de proteccions</a>
+            <button type="submit" class="submit-button"><i class="fas fa-save"></i> Guardar canvis</button>
+        </form>
+    </main>
 
     <script>
-        const form = document.getElementById('form-protection-edit');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = Object.fromEntries(new FormData(form).entries());
+        document.addEventListener("DOMContentLoaded", () => {
+            const form = document.getElementById('form-protection-edit');
 
-            try {
-                const res = await fetch(`/protection/edit/<%= protection.id_protection %>`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const data = Object.fromEntries(new FormData(form).entries());
 
-                const result = await res.json();
-                alert(result.message);
-                if (result.success) window.location.href = '/protection';
-            } catch (err) {
-                console.error(err);
-                alert('Error al actualizar la protecció');
-            }
+                try {
+                    const res = await fetch(`/protection/edit/<%= protection.id_protection %>`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                    });
+
+                    const result = await res.json();
+                    alert(result.message);
+                    if (result.success) window.location.href = '/protection';
+                } catch (err) {
+                    console.error(err);
+                    alert('Error al actualizar la protecció');
+                }
+            });
         });
     </script>
 </body>
