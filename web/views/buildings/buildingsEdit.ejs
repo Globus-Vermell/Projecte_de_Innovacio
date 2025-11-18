@@ -49,7 +49,9 @@
         <button type="submit">Guardar canvis</button>
     </form>
     <a href="/buildings">Tornar a la llista d'edificacions</a>
-
+    <script>
+    const building = JSON.parse('<%- JSON.stringify(building) %>');
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", async () => {
             const form = document.getElementById("form-edificacio");
@@ -61,7 +63,7 @@
 
             async function carregarDesplegables() {
 
-                const resPub = await fetch("/buildings/edit/:id/publications");
+                const resPub = await fetch(`/buildings/edit/${building.id_building}/publications`);
                 const publicacions = await resPub.json();
                 selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
                 publicacions.forEach(pub => {
@@ -72,7 +74,7 @@
                     selectPublicacions.appendChild(opt);
                 });
 
-                const resArq = await fetch("/buildings/edit/:id/architects");
+                const resArq = await fetch(`/buildings/edit/${building.id_building}/architects`);
                 const arquitectes = await resArq.json();
                 selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
                 arquitectes.forEach(arq => {
@@ -83,7 +85,7 @@
                     selectArquitectes.appendChild(opt);
                 });
 
-                const resTip = await fetch("/buildings/edit/:id/typologies");
+                const resTip = await fetch(`/buildings/edit/${building.id_building}/typologies`);
                 const tipologies = await resTip.json();
                 selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
                 tipologies.forEach(t => {
@@ -94,7 +96,7 @@
                     selectTipologia.appendChild(opt);
                 });
 
-                const resProtection = await fetch("/buildings/edit/:id/protections");
+                const resProtection = await fetch(`/buildings/edit/${building.id_building}/protections`);
                 const protections = await resProtection.json();
                 selectProtection.innerHTML = '<option value="">-- Cap --</option>';
                 protections.forEach(p => {
@@ -105,7 +107,7 @@
                     selectProtection.appendChild(opt);
                 });
 
-                const resNomenclature = await fetch("/buildings/edit/:id/nomenclature");
+                const resNomenclature = await fetch(`/buildings/edit/${building.id_building}/nomenclature`);
                 const nomenclatures = await resNomenclature.json();
                 selectNomenclature.innerHTML = '<option value="">-- Cap --</option>';
                 nomenclatures.forEach(n => {
@@ -132,7 +134,7 @@
                 }
 
                 try {
-                    const res = await fetch("/buildings/edit/:id/<%= building.id_building %>", {
+                    const res = await fetch(`/buildings/edit/${building.id_building}`, {
                         method: "PUT",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify(data),
@@ -148,5 +150,6 @@
             });
         });
     </script>
+    
 </body>
 </html>

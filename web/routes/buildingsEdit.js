@@ -82,7 +82,7 @@ router.put("/:id", async (req, res) => {
             .update({
                 name: nom,
                 coordinates: adreca,
-                constuction_year: parseInt(any_construccio),
+                construction_year: parseInt(any_construccio),
                 picture,
                 description,
                 surface_area: parseInt(surface_area),
