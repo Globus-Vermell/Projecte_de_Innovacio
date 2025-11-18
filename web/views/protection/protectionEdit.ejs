@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Protecció</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body class="p-6">
+    <h1>Editar Protecció</h1>
+
+    <form id="form-protection-edit">
+        <label>Nivell:</label>
+        <input type="text" name="level" value="<%= protection.level %>" required />
+
+        <label>Descripció:</label>
+        <textarea name="description"><%= protection.description %></textarea>
+
+        <button type="submit">Guardar canvis</button>
+    </form>
+
+    <a href="/protection">Tornar a la llista de proteccions</a>
+
+    <script>
+        const form = document.getElementById('form-protection-edit');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(`/protection/edit/<%= protection.id_protection %>`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) window.location.href = '/protection';
+            } catch (err) {
+                console.error(err);
+                alert('Error al actualizar la protecció');
+            }
+        });
+    </script>
+</body>
+</html>

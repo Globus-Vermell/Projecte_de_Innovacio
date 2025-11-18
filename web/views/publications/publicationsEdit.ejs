@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Publicació</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body class="p-6">
+    <h1>Editar Publicació</h1>
+
+    <form id="form-publication-edit">
+        <label>Títol:</label>
+        <input type="text" name="title" value="<%= publication.title %>" required />
+
+        <label>Descripció:</label>
+        <textarea name="description"><%= publication.description %></textarea>
+
+        <label>Tema:</label>
+        <select name="themes" required>
+            <option value="etapes">etapes</option>
+            <option value="arquitectura tematica" >arquitectura tematica</option>
+            <option value="barris" >barris</option>
+        </select>
+
+        <label>Acknowledgment:</label>
+        <input type="text" name="acknowledgment" value="<%= publication.acknowledgment %>" />
+
+        <label>Edició de la publicació:</label>
+        <input type="text" name="publication_edition" value="<%= publication.publication_edition %>" />
+
+        <button type="submit">Guardar canvis</button>
+    </form>
+
+    <a href="/publications">Tornar a la llista de publicacions</a>
+
+    <script>
+        const form = document.getElementById('form-publication-edit');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(`/publications/edit/<%= publication.id_publication %>`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) window.location.href = '/publications';
+            } catch (err) {
+                console.error(err);
+                alert('Error al actualizar la publicació');
+            }
+        });
+    </script>
+</body>
+</html>

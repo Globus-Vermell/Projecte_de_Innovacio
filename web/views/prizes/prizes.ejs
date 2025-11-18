@@ -15,7 +15,7 @@
       <% prizes.forEach(prize=> { %>
         <li>
           <strong>
-            <%= prize.name %>
+            <a href="/prizes/edit/<%= prize.id_prize %>"><%= prize.name %></a>
           </strong>
           (<%= prize.year %>) — Tipo: <%= prize.tipe %>
           <button type="button" onclick="deletePrize('<%= prize.id_prize %>')">Eliminar</button>

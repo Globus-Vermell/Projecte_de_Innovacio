@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Tipologia</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body class="p-6">
+    <h1>Editar Tipologia</h1>
+
+    <form id="form-typology-edit">
+        <label>Nom:</label>
+        <input type="text" name="name" value="<%= typology.name %>" required />
+
+        <label>Imatge:</label>
+        <input type="text" name="image" value="<%= typology.image %>" />
+
+        <button type="submit">Guardar canvis</button>
+    </form>
+
+    <a href="/typology">Tornar a la llista de tipologies</a>
+
+    <script>
+        const form = document.getElementById('form-typology-edit');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(`/typology/edit/<%= typology.id_typology %>`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) window.location.href = '/typology';
+            } catch (err) {
+                console.error(err);
+                alert('Error al actualizar la tipologia');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Reforma</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body class="p-6">
+    <h1>Editar Reforma</h1>
+
+    <form id="form-reform-edit">
+        <label>Any de la reforma:</label>
+        <input type="number" name="year" value="<%= reform.year %>" required />
+
+        <label>Arquitecte:</label>
+        <select name="id_architect" required>
+            <option value="">-- Selecciona un arquitecte --</option>
+            <% architects.forEach(arq => { %>
+                <option value="<%= arq.id_architect %>" <%= arq.id_architect === reform.id_architect ? 'selected' : '' %>><%= arq.name %></option>
+            <% }) %>
+        </select>
+
+        <button type="submit">Guardar canvis</button>
+    </form>
+
+    <a href="/reform">Tornar a la llista de reformes</a>
+
+    <script>
+        const form = document.getElementById('form-reform-edit');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(`/reform/edit/<%= reform.id_reform %>`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) window.location.href = '/reform';
+            } catch (err) {
+                console.error(err);
+                alert('Error al actualizar la reforma');
+            }
+        });
+    </script>
+</body>
+</html>

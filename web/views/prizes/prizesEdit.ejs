@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Premi</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body class="p-6">
+    <h1>Editar Premi</h1>
+
+    <form id="form-prize-edit">
+        <label>Nom:</label>
+        <input type="text" name="name" value="<%= prize.name %>" required />
+
+        <label>Tipus:</label>
+        <input type="text" name="tipe" value="<%= prize.tipe %>" />
+
+        <label>Any:</label>
+        <input type="number" name="year" value="<%= prize.year %>" />
+
+        <label>Descripció:</label>
+        <textarea name="description"><%= prize.description %></textarea>
+
+        <button type="submit">Guardar canvis</button>
+    </form>
+
+    <a href="/prizes">Tornar a la llista de premis</a>
+
+    <script>
+        const form = document.getElementById('form-prize-edit');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(`/prizes/edit/<%= prize.id_prize %>`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) window.location.href = '/prizes';
+            } catch (err) {
+                console.error(err);
+                alert('Error al actualizar el premi');
+            }
+        });
+    </script>
+</body>
+</html>

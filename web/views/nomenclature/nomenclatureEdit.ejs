@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Nomenclatura</title>
+    <link rel="stylesheet" href="/css/forms.css">
+</head>
+<body class="p-6">
+    <h1>Editar Nomenclatura</h1>
+
+    <form id="form-nomenclature-edit">
+        <label>Nom:</label>
+        <input type="text" name="name" value="<%= nomenclature.name %>" required />
+
+        <label>Descripció:</label>
+        <textarea name="description"><%= nomenclature.description %></textarea>
+
+        <button type="submit">Guardar canvis</button>
+    </form>
+
+    <a href="/nomenclature">Tornar a la llista de nomenclatures</a>
+
+    <script>
+        const form = document.getElementById("form-nomenclature-edit");
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch(`/nomenclature/edit/<%= nomenclature.id_nomenclature %>`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(data),
+                });
+
+                const result = await res.json();
+                alert(result.message);
+                if (result.success) window.location.href = "/nomenclature";
+            } catch (err) {
+                console.error(err);
+                alert("Error al actualizar la nomenclatura");
+            }
+        });
+    </script>
+</body>
+</html>

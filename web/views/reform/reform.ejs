@@ -12,7 +12,7 @@
     <ul>
       <% reformas.forEach(reforma => { %>
         <li>
-          Reforma del año <strong><%= reforma.year %></strong> 
+          Reforma del año <strong><a href="/reform/edit/<%= reforma.id_reform %>"><%= reforma.year %></a></strong> 
           (Arquitecto ID: <%= reforma.id_architect %>)  
           <button type="button" onclick="deleteReform('<%= reforma.id_reform %>')">Eliminar</button>
         </li>

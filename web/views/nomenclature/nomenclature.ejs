@@ -12,7 +12,7 @@
     <ul>
       <% nomenclaturas.forEach(n => { %>
         <li>
-          <strong><%= n.name %></strong>  
+          <strong><a href="/nomenclature/edit/<%= n.id_nomenclature %>"><%= n.name %></a></strong>  
           <button type="button" onclick="deleteNomenclature('<%= n.id_nomenclature %>')">Eliminar</button>
         </li>
       <% }) %>

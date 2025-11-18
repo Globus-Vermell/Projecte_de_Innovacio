@@ -1,5 +1,3 @@
-
-
 import express from "express";
 import supabase from "../config.js";
 

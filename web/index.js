@@ -19,6 +19,12 @@ import tipologiaFormRouter from "./routes/typologyForm.js";
 import publicacionesFormRouter from "./routes/publicationsForm.js";
 import architectsEditRouter from "./routes/architectsEdit.js";
 import buildingsEditRouter from "./routes/buildingsEdit.js";
+import nomenclatureEditRouter from "./routes/nomenclatureEdit.js";
+import prizesEditRouter from "./routes/prizesEdit.js";
+import protectionEditRouter from "./routes/protectionEdit.js";
+import publicationsEditRouter from "./routes/publicationsEdit.js";
+import reformEditRouter from "./routes/reformEdit.js";
+import typologyEditRouter from "./routes/typologyEdit.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -48,16 +54,22 @@ app.use("/buildings/edit", buildingsEditRouter);
 app.use("/", loginRouter);
 app.use("/nomenclature", nomenclaturaRouter);
 app.use("/nomenclature/form", nomenclatureFormRouter);
+app.use("/nomenclature/edit", nomenclatureEditRouter);
 app.use("/prizes", premiosRouter);
 app.use("/prizes/form", prizesFormRouter);
+app.use("/prizes/edit", prizesEditRouter);
 app.use("/protection", proteccionRouter);
 app.use("/protection/form", proteccionFormRouter);
+app.use("/protection/edit", protectionEditRouter);
 app.use('/publications', publicacionesRouter);
 app.use("/publications/form", publicacionesFormRouter);
+app.use("/publications/edit", publicationsEditRouter);
 app.use("/reform", reformasRouter);
 app.use("/reform/form", reformasFormRouter);
+app.use("/reform/edit", reformEditRouter);
 app.use("/typology", tipologiaRouter);
 app.use("/typology/form", tipologiaFormRouter);
+app.use("/typology/edit", typologyEditRouter);
 
 
 // Start

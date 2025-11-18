@@ -12,7 +12,7 @@
     <ul>
       <% typologies.forEach(t => { %>
         <li>
-          <strong><%= t.name %></strong>  
+          <strong><a href="/typology/edit/<%= t.id_typology %>"><%= t.name %></a></strong>  
           <% if (t.image) { %>
             <br><img src="<%= t.image %>" alt="<%= t.name %>" width="200"> <!-- Imagen cargada directamente de la base de datos -->
           <% } %>

@@ -12,7 +12,7 @@
     <ul>
       <% protections.forEach(p => { %>
         <li>
-          <strong>Nivell:</strong> <%= p.level %>  
+          <strong><a href="/protection/edit/<%= p.id_protection %>">Nivell:</a></strong> <%= p.level %>  
           <button type="button" onclick="deleteProtection('<%= p.id_protection %>')">Eliminar</button>
         </li>
       <% }); %>
