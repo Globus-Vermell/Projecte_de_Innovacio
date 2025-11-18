@@ -36,12 +36,14 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.post("/logout", (req, res) => {
-    if (req.session) {
-        req.session.destroy(() => res.redirect("/"));
-    } else {
+router.get("/logout", (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error("Error al cerrar sesión:", err);
+            return res.status(500).send("Error al tancar sessió");
+        }
         res.redirect("/");
-    }
+    });
 });
 
 export default router;
