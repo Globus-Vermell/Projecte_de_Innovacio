@@ -1,3 +1,4 @@
+/* --- Primer CSS --- */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,8 +9,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
-
-
 
 /* --- Header de la página --- */
 .page-header {
@@ -69,7 +68,6 @@ body {
 
 .flex-container {
     display: flex;
-
 }
 
 /* --- Contenido principal --- */
@@ -110,35 +108,24 @@ body {
 .architect-list {
     display: flex;
     flex-direction: column;
-<<<<<<< HEAD
     gap: 20px;
-    /* Espacio entre las tarjetas */
-=======
-    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    width: 100%;
 }
 
 .holis {
     display: flex;
-    gap: 20px; /* Espacio entre el botón y la carta */
-    width: 100%; /* Para que iguale el ancho de la barra de búsqueda */
-    align-items: stretch; /* Para que el botón y la carta tengan la misma altura visual */
+    gap: 20px;
+    width: 100%;
+    align-items: stretch;
     margin-bottom: 15px;
->>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
 }
 
 .architect-card {
     background-color: #fff;
     border-radius: 8px;
-<<<<<<< HEAD
-    padding: 25px 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    /* Para que se note que es clicable */
-=======
     padding: 25px 300px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    cursor: pointer; /* Para que se note que es clicable */
->>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
+    cursor: pointer;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
@@ -151,19 +138,17 @@ body {
 }
 
 .architect-card-link {
-    flex-grow: 1; /* IMPORTANTE: Hace que la carta ocupe todo el espacio sobrante */
+    flex-grow: 1;
     text-decoration: none;
     color: inherit;
     display: block;
-    min-width: 0; /* Evita desbordamientos en flexbox */
+    min-width: 0;
 }
 
-/* Estilo visual de la carta */
 .architect-card {
     background-color: #fff;
     border-radius: 8px;
-    /* HE CAMBIADO EL PADDING: Antes tenías 300px, eso rompía el diseño */
-    padding: 25px; 
+    padding: 25px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     cursor: pointer;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
@@ -171,28 +156,32 @@ body {
     flex-direction: column;
     gap: 15px;
     border: 2px solid transparent;
-    height: 100%; /* Para asegurar que llene la altura del enlace */
-    box-sizing: border-box; /* Para que el padding no aumente el ancho total */
-}
-
-.architect-card:hover {
-<<<<<<< HEAD
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 2px solid #cc0000;
-    /* Borde rojo al pasar el ratón */
-    transition: 0.2s ease-in-out;
+    height: 100%;
+    box-sizing: border-box;
 }
 
 .architect-card {
-    border: 2px solid transparent;
+    background-color: #fff;
     border-radius: 8px;
-=======
-    transform: translateY(-2px); 
-    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-    border: 2px solid #cc0000;
->>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
+    padding: 25px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 2px solid transparent; /* ← borde transparente por defecto */
+    height: 100%;
+    box-sizing: border-box;
 }
+
+.architect-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid #cc0000; /* ← borde rojo solo al pasar el cursor */
+    transition: 0.2s ease-in-out;
+}
+
 
 .card-header {
     display: flex;
@@ -205,7 +194,6 @@ body {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    /* Para que el título ocupe espacio y el resto se alinee a la derecha */
 }
 
 .edit-icon {
@@ -232,7 +220,6 @@ body {
     font-size: 0.9em;
     color: #777;
     margin-left: 20px;
-    /* Espacio entre el nombre y los datos */
 }
 
 .card-meta-info .dates {
@@ -243,26 +230,24 @@ body {
     font-weight: bold;
 }
 
-/* --- Botón de eliminar --- */
 .delete-button {
     background-color: #cc0000;
     color: #fff;
-    /* Ajustamos el padding para que no sea tan gigante */
     padding: 0 30px; 
-    border-radius: 8px; /* Igualar el borde de la carta */
-    border: none; /* Quitar borde por defecto del button */
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s ease;
-    flex-shrink: 0; /* Evita que el botón se aplaste si falta espacio */
+    flex-shrink: 0;
 }
 
 .delete-button img {
-    width: 24px; /* Tamaño controlado del icono */
+    width: 24px;
     height: auto;
-    filter: brightness(0) invert(1); /* Asegura que el icono sea blanco si es negro */
+    filter: brightness(0) invert(1);
 }
 
 .delete-button:hover {
@@ -295,7 +280,6 @@ body {
     font-size: 1.1em;
 }
 
-
 /* --- Responsive Design --- */
 @media (max-width: 768px) {
     .page-header {
@@ -321,7 +305,6 @@ body {
     .header-right {
         width: 100%;
         text-align: right;
-        /* Alinea el botón a la derecha */
     }
 
     .add-button {
@@ -345,24 +328,24 @@ body {
 
     .card-header {
         flex-wrap: wrap;
-        /* Permite que los elementos se envuelvan */
         gap: 10px;
     }
 
     .card-title-group {
         flex-basis: 100%;
-        /* El título ocupa toda la línea */
         margin-bottom: 5px;
     }
 
     .card-meta-info {
         margin-left: 0;
-        /* Elimina el margen en móviles */
         flex-grow: 1;
-        /* Ocupa el espacio restante */
     }
 
     .delete-button {
         margin-left: 10px;
     }
 }
+
+/* --- Segundo CSS --- */
+/* (Contenido ya incluido en el primero, por lo tanto no se repite para evitar duplicados innecesarios) */
+

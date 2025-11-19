@@ -44,51 +44,52 @@
 
                 <div class="architect-list">
 
-          <% typologies.forEach(t=> { %>
-            <div class="architect-card-container">
-              <div class="holis">
+                    <% typologies.forEach(t=> { %>
+                        <div class="architect-card-container">
+                            <div class="holis">
 
-                <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
-                  <div class="architect-card" data-name="<%= t.name %>">
+                                <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
+                                    <div class="architect-card" data-name="<%= t.name %>">
 
-                    <div class="card-header">
+                                        <div class="card-header">
 
-                      <div class="card-title-group">
+                                            <div class="card-title-group">
 
-                        <h3>
-                          <%= t.name %>
-                        </h3>
-                      </div>
-                    </div>
+                                                <h3>
+                                                    <%= t.name %>
+                                                </h3>
+                                            </div>
+                                        </div>
 
-                    <% if (t.image) { %>
-                      <div class="card-image-container">
-                        <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
-                      </div>
-                      <% } %>
+                                        <% if (t.image) { %>
+                                            <div class="card-image-container">
+                                                <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
+                                            </div>
+                                            <% } %>
 
-                  </div>
-                </a>
-                <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')">
-                  <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                </button>
-              </div>
+                                    </div>
+                                </a>
+                                <button type="button" class="delete-button"
+                                    onclick="deleteTypology('<%= t.id_typology %>')">
+                                    <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                </button>
+                            </div>
 
-              <% }); %>
+                            <% }); %>
 
-            </div>
+                        </div>
 
-            <% } else { %>
+                        <% } else { %>
 
-              <p class="no-architects">No hi ha tipologies registrades.</p>
+                            <p class="no-architects">No hi ha tipologies registrades.</p>
 
-              <% } %>
-        </div>
-  </div>
+                            <% } %>
+                </div>
+    </div>
 
-  </main>
-  </div>
-  <script src="/scripts/typology/typology.js"></script>
+    </main>
+    </div>
+    <script src="/scripts/typology/typology.js"></script>
 </body>
 
 </html>

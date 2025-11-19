@@ -26,39 +26,40 @@
                 <input type="text" placeholder="Buscar per any o arquitecte..." onkeyup="filterReforms(this.value)">
             </div>
 
-      <div class="architect-list">
-        <% if (reformas && reformas.length> 0) { %>
-          <% reformas.forEach(r=> { %>
+            <div class="architect-list">
+                <% if (reformas && reformas.length> 0) { %>
+                    <% reformas.forEach(r=> { %>
 
-            <div class="architect-card-container">
-              <div class="holis">
-                <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
-                            <div class="architect-card" data-year="<%= r.year %>"
-                                data-architect="<%= r.architects?.name %>">                   
-                                <div class="card-header">
-                      <div class="card-title-group">
-                        <h3>Reforma del año <%= r.year %>
-                        </h3>
-                      </div>
-                      <div class="card-meta-info">
-                        Arquitecto : <%= r.architects.name %>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-                <button type="button" class="delete-button" onclick="deleteReform('<%= r.id_reform %>')">
-                  <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                </button>
-              </div>
-              <% }); %>
-                <% } else { %>
-                  <p class="no-architects">No hi ha reformes registrades.</p>
-                  <% } %>
+                        <div class="architect-card-container">
+                            <div class="holis">
+                                <a href="/reform/edit/<%= r.id_reform %>" class="architect-card-link">
+                                    <div class="architect-card" data-year="<%= r.year %>"
+                                        data-architect="<%= r.architects?.name %>">
+                                        <div class="card-header">
+                                            <div class="card-title-group">
+                                                <h3>Reforma del año <%= r.year %>
+                                                </h3>
+                                            </div>
+                                            <div class="card-meta-info">
+                                                Arquitecto : <%= r.architects.name %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                                <button type="button" class="delete-button"
+                                    onclick="deleteReform('<%= r.id_reform %>')">
+                                    <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                </button>
+                            </div>
+                            <% }); %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha reformes registrades.</p>
+                                    <% } %>
+                        </div>
             </div>
-      </div>
-    </main>
-  </div>
-  <script src="/scripts/reform/reform.js"></script>
+        </main>
+    </div>
+    <script src="/scripts/reform/reform.js"></script>
 </body>
 
 </html>
