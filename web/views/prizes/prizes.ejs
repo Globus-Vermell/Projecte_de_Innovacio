@@ -85,27 +85,8 @@
 
   </main>
 
-  <script>
-
-    // Eliminar premi
-    async function deletePrize(id) {
-      if (!confirm("Segur que vols eliminar aquest premi?")) return;
-
-      try {
-        const res = await fetch(`/prizes/delete/${id}`, {
-          method: "DELETE"
-        });
-
-        const data = await res.json();
-        alert(data.message);
-
-        if (data.success) location.reload();
-
-      } catch (err) {
-        console.error(err);
-        alert("Error al eliminar el premi");
-      }
-    }
+  <script src="/scripts/prizes/prizes.js"></script>
+</body>
 
     // FILTRO DE LA BARRA DE BÚSQUEDA
     function filterPrizes(searchTerm) {
