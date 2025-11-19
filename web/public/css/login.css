@@ -1,0 +1,184 @@
+/* =================== */
+/* FONDO GENERAL     */
+/* =================== */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', Arial, sans-serif;
+    
+    /* Configuración de fondo con tu imagen */
+    background: url('/images/fondo_login.png') no-repeat center center fixed;
+    background-size: cover;
+
+    position: relative;
+    
+    /* --- FLEXBOX PARA CENTRADO SIDE-BY-SIDE (Row) --- */
+    /* Este es el punto clave: centra el .logo-container y el .container */
+    display: flex;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    min-height: 100vh; /* Ocupa la altura completa de la ventana */
+    gap: 60px; /* Espacio entre el logo y el formulario */
+    box-sizing: border-box;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    /* Usamos un color rojo/vino para la superposición */
+    background: rgba(255, 74, 74, 0.35); 
+    backdrop-filter: blur(3px);
+    z-index: -1;
+}
+
+/* ============================= */
+/* LOGO GRANDE A LA IZQUIERDA    */
+/* ============================= */
+
+.logo-container {
+    /* El body gestiona su posición, solo aseguramos que no se encoja */
+    flex-shrink: 0; 
+}
+
+.logo-container img {
+    width: 320px;
+    max-width: 40vw;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* ============================= */
+/* CONTENEDOR PRINCIPAL CENTRADO */
+/* ============================= */
+
+/* Este contenedor ahora es un flex item del body, y debe ser flexible */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 0; /* Aseguramos que no añade padding extra */
+}
+
+/* ========================== */
+/* TARJETA DEL LOGIN (FORM)   */
+/* ========================== */
+
+.form-container {
+    color: #cc0000;
+    width: 360px;
+    max-width: 90vw; /* Asegura que no se desborde en móviles */
+    background: rgba(255, 255, 255, 0.98);
+    padding: 35px 40px 25px;
+    border-radius: 14px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.form-container h2 {
+    color: #cc0000;
+    margin-bottom: 25px;
+    font-size: 1.8em;
+    font-weight: 700;
+}
+
+/* ========================== */
+/* INPUTS DE USUARIO/PASSWORD */
+/* ========================== */
+
+.form-container label {
+    display: none; /* Ocultamos las etiquetas ya que usamos placeholders */
+}
+
+.form-container input {
+    width: 100%;
+    padding: 14px;
+    margin-bottom: 18px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    background: #fafafa;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-container input::placeholder {
+    color: #999;
+}
+
+.form-container input:hover {
+    border-color: #ff3838;
+}
+
+.form-container input:focus {
+    border-color: #cc0000;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+}
+
+/* ========================== */
+/* BOTÓN                      */
+/* ========================== */
+
+.form-container button {
+    width: 100%;
+    background: #cc0000;
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 1.05em;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.form-container button:hover {
+    background: #a00000;
+}
+
+.form-container button:active {
+    transform: scale(0.99);
+}
+
+/* ========================== */
+/* MENSAJE DE ERROR           */
+/* ========================== */
+
+.message {
+    margin-top: 15px;
+    color: #cc0000;
+    font-size: 0.9em;
+    min-height: 1.5em; 
+}
+
+/* ========================== */
+/* RESPONSIVE (Stacking)      */
+/* ========================== */
+
+@media (max-width: 900px) {
+    body {
+        /* Causa que el logo y el form se apilen verticalmente */
+        flex-direction: column; 
+        gap: 30px;
+        padding: 40px 20px;
+        /* Alinea al inicio de la columna para que el contenido no quede demasiado abajo */
+        justify-content: flex-start; 
+        align-content: center;
+    }
+
+    .logo-container img {
+        width: 250px;
+        max-width: 60vw;
+    }
+
+    .container {
+        /* Asegura que el contenedor de la forma use el ancho completo si es necesario */
+        width: 100%;
+    }
+}
