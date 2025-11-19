@@ -51,7 +51,7 @@
                                 <div class="card-footer">
                                     <i class="fas fa-calendar-alt"></i>
                                     <span class="creation-date">
-                                        <%= building.construction_year %>
+                                        <%= new Date(building.creation_date).toLocaleDateString('ca-ES') %>
                                     </span>
                                 </div>
                             </div>

@@ -107,34 +107,76 @@ body {
     padding: 5px 0;
 }
 
-/* --- Lista de arquitectos (tarjetas) --- */
 .architect-list {
     display: flex;
     flex-direction: column;
+<<<<<<< HEAD
     gap: 20px;
     /* Espacio entre las tarjetas */
+=======
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+
+.holis {
+    display: flex;
+    gap: 20px; /* Espacio entre el botón y la carta */
+    width: 100%; /* Para que iguale el ancho de la barra de búsqueda */
+    align-items: stretch; /* Para que el botón y la carta tengan la misma altura visual */
+    margin-bottom: 15px;
+>>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
 }
 
 .architect-card {
     background-color: #fff;
     border-radius: 8px;
+<<<<<<< HEAD
     padding: 25px 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     cursor: pointer;
     /* Para que se note que es clicable */
+=======
+    padding: 25px 300px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    cursor: pointer; /* Para que se note que es clicable */
+>>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 20px;
+}
+
+.architect-card-container {
+    width: 100%;
+    margin: 0;
 }
 
 .architect-card-link {
+    flex-grow: 1; /* IMPORTANTE: Hace que la carta ocupe todo el espacio sobrante */
     text-decoration: none;
     color: inherit;
     display: block;
+    min-width: 0; /* Evita desbordamientos en flexbox */
+}
+
+/* Estilo visual de la carta */
+.architect-card {
+    background-color: #fff;
+    border-radius: 8px;
+    /* HE CAMBIADO EL PADDING: Antes tenías 300px, eso rompía el diseño */
+    padding: 25px; 
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 2px solid transparent;
+    height: 100%; /* Para asegurar que llene la altura del enlace */
+    box-sizing: border-box; /* Para que el padding no aumente el ancho total */
 }
 
 .architect-card:hover {
+<<<<<<< HEAD
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     border: 2px solid #cc0000;
@@ -145,6 +187,11 @@ body {
 .architect-card {
     border: 2px solid transparent;
     border-radius: 8px;
+=======
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border: 2px solid #cc0000;
+>>>>>>> e03b02b (Refactor card layouts and improve delete button design across multiple views)
 }
 
 .card-header {
@@ -196,18 +243,30 @@ body {
     font-weight: bold;
 }
 
+/* --- Botón de eliminar --- */
 .delete-button {
-    background: none;
-    border: none;
-    color: #aaa;
-    font-size: 1.2em;
+    background-color: #cc0000;
+    color: #fff;
+    /* Ajustamos el padding para que no sea tan gigante */
+    padding: 0 30px; 
+    border-radius: 8px; /* Igualar el borde de la carta */
+    border: none; /* Quitar borde por defecto del button */
     cursor: pointer;
-    margin-left: 20px;
-    transition: color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0; /* Evita que el botón se aplaste si falta espacio */
+}
+
+.delete-button img {
+    width: 24px; /* Tamaño controlado del icono */
+    height: auto;
+    filter: brightness(0) invert(1); /* Asegura que el icono sea blanco si es negro */
 }
 
 .delete-button:hover {
-    color: #cc0000;
+    background-color: #a00000;
 }
 
 .card-description {
