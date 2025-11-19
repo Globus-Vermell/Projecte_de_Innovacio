@@ -22,7 +22,7 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
-    const { name, email, level } = req.body;
+    const { name, email, password, level } = req.body;
 
     try {
         const { error } = await supabase
@@ -30,6 +30,7 @@ router.put("/:id", async (req, res) => {
             .update({
                 name,
                 email,
+                password,
                 level
             })
             .eq("id_user", id);

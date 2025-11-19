@@ -8,12 +8,20 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { name, email, password, level } = req.body;
+    const { name, email, password, confirmPassword, level } = req.body;
 
     if (!name || !email || !password) {
         return res.status(400).json({
             success: false,
             message: "Nom, email i contrasenya són obligatoris"
+        });
+    }
+
+    // validación de confirmación de contraseña
+    if (password !== confirmPassword) {
+        return res.status(400).json({
+            success: false,
+            message: "Les contrasenyes no coincideixen"
         });
     }
 
