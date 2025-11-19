@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,7 @@
   <link rel="stylesheet" href="/css/paginaPrincipal.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -17,7 +18,7 @@
 
     <div class="header-left">
       <a href="/" class="back-link">
-        <i class="fas fa-arrow-left"></i> Tornar a l'inici
+        <i class="fas fa-arrow-left"></i>
       </a>
       <h1 class="page-title">Llistat de Tipologies</h1>
     </div>
@@ -38,54 +39,52 @@
       <input type="text" placeholder="Buscar tipologies..." onkeyup="filterTypologies(this.value)">
     </div>
 
-    <% if (typologies && typologies.length > 0) { %>
+    <% if (typologies && typologies.length> 0) { %>
 
       <div class="architect-list">
 
-        <% typologies.forEach(t => { %>
+        <% typologies.forEach(t=> { %>
 
-          <div class="architect-card"
-               data-name="<%= t.name %>">
+          <a href="/typology/edit/<%= t.id_typology %>" class="architect-card-link">
+            <div class="architect-card" data-name="<%= t.name %>">
 
-            <div class="card-header">
+              <div class="card-header">
 
-              <div class="card-title-group">
+                <div class="card-title-group">
 
-                <a href="/typology/edit/<%= t.id_typology %>" class="edit-icon">
-                  <i class="fas fa-pencil-alt"></i>
-                </a>
+                  <h3>
+                    <%= t.name %>
+                  </h3>
+                </div>
 
-                <h3><%= t.name %></h3>
+                <button type="button" class="delete-button" onclick="deleteTypology('<%= t.id_typology %>')">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+
               </div>
 
-              <button type="button"
-                      class="delete-button"
-                      onclick="deleteTypology('<%= t.id_typology %>')">
-                <i class="fas fa-trash-alt"></i>
-              </button>
+              <% if (t.image) { %>
+                <div class="card-image-container">
+                  <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
+                </div>
+                <% } %>
 
             </div>
+          </a>
 
-            <% if (t.image) { %>
-              <div class="card-image-container">
-                <img src="<%= t.image %>" alt="<%= t.name %>" class="card-image">
-              </div>
-            <% } %>
-
-          </div>
-
-        <% }); %>
+          <% }); %>
 
       </div>
 
-    <% } else { %>
+      <% } else { %>
 
-      <p class="no-architects">No hi ha tipologies registrades.</p>
+        <p class="no-architects">No hi ha tipologies registrades.</p>
 
-    <% } %>
+        <% } %>
 
   </main>
 
   <script src="/scripts/typology/typology.js"></script>
 </body>
+
 </html>

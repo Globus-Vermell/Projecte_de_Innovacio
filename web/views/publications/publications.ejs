@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,14 +9,14 @@
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
 
     <!-- Font Awesome para iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 <body>
 
     <header class="page-header">
         <div class="header-left">
             <a href="/" class="back-link" aria-label="Tornar al menú principal">
-                <i class="fas fa-arrow-left"></i> 
+                <i class="fas fa-arrow-left"></i>
             </a>
             <h1 class="page-title">Llistat de publicacions</h1>
         </div>
@@ -35,48 +36,46 @@
             <input type="text" placeholder="Buscar per títol, descripció..." onkeyup="filterPublications(this.value)">
         </div>
 
-        <% if (publications && publications.length > 0) { %>
+        <% if (publications && publications.length> 0) { %>
 
             <div class="architect-list">
 
-                <% publications.forEach(publication => { %>
+                <% publications.forEach(publication=> { %>
+                    <a href="/publications/edit/<%= publication.id_publication %>" class="architect-card-link">
+                        <div class="architect-card" data-title="<%= publication.title %>"
+                            data-description="<%= publication.description %>">
 
-                    <div class="architect-card"
-                         data-title="<%= publication.title %>"
-                         data-description="<%= publication.description %>">
+                            <div class="card-header">
 
-                        <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3>
+                                        <%= publication.title %>
+                                    </h3>
+                                </div>
 
-                            <div class="card-title-group">
-                                <a href="/publications/edit/<%= publication.id_publication %>"
-                                   class="edit-icon"
-                                   aria-label="Editar publicació">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-
-                                <h3><%= publication.title %></h3>
-                            </div>
-
-                            <button type="button"
-                                    class="delete-button"
+                                <button type="button" class="delete-button"
                                     onclick="deletePublication('<%= publication.id_publication %>')"
                                     aria-label="Eliminar publicació">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+
+                            <p class="card-description">
+                                <%= publication.description %>
+                            </p>
+
                         </div>
+                    </a>
 
-                        <p class="card-description"><%= publication.description %></p>
-
-                    </div>
-
-                <% }); %>
+                    <% }); %>
 
             </div>
 
-        <% } else { %>
-            <p class="no-architects">No hi ha publicacions disponibles.</p>
-        <% } %>
-    </div>
-    <script src="/scripts/publications/publications.js"></script>
+            <% } else { %>
+                <p class="no-architects">No hi ha publicacions disponibles.</p>
+                <% } %>
+                    </div>
+                    <script src="/scripts/publications/publications.js"></script>
 </body>
+
 </html>

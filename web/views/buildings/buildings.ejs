@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,13 @@
     <!-- Asegúrate de que la ruta a tu CSS sea correcta -->
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
     <!-- Font Awesome para los iconos -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
     <header class="page-header">
         <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Tornar al menú principal</a>
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Construccions</h1>
         </div>
         <div class="header-right">
@@ -26,31 +28,42 @@
             <input type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings(this.value)">
         </div>
 
-        <div class="architect-list"> 
-            <% if (buildings && buildings.length > 0) { %>
-                <% buildings.forEach(building => { %>
-                    <div class="architect-card" data-name="<%= building.name %>" data-description="<%= building.description %>">
-                        <div class="card-header">
-                            <div class="card-title-group">
-                                <a href="/buildings/edit/<%= building.id_building %>" class="edit-icon"><i class="fas fa-pencil-alt"></i></a>
-                                <h3><%= building.name %></h3>
+        <div class="architect-list">
+            <% if (buildings && buildings.length> 0) { %>
+                <% buildings.forEach(building=> { %>
+                    <a href="/buildings/edit/<%= building.id_building %>" class="architect-card-link">
+                        <div class="architect-card" data-name="<%= building.name %>"
+                            data-description="<%= building.description %>">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3>
+                                        <%= building.name %>
+                                    </h3>
+                                </div>
+
+                                <button type="button" class="delete-button"
+                                    onclick="deleteBuilding('<%= building.id_building %>')"><i
+                                        class="fas fa-trash-alt"></i></button>
                             </div>
-                          
-                            <button type="button" class="delete-button" onclick="deleteBuilding('<%= building.id_building %>')"><i class="fas fa-trash-alt"></i></button>
+                            <p class="card-description">
+                                <%= building.description %>
+                            </p>
+                            <div class="card-footer">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="creation-date">
+                                    <%= new Date(building.creation_date).toLocaleDateString('ca-ES') %>
+                                </span>
+                            </div>
                         </div>
-                        <p class="card-description"><%= building.description %></p>
-                        <div class="card-footer">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span class="creation-date"><%= new Date(building.creation_date).toLocaleDateString('ca-ES') %></span>
-                        </div>
-                    </div>
-                <% }); %>
-            <% } else { %>
-                <p class="no-architects">No hi ha construccions disponibles.</p>
-            <% } %>
+                    </a>
+                    <% }); %>
+                        <% } else { %>
+                            <p class="no-architects">No hi ha construccions disponibles.</p>
+                            <% } %>
         </div>
     </main>
 
-    <script src="/scripts/buildings/buildings.js"></script>   
+    <script src="/scripts/buildings/buildings.js"></script>
 </body>
+
 </html>

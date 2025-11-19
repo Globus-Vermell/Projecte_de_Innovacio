@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/css/paginaPrincipal.css">
 
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
@@ -17,7 +17,7 @@
   <header class="page-header">
     <div class="header-left">
       <a href="/" class="back-link">
-        <i class="fas fa-arrow-left"></i> Tornar a l'inici
+        <i class="fas fa-arrow-left"></i>
       </a>
       <h1 class="page-title">Llistat de Premis</h1>
     </div>
@@ -37,76 +37,52 @@
       <input type="text" placeholder="Buscar per nom, any, tipus..." onkeyup="filterPrizes(this.value)">
     </div>
 
-    <% if (prizes && prizes.length > 0) { %>
+    <% if (prizes && prizes.length> 0) { %>
 
       <div class="architect-list">
 
-        <% prizes.forEach(prize => { %>
+        <% prizes.forEach(prize=> { %>
 
-          <div class="architect-card"
-               data-name="<%= prize.name %>"
-               data-year="<%= prize.year %>"
-               data-tipe="<%= prize.tipe %>">
+          <a href="/prizes/edit/<%= prize.id_prize %>" class="architect-card-link">
+            <div class="architect-card" data-name="<%= prize.name %>" data-year="<%= prize.year %>"
+              data-tipe="<%= prize.tipe %>">
 
-            <div class="card-header">
+              <div class="card-header">
 
-              <div class="card-title-group">
-                <a href="/prizes/edit/<%= prize.id_prize %>" class="edit-icon">
-                  <i class="fas fa-pencil-alt"></i>
-                </a>
+                <div class="card-title-group">
 
-                <h3><%= prize.name %></h3>
+                  <h3>
+                    <%= prize.name %>
+                  </h3>
 
-                <div class="card-meta-info">
-                  <span class="dates">(<%= prize.year %>)</span>
-                  <span class="nationality">Tipus: <%= prize.tipe %></span>
+                  <div class="card-meta-info">
+                    <span class="dates">(<%= prize.year %>)</span>
+                    <span class="nationality">Tipus: <%= prize.tipe %></span>
+                  </div>
                 </div>
+
+                <button type="button" onclick="deletePrize('<%= prize.id_prize %>')" class="delete-button">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+
               </div>
 
-              <button type="button"
-                      onclick="deletePrize('<%= prize.id_prize %>')"
-                      class="delete-button">
-                <i class="fas fa-trash-alt"></i>
-              </button>
-
             </div>
+          </a>
 
-          </div>
-
-        <% }); %>
+          <% }); %>
 
       </div>
 
-    <% } else { %>
+      <% } else { %>
 
-      <p class="no-architects">No hi ha premis registrats.</p>
+        <p class="no-architects">No hi ha premis registrats.</p>
 
-    <% } %>
+        <% } %>
 
   </main>
 
   <script src="/scripts/prizes/prizes.js"></script>
 </body>
 
-    // FILTRO DE LA BARRA DE BÚSQUEDA
-    function filterPrizes(searchTerm) {
-      const cards = document.querySelectorAll('.architect-card');
-      const lower = searchTerm.toLowerCase();
-
-      cards.forEach(card => {
-        const name = (card.dataset.name || '').toLowerCase();
-        const year = (card.dataset.year || '').toLowerCase();
-        const tipe = (card.dataset.tipe || '').toLowerCase();
-
-        if (name.includes(lower) || year.includes(lower) || tipe.includes(lower)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-  </script>
-
-</body>
 </html>

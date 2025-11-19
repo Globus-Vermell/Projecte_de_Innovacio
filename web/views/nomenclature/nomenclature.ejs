@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nomenclatures</title>
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
+
 <body>
     <header class="page-header">
         <div class="header-left">
-            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Tornar al menú principal</a>
+            <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Nomenclatures</h1>
         </div>
         <div class="header-right">
@@ -25,27 +27,36 @@
         </div>
 
         <div class="architect-list">
-            <% if (nomenclaturas && nomenclaturas.length > 0) { %>
-                <% nomenclaturas.forEach(n => { %>
-                    <div class="architect-card" data-name="<%= n.name.toLowerCase() %>" data-description="<%= (n.description || '').toLowerCase() %>">
-                        <div class="card-header">
-                            <div class="card-title-group">
-                                <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="edit-icon"><i class="fas fa-pencil-alt"></i></a>
-                                <h3><%= n.name %></h3>
+            <% if (nomenclaturas && nomenclaturas.length> 0) { %>
+                <% nomenclaturas.forEach(n=> { %>
+                    <a href="/nomenclature/edit/<%= n.id_nomenclature %>" class="architect-card-link">
+                        <div class="architect-card" data-name="<%= n.name.toLowerCase() %>"
+                            data-description="<%= (n.description || '').toLowerCase() %>">
+                            <div class="card-header">
+                                <div class="card-title-group">
+                                    <h3>
+                                        <%= n.name %>
+                                    </h3>
+                                </div>
+                                <button type="button" class="delete-button"
+                                    onclick="deleteNomenclature('<%= n.id_nomenclature %>')"><i
+                                        class="fas fa-trash-alt"></i></button>
                             </div>
-                            <button type="button" class="delete-button" onclick="deleteNomenclature('<%= n.id_nomenclature %>')"><i class="fas fa-trash-alt"></i></button>
+                            <% if (n.description) { %>
+                                <p class="card-description">
+                                    <%= n.description %>
+                                </p>
+                                <% } %>
                         </div>
-                        <% if (n.description) { %>
-                            <p class="card-description"><%= n.description %></p>
-                        <% } %>
-                    </div>
-                <% }); %>
-            <% } else { %>
-                <p class="no-architects">No hi ha nomenclatures registrades.</p>
-            <% } %>
+                    </a>
+                    <% }); %>
+                        <% } else { %>
+                            <p class="no-architects">No hi ha nomenclatures registrades.</p>
+                            <% } %>
         </div>
     </main>
 
     <script src="/scripts/nomenclature/nomenclature.js"></script>
 </body>
+
 </html>
