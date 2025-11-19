@@ -67,26 +67,7 @@
         <% } %>
   </main>
 
-  <script>
-    async function deletePrize(id) {
-
-      if (!confirm("Segur que vols eliminar aquest premi?")) return;
-
-      try {
-        const res = await fetch(`/prizes/delete/${id}`, {
-          method: "DELETE"
-        });
-
-        const data = await res.json();
-        alert(data.message);
-
-        if (data.success) location.reload();
-      } catch (err) {
-        console.error(err);
-        alert("Error al eliminar el premi");
-      }
-    }
-  </script>
+  <script src="/scripts/prizes/prizes.js"></script>
 </body>
 
 </html>
