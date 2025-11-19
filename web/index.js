@@ -25,6 +25,9 @@ import protectionEditRouter from "./routes/protection/protectionEdit.js";
 import publicationsEditRouter from "./routes/publications/publicationsEdit.js";
 import reformEditRouter from "./routes/reform/reformEdit.js";
 import typologyEditRouter from "./routes/typology/typologyEdit.js";
+import usersRouter from "./routes/users/users.js";
+import usersFormRouter from "./routes/users/usersForm.js";
+import usersEditRouter from "./routes/users/usersEdit.js";
 const PORT = process.env.PORT || 3000;
 
 const app = express();
@@ -70,6 +73,9 @@ app.use("/reform/edit", reformEditRouter);
 app.use("/typology", tipologiaRouter);
 app.use("/typology/form", tipologiaFormRouter);
 app.use("/typology/edit", typologyEditRouter);
+app.use("/users", usersRouter);
+app.use("/users/edit", usersEditRouter);
+app.use("/users/form", usersFormRouter);
 
 
 // Start
