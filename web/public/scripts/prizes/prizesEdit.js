@@ -4,7 +4,7 @@ form.addEventListener('submit', async (e) => {
     const data = Object.fromEntries(new FormData(form).entries());
 
     try {
-        const res = await fetch(`/prizes/edit/<%= prize.id_prize %>`, {
+        const res = await fetch(`/prizes/edit/${prize.id_prize}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'

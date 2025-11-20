@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", async (req, res) => {
-    const { name, description } = req.body;
+    const { name, description, birth_year, death_year, nationality } = req.body;
 
     if (!name) {
         return res.status(400).json({ success: false, message: "El nom és obligatori" });
@@ -20,7 +20,10 @@ router.post("/", async (req, res) => {
             .insert([
                 {
                     name,
-                    description: description
+                    description,
+                    birth_year,
+                    death_year: death_year || null,
+                    nationality
                 }
             ]);
 

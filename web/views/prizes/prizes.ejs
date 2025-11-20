@@ -28,8 +28,8 @@
             </a>
         </div>
     </header>
-    <div class="flex-container">
 
+    <div class="flex-container">
         <main class="main-content">
 
             <!-- BARRA DE BÚSQUEDA -->
@@ -37,30 +37,37 @@
                 <i class="fas fa-search"></i>
                 <input type="text" placeholder="Buscar per nom, any, tipus..." onkeyup="filterPrizes(this.value)">
             </div>
+
             <div class="architect-list">
                 <% if (prizes && prizes.length> 0) { %>
                     <% prizes.forEach(prize=> { %>
 
                         <div class="architect-card-container">
                             <div class="holis">
+
                                 <a href="/prizes/edit/<%= prize.id_prize %>" class="architect-card-link">
-                                    <div class="architect-card" data-name="<%= prize.name %>"
-                                        data-year="<%= prize.year %>" data-tipe="<%= prize.tipe %>">
+                                    <div class="architect-card" data-name="<%= prize.name.toLowerCase() %>"
+                                        data-year="<%= prize.year %>" data-tipe="<%= prize.tipe.toLowerCase() %>"
+                                        data-description="<%= prize.description ? prize.description.toLowerCase() : '' %>">
 
                                         <div class="card-header">
-
                                             <div class="card-title-group">
-
                                                 <h3>
                                                     <%= prize.name %>
                                                 </h3>
+                                            </div>
 
-                                                <div class="card-meta-info">
-                                                    <span class="dates">(<%= prize.year %>)</span>
-                                                    <span class="nationality">Tipus: <%= prize.tipe %></span>
-                                                </div>
+                                            <div class="card-meta-info">
+                                                <span class="nationality">Tipus: <%= prize.tipe %></span>
                                             </div>
                                         </div>
+
+                                        <!-- DESCRIPCIÓN DEL PREMIO -->
+                                        <p class="card-description">
+                                            <%= prize.description ? prize.description : "Sense descripció disponible."
+                                                %>
+                                        </p>
+
                                     </div>
                                 </a>
 
@@ -68,18 +75,21 @@
                                     onclick="deletePrize('<%= prize.id_prize %>')">
                                     <img src="/images/icons/trash-2-64.png" alt="Borrar">
                                 </button>
+
                             </div>
-
-                            <% }); %>
-                                <% } else { %>
-
-                                    <p class="no-architects">No hi ha premis registrats.</p>
-
-                                    <% } %>
                         </div>
+
+                        <% }); %>
+                            <% } else { %>
+
+                                <p class="no-architects">No hi ha premis registrats.</p>
+
+                                <% } %>
             </div>
+
         </main>
     </div>
+
     <script src="/scripts/prizes/prizes.js"></script>
 </body>
 

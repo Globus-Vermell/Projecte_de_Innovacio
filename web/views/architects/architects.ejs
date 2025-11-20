@@ -29,52 +29,53 @@
                     onkeyup="filterArchitects(this.value)">
             </div>
 
-        <div class="architect-list">
-            <% if (architects && architects.length> 0) { %>
-                <% architects.forEach(architect=> { %>
-                    <div class="architect-card-container">
-                        <div class="holis">
-                    <a href="/architects/edit/<%= architect.id_architect %>" class="architect-card-link">
-                        <div class="architect-card" data-name="<%= architect.name.toLowerCase() %>"
-                            data-description="<%= architect.description.toLowerCase() %>">
-                            <div class="card-header">
-                                <div class="card-title-group">
-                                    <h3>
-                                        <%= architect.name %>
-                                    </h3>
-                                </div>
-                                <div class="card-meta-info">
-                                    <span class="dates">
-                                        <%= architect.birth_year %> - <%= architect.death_year %>
-                                    </span>
-                                    <span class="nationality">
-                                        <%= architect.nationality %>
-                                    </span>
-                                </div>
+            <div class="architect-list">
+                <% if (architects && architects.length> 0) { %>
+                    <% architects.forEach(architect=> { %>
+                        <div class="architect-card-container">
+                            <div class="holis">
+                                <a href="/architects/edit/<%= architect.id_architect %>" class="architect-card-link">
+                                    <div class="architect-card" data-name="<%= architect.name.toLowerCase() %>"
+                                        data-description="<%= architect.description.toLowerCase() %>">
+                                        <div class="card-header">
+                                            <div class="card-title-group">
+                                                <h3>
+                                                    <%= architect.name %>
+                                                </h3>
+                                            </div>
+                                            <div class="card-meta-info">
+                                                <span class="dates">
+                                                    <%= architect.birth_year %> - <%= architect.death_year %>
+                                                </span>
+                                                <span class="nationality">
+                                                    <%= architect.nationality %>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <p class="card-description">
+                                            <%= architect.description %>
+                                        </p>
+                                        <div class="card-footer">
+                                            <i class="fas fa-calendar-alt"></i>
+                                            <span class="creation-date">
+                                                <%= new Date(architect.creation_date).toLocaleDateString('ca-ES') %>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                                <button type="button" class="delete-button"
+                                    onclick="deleteArchitect('<%= architect.id_architect %>')">
+                                    <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                </button>
                             </div>
-                            <p class="card-description">
-                                <%= architect.description %>
-                            </p>
-                            <div class="card-footer">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span class="creation-date">
-                                    <%= new Date(architect.creation_date).toLocaleDateString('ca-ES') %>
-                                </span>
-                            </div>
+                            <% }); %>
+                                <% } else { %>
+                                    <p class="no-architects">No hi ha arquitectes registrats.</p>
+                                    <% } %>
                         </div>
-                    </a>
-                                    <button type="button" class="delete-button" onclick="deleteArchitect('<%= architect.id_architect %>')">
-                  <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                </button>
-                        </div>
-                    <% }); %>
-                        <% } else { %>
-                            <p class="no-architects">No hi ha arquitectes registrats.</p>
-                            <% } %>
-                            </div>
-        </div>
-    </main>
-</div>
+            </div>
+        </main>
+    </div>
     <script src="/scripts/architects/architects.js"></script>
 </body>
 

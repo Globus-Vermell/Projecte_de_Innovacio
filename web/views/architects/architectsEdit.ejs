@@ -53,7 +53,10 @@
             </form>
         </main>
     </div>
-    <script src="/scripts/architecs/architectsEdit.js"></script>
+    <script>
+        const architect = JSON.parse('<%- JSON.stringify(architect) %>');
+    </script>
+    <script src="/scripts/architects/architectsEdit.js"></script>
 </body>
 
 </html>

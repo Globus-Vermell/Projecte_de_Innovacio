@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = Object.fromEntries(new FormData(form).entries());
 
         try {
-            const res = await fetch(`/reform/edit/<%= reform.id_reform %>`, {
+            const res = await fetch(`/reform/edit/${reform.id_reform}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),

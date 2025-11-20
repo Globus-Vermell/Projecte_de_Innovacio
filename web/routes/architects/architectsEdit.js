@@ -22,12 +22,13 @@ router.get("/:id", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
-    const { name, description } = req.body;
+    const { name, description, birth_year, death_year, nationality } = req.body;
+
 
     try {
         const { error } = await supabase
             .from("architects")
-            .update({ name, description })
+            .update({ name, description, birth_year, death_year, nationality})
             .eq("id_architect", id);
 
         if (error) {
