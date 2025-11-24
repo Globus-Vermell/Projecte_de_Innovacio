@@ -9,28 +9,38 @@
 </head>
 
 <body>
-    <div class="logo-container">
-        <img src="/images/globus_vermell.png" alt="Logo Globus Vermell">
-    </div>
-    <div class="container">
 
-        <div class="form-container" id="login-section">
+    <!-- Cabecera con logo -->
+    <header class="logo-container">
+        <img src="/images/globus_vermell.png" alt="Logo Globus Vermell">
+    </header>
+
+    <!-- Contenedor principal del login -->
+    <main class="container">
+        <section class="form-container" id="login-section">
             <h2>Inici de sessió</h2>
             <form id="login-form" action="/" method="POST" autocomplete="off">
                 <label for="login-username">Usuari</label>
-                <input type="text" id="login-username" name="username" placeholder="Nom d'usuari" required />
+                <input type="text" id="login-username" name="username" placeholder="Nom d'usuari" required autocomplete="username" />
 
                 <label for="login-password">Contrasenya</label>
-                <input type="password" id="login-password" name="password" placeholder="Contrasenya" required />
+                <input type="password" id="login-password" name="password" placeholder="Contrasenya" required autocomplete="current-password" />
 
                 <button type="submit">Entrar</button>
             </form>
-            <div class="message">
-                <%= error %>
-            </div>
-            <div class="footer-message">Projecte elaborat pel ITB amb conjunt del Globus Vermell</div>
-        </div>
-    </div>
-</body>
 
+            <!-- Mensaje de error -->
+            <% if (error) { %>
+                <p role="alert" class="message"><%= error %></p>
+            <% } %>
+
+            <!-- Footer  -->
+            <footer class="footer-message">
+                Projecte elaborat pel ITB amb conjunt del Globus Vermell
+            </footer>
+
+        </section>
+    </main>
+
+</body>
 </html>

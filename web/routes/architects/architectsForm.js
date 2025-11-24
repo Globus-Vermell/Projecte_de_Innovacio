@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
             .insert([
                 {
                     name,
-                    description,
+                    description: description || null,
                     birth_year: birth_year || null,
                     death_year: death_year || null,
                     nationality: nationality || null
