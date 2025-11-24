@@ -5,72 +5,118 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arquitectes</title>
+
+    <!-- Css principal de la página y estilo de Emojis y simbolos usandos en la pagina-->
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
-    <!-- Font Awesome para los iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
+
+    <!-- Cabecera de la página -->
     <header class="page-header">
+
+        <!-- Botón para volver atrás -->
         <div class="header-left">
             <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Arquitectes</h1>
         </div>
+
+        <!-- Botón para añadir nuevo arquitecte -->
         <div class="header-right">
-            <a href="/architects/form" class="add-button"><i class="fas fa-plus"></i> Nou arquitecte</a>
+            <a href="/architects/form" class="add-button">
+                <i class="fas fa-plus"></i> Nou arquitecte
+            </a>
         </div>
+
     </header>
-    <div class="flex-container">
 
-        <main class="main-content">
-            <div class="search-bar">
-                <i class="fas fa-search"></i>
-                <input type="text" placeholder="Buscar per nom, nacionalitat, biografia..."
-                    onkeyup="filterArchitects(this.value)">
-            </div>
+    <!-- Contenido principal -->
+    <main class="main-content">
 
-            <div class="architect-list">
-                <% if (architects && architects.length> 0) { %>
-                    <% architects.forEach(architect=> { %>
-                        <div class="architect-card-container">
-                            <div class="holis">
-                                <a href="/architects/edit/<%= architect.id_architect %>" class="architect-card-link">
-                                    <div class="architect-card" data-name="<%= architect.name.toLowerCase() %>"
-                                        data-description="<%= architect.description.toLowerCase() %>">
-                                        <div class="card-header">
-                                            <div class="card-title-group">
-                                                <h3>
-                                                    <%= architect.name %>
-                                                </h3>
-                                            </div>
-                                            <div class="card-meta-info">
-                                                <span class="dates">
-                                                    <%= architect.birth_year %> - <%= architect.death_year %>
-                                                </span>
-                                                <span class="nationality">
-                                                    <%= architect.nationality %>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <p class="card-description">
-                                            <%= architect.description %>
-                                        </p>
-                                    </div>
-                                </a>
-                                <button type="button" class="delete-button"
-                                    onclick="deleteArchitect('<%= architect.id_architect %>')">
-                                    <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                                </button>
-                            </div>
-                            <% }); %>
-                                <% } else { %>
-                                    <p class="no-architects">No hi ha arquitectes registrats.</p>
-                                    <% } %>
+        <!-- Barra de búsqueda para filtrar arquitectos -->
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text"
+                   placeholder="Buscar per nom, nacionalitat, biografia..."
+                   onkeyup="filterArchitects(this.value)">
+        </div>
+
+        <!-- Lista de arquitectos -->
+        <section class="list">
+            <!-- Bucle lógico que recorre todos los arquitectos -->
+            <% if (architects && architects.length > 0) { %>
+                <% architects.forEach(architect => { %>
+                    <!-- Card de cada arquitecte, se guardan data en el article para usarlo en el filtro -->
+                    <article class="card"
+                             data-name="<%= architect.name.toLowerCase() %>"
+                             data-description="<%= architect.description.toLowerCase() %>">
+
+                        <!-- Foto del arquitecte  -->
+                        <% if (architect.picture) { %>
+                            <figure class="card-image">
+                                <img src="<%= architect.picture %>" alt="<%= architect.name %>" class="img_list">
+                            </figure>
+                        <% } %>
+
+                        <!-- Información principal del arquitecte -->
+                        <div class="card-info">
+
+                            <h3 class="card-title"><%= architect.name %></h3>
+
+                            <p class="card-years">
+                                <i class="fas fa-calendar"></i>
+                                <%= architect.birth_year %> - <%= architect.death_year %>
+                            </p>
+
+                            <p class="card-nation">
+                                <i class="fas fa-flag"></i>
+                                <%= architect.nationality %>
+                            </p>
+
                         </div>
-            </div>
-        </main>
-    </div>
-    <script src="/scripts/architects/architects.js"></script>
-</body>
 
+                        <!-- Descripción del arquitecte -->
+                        <div class="card-description">
+                            <p><%= architect.description %></p>
+                        </div>
+
+                        <!-- Botones clicables para realizar acciones: Editar y Borrar -->
+                        <div class="card-actions">
+
+                            <!-- Botón para editar -->
+                            <a href="/architects/edit/<%= architect.id_architect %>" class="edit-button">
+                                Editar
+                                <img src="/images/globus_vermell.png" alt="Editar">
+                            </a>
+
+                            <!-- Botón para eliminar arquitecte -->
+                            <button type="button"
+                                    class="delete-button"
+                                    onclick="deleteArchitect('<%= architect.id_architect %>')">
+                                <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                Eliminar
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                <% }) %>
+
+            <% } else { %>
+
+                <!-- Si no hay arquitectes registrados se muestra un mensaje -->
+                <p class="no-architects">No hi ha arquitectes registrats.</p>
+
+            <% } %>
+
+        </section>
+
+    </main>
+
+    <!-- Script para filtrado y eliminación de arquitectes -->
+    <script src="/scripts/architects/architects.js"></script>
+
+</body>
 </html>
