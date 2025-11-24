@@ -36,34 +36,35 @@
         <section class="list">
             <% if (buildings && buildings.length> 0) { %>
                 <% buildings.forEach(building=> { %>
-                    <article class="card" data-name="<%= building.name %>" data-description="<%= building.description %>">
-                            <h3 class="card-title">
-                                <%= building.name %>
-                            </h3>
+                    <article class="card" data-name="<%= building.name %>"
+                        data-description="<%= building.description %>">
+                        <h3 class="card-title">
+                            <%= building.name %>
+                        </h3>
 
-                            <% if (building.picture) { %>
-                                <figure class="card-image">
-                                    <img src="<%= building.picture %>" alt="<%= building.name %>" class="img_list">
-                                </figure>
-                                <% } %>
+                        <% if (building.picture) { %>
+                            <figure class="card-image">
+                                <img src="<%= building.picture %>" alt="<%= building.name %>" class="img_list">
+                            </figure>
+                            <% } %>
 
-                                    <p class="card-description">
-                                        <%= building.description %>
-                                    </p>
+                                <p class="card-description">
+                                    <%= building.description %>
+                                </p>
 
-                                    <i class="fas fa-calendar-alt"></i>
-                                    <span class="creation-date">
-                                        <%= building.construction_year %>
-                                    </span>
-c                        <div class="card-actions">
-                            <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
-                                <img src="/images/icons/trash-2-64.png" alt="Editar">
-                            </a>
-                            <button type="button" class="delete-button"
-                                onclick="deleteBuilding('<%= building.id_building %>')">
-                                <img src="/images/icons/trash-2-64.png" alt="Borrar">
-                            </button>
-                        </div>
+                                <i class="fas fa-calendar-alt"></i>
+                                <span class="creation-date">
+                                    <%= building.construction_year %>
+                                </span>
+                                <div class="card-actions">
+                                    <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
+                                        <img src="/images/icons/trash-2-64.png" alt="Editar">
+                                    </a>
+                                    <button type="button" class="delete-button"
+                                        onclick="deleteBuilding('<%= building.id_building %>')">
+                                        <img src="/images/icons/trash-2-64.png" alt="Borrar">
+                                    </button>
+                                </div>
                     </article>
 
                     <% }) %>
