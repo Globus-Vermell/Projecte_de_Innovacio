@@ -2,7 +2,6 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     background-color: #f5f5f5;
-    /* Fondo claro */
     color: #333;
     display: flex;
     flex-direction: column;
@@ -30,7 +29,6 @@ body {
     text-decoration: none;
     margin-right: 20px;
     font-size: 1.5em;
-    /* Tamaño del icono de flecha */
     transition: color 0.2s ease;
 }
 
@@ -46,7 +44,7 @@ body {
 }
 
 .add-button {
-    background-color:  #f40202;
+    background-color: #f40202;
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
@@ -67,9 +65,9 @@ body {
 
 /* --- Contenido principal --- */
 .main-content {
-  display: flex;
-  flex-direction: column;
-  padding: 40px 120px 40px 120px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 120px;
 }
 
 /* --- Barra de búsqueda --- */
@@ -97,6 +95,7 @@ body {
     padding: 5px 0;
 }
 
+/* LISTA DE CONSTRUCCIONES */
 .list {
     display: flex;
     flex-direction: column;
@@ -104,151 +103,48 @@ body {
     width: 100%;
 }
 
-.holis {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-    align-items: stretch;
-    margin-bottom: 15px;
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 25px 300px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.card-title {
-    width: 100%;
-    margin: 0;
-}
-
-.card-description {
-    flex-grow: 1;
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    min-width: 0;
-}
-
+/* CARD */
 .card {
     background-color: #fff;
     border-radius: 8px;
     padding: 25px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
     display: flex;
     flex-direction: column;
     gap: 15px;
     border: 2px solid transparent;
-    height: 100%;
-    box-sizing: border-box;
-}
-
-.card {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 25px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    cursor: pointer;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    border: 2px solid transparent; /* ← borde transparente por defecto */
-    height: 100%;
-    box-sizing: border-box;
 }
 
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 2px solid #f40202; /* ← borde rojo solo al pasar el cursor */
-    transition: 0.2s ease-in-out;
+    border: 2px solid #f40202;
 }
 
-
-.card-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 5px;
-}
-
-.card-title-group {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-}
-
-.edit-icon {
-    color: #f40202;
-    margin-right: 15px;
-    font-size: 1.2em;
-    transition: color 0.2s ease;
-}
-
-.edit-icon:hover {
-    color: #cc0000;
-}
-
-.architect-card h3 {
-    font-size: 1.3em;
-    font-weight: bold;
+/* TÍTULO */
+.card-title {
     margin: 0;
-    color: #333;
-}
-
-.card-meta-info {
-    display: flex;
-    align-items: center;
-    font-size: 0.9em;
-    color: #777;
-    margin-left: 20px;
-}
-
-.card-meta-info .dates {
-    margin-right: 10px;
-}
-
-.card-meta-info .nationality {
+    font-size: 1.4em;
     font-weight: bold;
 }
 
-.delete-button {
-    background-color:  #f40202;
-    color: #fff;
-    padding: 0 30px; 
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
-    flex-shrink: 0;
+/* IMAGEN */
+.card-image img {
+    width: 90px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 5px;
 }
 
-.delete-button img {
-    width: 24px;
-    height: auto;
-    filter: brightness(0) invert(1);
+.img_list {
+    object-fit: cover;
+    width: 90px;
+    height: 100px;
 }
 
-.delete-button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    background-color: #cc0000;
-    transition: 0.2s ease-in-out;
-}
-
+/* DESCRIPCIÓN */
 .card-description {
     font-size: 0.95em;
     color: #555;
@@ -256,18 +152,62 @@ body {
     margin: 0;
 }
 
-.card-footer {
+/* FECHA */
+.creation-date {
+    font-size: 0.9em;
+    color: #777;
+}
+
+/* ACCIONES (EDITAR / BORRAR) */
+.card-actions {
     display: flex;
     align-items: center;
-    color: #aaa;
-    font-size: 0.85em;
+    gap: 15px;
     margin-top: 10px;
 }
 
-.card-footer i {
-    margin-right: 8px;
+.edit-button {
+    background-color: #28a150;
+    padding: 8px 15px;
+    border-radius: 6px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.2s ease-in-out;
 }
 
+.edit-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #1f8140;
+}
+
+/* BOTÓN ELIMINAR */
+.delete-button {
+    background-color: #f40202;
+    color: #fff;
+    padding: 6px 15px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.2s ease-in-out;
+}
+
+.delete-button img {
+    width: 24px;
+    filter: brightness(0) invert(1);
+}
+
+.delete-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: #cc0000;
+}
+
+/* MENSAJE SIN CONSTRUCCIONES */
 .no-architects {
     text-align: center;
     color: #777;
@@ -275,7 +215,7 @@ body {
     font-size: 1.1em;
 }
 
-/* --- Responsive Design --- */
+/* --- Responsive --- */
 @media (max-width: 768px) {
     .page-header {
         flex-direction: column;
@@ -289,64 +229,7 @@ body {
         margin-bottom: 15px;
     }
 
-    .back-link {
-        margin-right: 0;
-    }
-
-    .page-title {
-        font-size: 1.5em;
-    }
-
-    .header-right {
-        width: 100%;
-        text-align: right;
-    }
-
-    .add-button {
-        width: auto;
-        justify-content: center;
-        margin-left: auto;
-    }
-
     .main-content {
-        display: flex;
+        padding: 20px;
     }
-
-    .search-bar {
-        padding: 8px 12px;
-    }
-
-    .architect-card {
-        padding: 20px 25px;
-    }
-
-    .card-header {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .card-title-group {
-        flex-basis: 100%;
-        margin-bottom: 5px;
-    }
-
-    .card-meta-info {
-        margin-left: 0;
-        flex-grow: 1;
-    }
-
-    .delete-button {
-        margin-left: 10px;
-    }
-
 }
-
-.img_list{
-        object-fit : cover;
-        height: 100px;
-        width: 90px;;
-    }
-
-/* --- Segundo CSS --- */
-/* (Contenido ya incluido en el primero, por lo tanto no se repite para evitar duplicados innecesarios) */
-
