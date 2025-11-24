@@ -43,6 +43,11 @@ body {
     color: #333;
 }
 
+.header-right {
+    display: flex;
+    align-items: center;
+}
+
 .add-button {
     background-color: #f40202;
     color: #fff;
@@ -109,18 +114,42 @@ body {
     border-radius: 8px;
     padding: 25px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    cursor: pointer;
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 20px;
     border: 2px solid transparent;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 2px solid #f40202;
+/* IMAGEN DE LA CARD */
+.card-image {
+    margin: 0;
+    width: 150px;
+    height: auto;
+    flex-shrink: 0;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.img_list {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+}
+
+/* CONTENEDOR DE INFORMACIÓN (imagen + info + descripción) */
+.card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
 }
 
 /* TÍTULO */
@@ -128,20 +157,36 @@ body {
     margin: 0;
     font-size: 1.4em;
     font-weight: bold;
+    color: #333;
 }
 
-/* IMAGEN */
-.card-image img {
-    width: 90px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 5px;
+/* COORDENADAS */
+.card-coords {
+    margin: 0;
+    font-size: 0.95em;
+    color: #666;
 }
 
-.img_list {
-    object-fit: cover;
-    width: 90px;
-    height: 100px;
+/* FECHA DE CONSTRUCCIÓN */
+.card-date {
+    margin: 0;
+    font-size: 0.9em;
+    color: #777;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-date i {
+    color: #f40202;
+}
+
+/* ARQUITECTO */
+.card-architect {
+    margin: 0;
+    font-size: 0.95em;
+    color: #555;
+    font-weight: 500;
 }
 
 /* DESCRIPCIÓN */
@@ -149,60 +194,75 @@ body {
     font-size: 0.95em;
     color: #555;
     line-height: 1.5;
-    margin: 0;
+    margin: 10px 0 0 0;
 }
 
-/* FECHA */
-.creation-date {
-    font-size: 0.9em;
-    color: #777;
+.card-description p {
+    margin: 0;
 }
 
 /* ACCIONES (EDITAR / BORRAR) */
 .card-actions {
     display: flex;
-    align-items: center;
-    gap: 15px;
-    margin-top: 10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    justify-content: center;
+    min-width: 120px;
 }
 
 .edit-button {
     background-color: #28a150;
-    padding: 8px 15px;
+    padding: 10px 20px;
     border-radius: 6px;
     color: white;
     text-decoration: none;
     font-weight: bold;
     transition: 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    white-space: nowrap;
 }
 
 .edit-button:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     background-color: #1f8140;
+}
+
+.edit-button img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1);
 }
 
 /* BOTÓN ELIMINAR */
 .delete-button {
     background-color: #f40202;
     color: #fff;
-    padding: 6px 15px;
-    border-radius: 8px;
+    padding: 10px 20px;
+    border-radius: 6px;
     border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    font-weight: bold;
     transition: 0.2s ease-in-out;
+    white-space: nowrap;
 }
 
 .delete-button img {
-    width: 24px;
+    width: 20px;
+    height: 20px;
     filter: brightness(0) invert(1);
 }
 
 .delete-button:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     background-color: #cc0000;
 }
@@ -229,7 +289,37 @@ body {
         margin-bottom: 15px;
     }
 
+    .header-right {
+        width: 100%;
+    }
+
+    .add-button {
+        width: 100%;
+        justify-content: center;
+    }
+
     .main-content {
         padding: 20px;
+    }
+
+    .card {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .card-image {
+        width: 100%;
+        height: 200px;
+    }
+
+    .card-actions {
+        flex-direction: row;
+        width: 100%;
+        min-width: auto;
+    }
+
+    .edit-button,
+    .delete-button {
+        flex: 1;
     }
 }
