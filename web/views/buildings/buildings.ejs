@@ -37,41 +37,62 @@
 
         <!-- Lista de construcciones -->
         <section class="list">
+            <!-- Blucle logico que busca que existan buildings en la base de datos-->
             <% if (buildings && buildings.length> 0) { %>
                 <% buildings.forEach(building=> { %>
                     <!-- Card de cada construcción , se guardan data en el article para poder usarlo en el filtro -->
                     <article class="card" data-name="<%= building.name %>"
                         data-description="<%= building.description %>">
-                        <h3 class="card-title">
-                            <%= building.name %>
-                        </h3>
-
+                        <!-- Foto de la construcción -->
                         <% if (building.picture) { %>
                             <figure class="card-image">
                                 <img src="<%= building.picture %>" alt="<%= building.name %>" class="img_list">
                             </figure>
                             <% } %>
 
-                                <p class="card-description">
-                                    <%= building.description %>
-                                </p>
+                                <!-- Información principal del edificio -->
+                                <div class="card-info">
+                                    <h3 class="card-title">
+                                        <%= building.name %>
+                                    </h3>
 
-                                <i class="fas fa-calendar-alt"></i>
-                                <span class="creation-date">
-                                    <%= building.construction_year %>
-                                </span>
-                                <!-- Botones clicables que sirven para: Editar y Borrar -->
+                                    <p class="card-coords">
+                                        <%= building.coordinates %>
+                                    </p>
+
+                                    <p class="card-date">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <%= building.construction_year %>
+                                    </p>
+
+                                    <p class="card-architect">
+                                        <%= building.architect %>
+                                    </p>
+                                </div>
+
+                                <!-- Descripción del edificio -->
+                                <div class="card-description">
+                                    <p>
+                                        <%= building.description %>
+                                    </p>
+                                </div>
+
+                                <!-- Botones clicables para poder hacer diferentes acciones: Editar y Borrar -->
                                 <div class="card-actions">
-                                    <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">hola</a>
-                                    <button type="button" class="delete-button"
+                                    <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
+                                        <img src="/images/globus_vermell.png" alt="Editar">
+                                    </a>
+
+                                    <button class="delete-button"
                                         onclick="deleteBuilding('<%= building.id_building %>')">
                                         <img src="/images/icons/trash-2-64.png" alt="Borrar">
                                     </button>
                                 </div>
+
                     </article>
 
                     <% }) %>
-
+                            <!-- Si no hay construcciones, se muestra un mensaje -->
                         <% } else { %>
 
                             <p class="no-architects">No hi ha construccions disponibles.</p>
