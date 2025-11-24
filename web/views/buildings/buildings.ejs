@@ -5,19 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llistat de construccions</title>
-
+    <!-- Css principal y estilo de Emojis y simbolos usandos en la pagina-->
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-
+    <!-- Cabecera de la Página-->
     <header class="page-header">
+        <!-- Botón para volver atrás -->
         <div class="header-left">
             <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Construccions</h1>
         </div>
-
+        <!-- Botón para añadir nuevo edificio -->
         <div class="header-right">
             <a href="/buildings/form" class="add-button">
                 <i class="fas fa-plus"></i> Afegir nou edifici
@@ -25,6 +26,7 @@
         </div>
     </header>
 
+    <!-- Contenido principal -->
     <main class="main-content">
 
         <!-- Buscador -->
@@ -33,9 +35,11 @@
             <input type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterBuildings(this.value)">
         </div>
 
+        <!-- Lista de construcciones -->
         <section class="list">
             <% if (buildings && buildings.length> 0) { %>
                 <% buildings.forEach(building=> { %>
+                    <!-- Card de cada construcción , se guardan data en el article para poder usarlo en el filtro -->
                     <article class="card" data-name="<%= building.name %>"
                         data-description="<%= building.description %>">
                         <h3 class="card-title">
@@ -56,6 +60,7 @@
                                 <span class="creation-date">
                                     <%= building.construction_year %>
                                 </span>
+                                <!-- Botones clicables que sirven para: Editar y Borrar -->
                                 <div class="card-actions">
                                     <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
                                         <img src="/images/icons/trash-2-64.png" alt="Editar">
@@ -78,7 +83,7 @@
         </section>
 
     </main>
-
+    <!-- Script para el filtrado y eliminación de construcciones -->
     <script src="/scripts/buildings/buildings.js"></script>
 </body>
 
