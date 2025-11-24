@@ -125,8 +125,8 @@ body {
 /* IMAGEN DE LA CARD */
 .card-image {
     margin: 0;
-    width: 150px;
-    height: auto;
+    width: 200px;
+    height: 200px;
     flex-shrink: 0;
 }
 
@@ -160,6 +160,22 @@ body {
     color: #333;
 }
 
+/* PROTECCIONES (sin imagen) */
+.card:not(:has(.card-image)) {
+    flex-direction: column;
+}
+
+.card:not(:has(.card-image)) .card-actions {
+    flex-direction: row;
+    width: 100%;
+    min-width: auto;
+}
+
+.card:not(:has(.card-image)) .edit-button,
+.card:not(:has(.card-image)) .delete-button {
+    flex: 1;
+}
+
 /* COORDENADAS */
 .card-coords {
     margin: 0;
@@ -168,6 +184,8 @@ body {
 }
 
 /* FECHA DE CONSTRUCCIÓN */
+.card-nation,
+.card-years,
 .card-date {
     margin: 0;
     font-size: 0.9em;
@@ -177,6 +195,8 @@ body {
     gap: 8px;
 }
 
+.card-nation i,
+.card-years i,
 .card-date i {
     color: #f40202;
 }
@@ -195,10 +215,15 @@ body {
     color: #555;
     line-height: 1.5;
     margin: 10px 0 0 0;
+    max-width: 1100px;        
+    overflow-wrap: break-word;     
 }
 
 .card-description p {
-    margin: 0;
+    display: flex;
+    text-align: justify;
+    overflow-wrap: break-word;  
+    overflow: hidden;
 }
 
 /* ACCIONES (EDITAR / BORRAR) */
@@ -209,6 +234,13 @@ body {
     gap: 10px;
     justify-content: center;
     min-width: 120px;
+}
+
+.edit-button,
+.delete-button {
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+    line-height: 1;
 }
 
 .edit-button {
