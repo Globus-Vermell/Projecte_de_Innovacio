@@ -8,43 +8,30 @@ body {
     min-height: 100vh;
 }
 
-/* HEADER */
+/* --- HEADER --- */
 .header {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    /* NUEVO: flex-wrap permite que los elementos bajen si no caben (por zoom o pantalla pequeña) */
-    flex-wrap: wrap; 
-    /* NUEVO: gap maneja el espacio entre elementos mejor que margin-right fijos */
-    gap: 20px; 
+    gap: 20px;
     padding: 20px 40px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
 .logo {
     display: flex;
     align-items: center;
-    /* Eliminamos margin-right porque usamos gap en el padre (.header) */
 }
 
 .logo img {
     height: 40px;
-    margin-right: 10px;
-}
-
-.logo h1 {
-    font-size: 1.2em;
-    color: #cc0000;
-    margin: 0;
-    /* NUEVO: Evita que el texto del logo se parta en dos líneas feamente */
-    white-space: nowrap; 
 }
 
 .header-info {
     flex-grow: 1;
-    /* NUEVO: Asegura que este contenedor no sea más pequeño que su contenido */
-    min-width: 200px; 
+    min-width: 200px;
 }
 
 .page-title {
@@ -64,8 +51,7 @@ body {
     display: flex;
     align-items: center;
     font-size: 0.9em;
-    /* NUEVO: Si hace mucho zoom, que esto no se aplaste */
-    flex-shrink: 0; 
+    flex-shrink: 0;
 }
 
 .session-label {
@@ -74,8 +60,7 @@ body {
     padding: 5px 10px;
     border-radius: 25px;
     margin-right: 15px;
-    /* NUEVO: Evita que el texto se rompa */
-    white-space: nowrap; 
+    white-space: nowrap;
 }
 
 .logout-link {
@@ -83,7 +68,6 @@ body {
     text-decoration: none;
     display: flex;
     align-items: center;
-    white-space: nowrap;
 }
 
 .logout-link i {
@@ -94,7 +78,7 @@ body {
     text-decoration: underline;
 }
 
-/* MAIN CONTENT */
+/* --- MAIN CONTENT --- */
 .main-content {
     flex-grow: 1;
     padding: 40px;
@@ -103,51 +87,59 @@ body {
     align-items: flex-start;
 }
 
+/* --- GRID DE CARDS --- */
 .card-grid {
     display: grid;
-    /* --- EL CAMBIO MÁGICO --- */
-    /* En lugar de repeat(3, 1fr), usamos auto-fit con minmax */
-    /* Esto dice: "Pon tantas columnas como quepan, siempre que midan al menos 280px" */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 20px;
     max-width: 1000px;
     width: 100%;
 }
 
+/* --- CARD --- */
 .card {
     background-color: #fff;
     border-radius: 8px;
-    padding: 30px;
+    padding: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-decoration: none;
     color: #333;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
     min-height: 150px;
     border: 2px solid transparent;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    border: 2px solid #f40202;
+.card a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
 }
 
 .card i {
     font-size: 3em;
     color: #a0a0a0;
-    margin-bottom: 15px;
-    transition: color 0.2s ease-in-out;
+    margin-bottom: 10px;
+    transition: color 0.2s;
 }
 
 .card span {
     font-size: 1.1em;
     font-weight: bold;
     text-align: center;
-    transition: color 0.2s ease-in-out;
+    transition: color 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    border: 2px solid #f40202;
 }
 
 .card:hover i,
@@ -155,32 +147,24 @@ body {
     color: #cc0000;
 }
 
-
-/* MEDIA QUERIES SIMPLIFICADAS */
-/* Ya no necesitamos definir columnas aquí gracias al truco del Grid anterior */
+/* --- MEDIA QUERIES --- */
 @media (max-width: 768px) {
     .header {
-        /* En móviles forzamos columna para mejor lectura */
-        flex-direction: column; 
-        align-items: flex-start; /* Alineamos a la izquierda */
+        flex-direction: column;
+        align-items: flex-start;
         padding: 15px 20px;
     }
 
     .logo, .header-info, .user-session {
-        width: 100%; /* Que ocupen todo el ancho */
-        margin-bottom: 10px; /* Espacio vertical */
+        width: 100%;
+        margin-bottom: 10px;
     }
-    
-    /* Quitamos márgenes laterales viejos si existieran */
-    .logo { margin-right: 0; }
 
     .user-session {
-        justify-content: space-between; /* Separar usuario y logout en móvil */
-        margin-top: 10px;
+        justify-content: space-between;
     }
 
     .main-content {
-        padding: 20px; /* Menos padding en móvil */
+        padding: 20px;
     }
-    
 }
