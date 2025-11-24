@@ -2,16 +2,20 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     background-color: #f5f5f5;
-    /* Fondo claro */
     color: #333;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
+/* HEADER */
 .header {
     display: flex;
     align-items: center;
+    /* NUEVO: flex-wrap permite que los elementos bajen si no caben (por zoom o pantalla pequeña) */
+    flex-wrap: wrap; 
+    /* NUEVO: gap maneja el espacio entre elementos mejor que margin-right fijos */
+    gap: 20px; 
     padding: 20px 40px;
     background-color: #fff;
     border-bottom: 1px solid #eee;
@@ -21,24 +25,26 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    margin-right: 30px;
+    /* Eliminamos margin-right porque usamos gap en el padre (.header) */
 }
 
 .logo img {
     height: 40px;
-    /* Ajusta el tamaño del logo */
     margin-right: 10px;
 }
 
 .logo h1 {
     font-size: 1.2em;
     color: #cc0000;
-    /* Color rojo del logo */
     margin: 0;
+    /* NUEVO: Evita que el texto del logo se parta en dos líneas feamente */
+    white-space: nowrap; 
 }
 
 .header-info {
     flex-grow: 1;
+    /* NUEVO: Asegura que este contenedor no sea más pequeño que su contenido */
+    min-width: 200px; 
 }
 
 .page-title {
@@ -58,15 +64,18 @@ body {
     display: flex;
     align-items: center;
     font-size: 0.9em;
+    /* NUEVO: Si hace mucho zoom, que esto no se aplaste */
+    flex-shrink: 0; 
 }
 
 .session-label {
     background-color: #f40202;
-    /* Fondo rojo para la sesión */
     color: #fff;
     padding: 5px 10px;
     border-radius: 25px;
     margin-right: 15px;
+    /* NUEVO: Evita que el texto se rompa */
+    white-space: nowrap; 
 }
 
 .logout-link {
@@ -74,6 +83,7 @@ body {
     text-decoration: none;
     display: flex;
     align-items: center;
+    white-space: nowrap;
 }
 
 .logout-link i {
@@ -84,6 +94,7 @@ body {
     text-decoration: underline;
 }
 
+/* MAIN CONTENT */
 .main-content {
     flex-grow: 1;
     padding: 40px;
@@ -94,12 +105,12 @@ body {
 
 .card-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    /* 3 columnas */
+    /* --- EL CAMBIO MÁGICO --- */
+    /* En lugar de repeat(3, 1fr), usamos auto-fit con minmax */
+    /* Esto dice: "Pon tantas columnas como quepan, siempre que midan al menos 280px" */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 20px;
-    /* Espacio entre tarjetas */
     max-width: 1000px;
-    /* Ancho máximo para el grid */
     width: 100%;
 }
 
@@ -115,28 +126,21 @@ body {
     color: #333;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, border 0.2s ease-in-out;
-    /* Añadido border a la transición */
     min-height: 150px;
-    /* Altura mínima para las tarjetas */
     border: 2px solid transparent;
-    /* Borde transparente por defecto */
 }
 
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     border: 2px solid #f40202;
-    /* Borde rojo al pasar el ratón */
 }
 
 .card i {
     font-size: 3em;
-    /* Tamaño de los iconos */
     color: #a0a0a0;
-    /* Color gris de los iconos */
     margin-bottom: 15px;
     transition: color 0.2s ease-in-out;
-    /* Transición para el color del icono */
 }
 
 .card span {
@@ -144,56 +148,39 @@ body {
     font-weight: bold;
     text-align: center;
     transition: color 0.2s ease-in-out;
-    /* Transición para el color del texto */
 }
 
 .card:hover i,
 .card:hover span {
     color: #cc0000;
-    /* Color rojo para el icono y el texto al pasar el ratón */
 }
 
 
-/* Para dispositivos más pequeños (móviles) */
+/* MEDIA QUERIES SIMPLIFICADAS */
+/* Ya no necesitamos definir columnas aquí gracias al truco del Grid anterior */
 @media (max-width: 768px) {
     .header {
-        flex-direction: column;
-        align-items: flex-start;
+        /* En móviles forzamos columna para mejor lectura */
+        flex-direction: column; 
+        align-items: flex-start; /* Alineamos a la izquierda */
         padding: 15px 20px;
     }
 
-    .logo {
-        margin-bottom: 15px;
+    .logo, .header-info, .user-session {
+        width: 100%; /* Que ocupen todo el ancho */
+        margin-bottom: 10px; /* Espacio vertical */
     }
+    
+    /* Quitamos márgenes laterales viejos si existieran */
+    .logo { margin-right: 0; }
 
     .user-session {
-        margin-top: 15px;
-    }
-
-    .page-title {
-        font-size: 1.3em;
-    }
-
-    .page-description {
-        font-size: 0.8em;
-    }
-
-    .card-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 columnas en móviles */
-        gap: 15px;
-        padding: 20px;
+        justify-content: space-between; /* Separar usuario y logout en móvil */
+        margin-top: 10px;
     }
 
     .main-content {
-        padding: 20px;
+        padding: 20px; /* Menos padding en móvil */
     }
-}
-
-/* Para tabletas */
-@media (max-width: 992px) and (min-width: 769px) {
-    .card-grid {
-        grid-template-columns: repeat(3, 1fr);
-        /* 3 columnas en tabletas */
-    }
+    
 }
