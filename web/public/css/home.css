@@ -12,9 +12,9 @@ body {
 .header {
     display: flex;
     align-items: center;
-    /* NUEVO: flex-wrap permite que los elementos bajen si no caben (por zoom o pantalla pequeña) */
+    /* flex-wrap permite que los elementos bajen si no caben (por zoom o pantalla pequeña) */
     flex-wrap: wrap; 
-    /* NUEVO: gap maneja el espacio entre elementos mejor que margin-right fijos */
+    /* gap maneja el espacio entre elementos mejor que margin-right fijos */
     gap: 20px; 
     padding: 20px 40px;
     background-color: #fff;
@@ -37,13 +37,13 @@ body {
     font-size: 1.2em;
     color: #cc0000;
     margin: 0;
-    /* NUEVO: Evita que el texto del logo se parta en dos líneas feamente */
+    /* Evita que el texto del logo se parta en dos líneas feamente */
     white-space: nowrap; 
 }
 
 .header-info {
     flex-grow: 1;
-    /* NUEVO: Asegura que este contenedor no sea más pequeño que su contenido */
+    /* Asegura que este contenedor no sea más pequeño que su contenido */
     min-width: 200px; 
 }
 
@@ -105,7 +105,7 @@ body {
 
 .card-grid {
     display: grid;
-    /* --- EL CAMBIO MÁGICO --- */
+    /* EL CAMBIO MÁGICO */
     /* En lugar de repeat(3, 1fr), usamos auto-fit con minmax */
     /* Esto dice: "Pon tantas columnas como quepan, siempre que midan al menos 280px" */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 

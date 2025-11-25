@@ -1,7 +1,3 @@
-/* =================== */
-/* FONDO GENERAL     */
-/* =================== */
-
 body {
     margin: 0;
     padding: 0;
@@ -13,13 +9,13 @@ body {
 
     position: relative;
     
-    /* --- FLEXBOX PARA CENTRADO SIDE-BY-SIDE (Row) --- */
+    /* FLEXBOX PARA CENTRADO SIDE-BY-SIDE (Row) */
     /* Este es el punto clave: centra el .logo-container y el .container */
     display: flex;
-    justify-content: center; /* Centra el contenido horizontalmente */
-    align-items: center; /* Centra el contenido verticalmente */
+    justify-content: center; 
+    align-items: center; 
     min-height: 100vh; /* Ocupa la altura completa de la ventana */
-    gap: 60px; /* Espacio entre el logo y el formulario */
+    gap: 60px; 
     box-sizing: border-box;
 }
 
@@ -32,10 +28,6 @@ body::before {
     backdrop-filter: blur(2px);
     z-index: -1;
 }
-
-/* ============================= */
-/* LOGO GRANDE A LA IZQUIERDA    */
-/* ============================= */
 
 .logo-container {
     /* El body gestiona su posición, solo aseguramos que no se encoja */
@@ -50,10 +42,6 @@ body::before {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* ============================= */
-/* CONTENEDOR PRINCIPAL CENTRADO */
-/* ============================= */
-
 /* Este contenedor ahora es un flex item del body, y debe ser flexible */
 .container {
     display: flex;
@@ -62,10 +50,6 @@ body::before {
     flex-shrink: 0;
     padding: 0; /* Aseguramos que no añade padding extra */
 }
-
-/* ========================== */
-/* TARJETA DEL LOGIN (FORM)   */
-/* ========================== */
 
 .form-container {
     color: #cc0000;
@@ -85,10 +69,6 @@ body::before {
     font-size: 1.8em;
     font-weight: 700;
 }
-
-/* ========================== */
-/* INPUTS DE USUARIO/PASSWORD */
-/* ========================== */
 
 .form-container label {
     display: none; /* Ocultamos las etiquetas ya que usamos placeholders */
@@ -120,10 +100,6 @@ body::before {
     box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
 }
 
-/* ========================== */
-/* BOTÓN                      */
-/* ========================== */
-
 .form-container button {
     width: 100%;
     background: #cc0000;
@@ -146,9 +122,10 @@ body::before {
     transform: scale(0.99);
 }
 
-/* ========================== */
-/* MENSAJE DE ERROR           */
-/* ========================== */
+.footer-message {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
 
 .message {
     margin-top: 15px;
@@ -156,10 +133,6 @@ body::before {
     font-size: 0.9em;
     min-height: 1.5em; 
 }
-
-/* ========================== */
-/* RESPONSIVE (Stacking)      */
-/* ========================== */
 
 @media (max-width: 900px) {
     body {
