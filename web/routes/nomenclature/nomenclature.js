@@ -1,8 +1,11 @@
 import express from "express";
 import supabase from "../../config.js";
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener todas las nomenclaturas
 router.get("/", async (req, res) => {
     const { data: nomenclaturas, error } = await supabase
         .from("nomenclature")
@@ -16,6 +19,7 @@ router.get("/", async (req, res) => {
     res.render("nomenclature/nomenclature", { nomenclaturas });
 });
 
+// Ruta para eliminar una nomenclatura
 router.delete("/delete/:id", async (req, res) => {
     const id = Number(req.params.id);
 
@@ -32,4 +36,5 @@ router.delete("/delete/:id", async (req, res) => {
     return res.json({ success: true, message: "Nomenclatura eliminada correctament!" });
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

@@ -1,8 +1,11 @@
 import express from 'express';
 import supabase from '../../config.js';
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener una publicación por ID para editar
 router.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,11 +23,13 @@ router.get('/:id', async (req, res) => {
     res.render('publications/publicationsEdit', { publication });
 });
 
+// Ruta para actualizar una publicación
 router.put('/:id', async (req, res) => {
     const id = Number(req.params.id);
     const { title, description, themes, acknowledgment, publication_edition } = req.body;
 
     try {
+        // Actualizar la publicación en la base de datos
         const { error } = await supabase
             .from('publications')
             .update({ title, description, themes, acknowledgment, publication_edition })
@@ -42,4 +47,5 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

@@ -1,8 +1,11 @@
 import express from 'express';
 import supabase from '../../config.js';
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener una reforma por ID para editar
 router.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
@@ -17,6 +20,8 @@ router.get('/:id', async (req, res) => {
         return res.status(404).send('Reforma no trobada');
     }
 
+
+    // Ruta para obtener los arquitectos para el formulario de ediciónº
     const { data: architects, error: archError } = await supabase
         .from('architects')
         .select('*');
@@ -29,11 +34,13 @@ router.get('/:id', async (req, res) => {
     res.render('reform/reformEdit', { reform, architects });
 });
 
+// Ruta para actualizar una reforma
 router.put('/:id', async (req, res) => {
     const id = Number(req.params.id);
     const { year, id_architect } = req.body;
 
     try {
+        // Actualizar la reforma en la base de datos
         const { error } = await supabase
             .from('reform')
             .update({
@@ -54,4 +61,5 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

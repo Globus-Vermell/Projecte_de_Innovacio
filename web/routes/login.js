@@ -1,8 +1,11 @@
 import express from "express";
 import supabase from "../config.js";
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para mostrar el formulario de login
 router.get("/", (req, res) => {
     if (req.session?.user) {
         return res.redirect("/home");
@@ -10,13 +13,16 @@ router.get("/", (req, res) => {
     res.render("login", { error: "" });
 });
 
+// Ruta para procesar el formulario de login
 router.post("/", async (req, res) => {
     const { username, password } = req.body;
 
+    // Validar que se hayan proporcionado usuario y contraseña
     if (!username || !password) {
         return res.render("login", { error: "Debes introducir usuario y contraseña." });
     }
 
+    // Intentar autenticar al usuario
     try {
         const { data: user } = await supabase
             .from("users")
@@ -29,13 +35,15 @@ router.post("/", async (req, res) => {
             return res.render("login", { error: "Usuario o contraseña incorrectos." });
         }
 
+        // Guardar la información del usuario en la sesión
         req.session.user = {
             id: user.id_user,
             name: user.name,
             email: user.email,
             level: user.level
         };
-
+        
+        // Redirigir al usuario a la página de inicio después de iniciar sesión
         res.redirect("/home");
     } catch (err) {
         console.error(err);
@@ -43,6 +51,7 @@ router.post("/", async (req, res) => {
     }
 });
 
+// Ruta para cerrar sesión
 router.get("/logout", (req, res) => {
     req.session.destroy(err => {
         if (err) {
@@ -53,4 +62,5 @@ router.get("/logout", (req, res) => {
     });
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

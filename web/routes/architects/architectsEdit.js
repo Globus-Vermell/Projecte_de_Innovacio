@@ -1,8 +1,11 @@
 import express from "express";
 import supabase from "../../config.js";
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener un arquitecto por ID para editar
 router.get("/:id", async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,6 +23,7 @@ router.get("/:id", async (req, res) => {
     res.render("architects/architectsEdit", { architect });
 });
 
+// Ruta para actualizar un arquitecto
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
     const { name, description, birth_year, death_year, nationality } = req.body;
@@ -27,6 +31,8 @@ router.put("/:id", async (req, res) => {
 
     try {
         const { error } = await supabase
+
+        // Actualizar el arquitecto en la base de datos
             .from("architects")
             .update({ 
                 name,
@@ -49,4 +55,5 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

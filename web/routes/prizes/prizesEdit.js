@@ -1,8 +1,11 @@
 import express from 'express';
 import supabase from '../../config.js';
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener un premio por ID para editar
 router.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,11 +23,13 @@ router.get('/:id', async (req, res) => {
     res.render('prizes/prizesEdit', { prize });
 });
 
+// Ruta para actualizar un premio
 router.put('/:id', async (req, res) => {
     const id = Number(req.params.id);
     const { name, tipe, year, description } = req.body;
 
     try {
+        // Actualizar el premio en la base de datos
         const { error } = await supabase
             .from('prizes')
             .update({ name, tipe, year: year ? parseInt(year) : null, description })
@@ -42,4 +47,5 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

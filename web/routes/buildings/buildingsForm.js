@@ -1,12 +1,15 @@
 import express from "express";
 import supabase from "../../config.js";
 
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para mostrar el formulario de nueva construcción
 router.get("/", (req, res) => {
     res.render("buildings/buildingsForm");
 });
 
+// Rutas para obtener datos relacionados para el formulario (publications, architects, typologies, protections, nomenclature)
 router.get("/publications", async (req, res) => {
     const { data } = await supabase
         .from("publications")
@@ -42,6 +45,7 @@ router.get("/nomenclature", async (req, res) => {
     res.json(data || []);
 });
 
+// Ruta para manejar el envío del formulario de nueva construcción
 router.post("/", async (req, res) => {
     const {
         nom, adreca, any_construccio, picture, description, surface_area,
@@ -49,6 +53,7 @@ router.post("/", async (req, res) => {
     } = req.body;
 
     try {
+        // Insertar la nueva construcción en la base de datos
         const { error } = await supabase.from("buildings").insert([{
             name: nom,
             picture: picture,
@@ -70,4 +75,5 @@ router.post("/", async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

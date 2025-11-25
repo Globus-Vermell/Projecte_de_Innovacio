@@ -1,8 +1,11 @@
 import express from 'express';
 import supabase from '../../config.js';
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener una nomenclatura por ID para editar
 router.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,11 +23,13 @@ router.get('/:id', async (req, res) => {
     res.render('nomenclature/nomenclatureEdit', { nomenclature });
 });
 
+// Ruta para actualizar una nomenclatura
 router.put('/:id', async (req, res) => {
     const id = Number(req.params.id);
     const { name, description } = req.body;
 
     try {
+        // Actualizar la nomenclatura en la base de datos
         const { error } = await supabase
             .from('nomenclature')
             .update({ name, description })
@@ -42,4 +47,5 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

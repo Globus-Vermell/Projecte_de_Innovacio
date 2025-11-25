@@ -1,20 +1,25 @@
 import express from "express";
 import supabase from "../../config.js";
 
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para mostrar el formulario de nueva tipología
 router.get("/", (req, res) => {
     res.render("typology/typologyForm");
 });
 
+// Ruta para manejar el envío del formulario de nueva tipología
 router.post("/", async (req, res) => {
     const { name, image } = req.body;
 
+    // Validar que el nombre no esté vacío
     if (!name) {
         return res.status(400).json({ success: false, message: "El nom és obligatori" });
     }
 
     try {
+        // Insertar la nueva tipología en la base de datos
         const { error } = await supabase
             .from("typology")
             .insert([
@@ -36,4 +41,5 @@ router.post("/", async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

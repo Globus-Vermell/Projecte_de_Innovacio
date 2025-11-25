@@ -1,15 +1,19 @@
 import express from "express";
 import supabase from "../../config.js";
 
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para mostrar el formulario de nuevo usuario
 router.get("/", (req, res) => {
     res.render("users/usersForm");
 });
 
+// Ruta para manejar el envío del formulario de nuevo usuario
 router.post("/", async (req, res) => {
     const { name, email, password, confirmPassword, level } = req.body;
 
+    // Validar que los campos obligatorios no estén vacíos
     if (!name || !email || !password) {
         return res.status(400).json({
             success: false,
@@ -26,6 +30,7 @@ router.post("/", async (req, res) => {
     }
 
     try {
+        // Insertar el nuevo usuario en la base de datos
         const { error } = await supabase
             .from("users")
             .insert([
@@ -49,4 +54,5 @@ router.post("/", async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

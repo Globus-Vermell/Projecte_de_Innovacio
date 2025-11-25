@@ -1,8 +1,11 @@
 import express from 'express';
 import supabase from '../../config.js';
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener una protección por ID para editar
 router.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,11 +23,13 @@ router.get('/:id', async (req, res) => {
     res.render('protection/protectionEdit', { protection });
 });
 
+// Ruta para actualizar una protección
 router.put('/:id', async (req, res) => {
     const id = Number(req.params.id);
     const { level, description } = req.body;
 
     try {
+        // Actualizar la protección en la base de datos
         const { error } = await supabase
             .from('protection')
             .update({ level, description })
@@ -42,4 +47,6 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+
+// Exportar el router para usarlo en index.js
 export default router;

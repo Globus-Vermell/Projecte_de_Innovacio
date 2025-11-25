@@ -1,8 +1,11 @@
 import express from "express";
 import supabase from "../../config.js";
 
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener un edificio por ID para editar
 router.get("/:id", async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,6 +23,7 @@ router.get("/:id", async (req, res) => {
 
 });
 
+// Ruta para obtener datos relacionados para el formulario de edición ( publications, architects, typologies, protections, nomenclature)
 router.get("/:id/publications", async (req, res) => {
     const { data, error } = await supabase
         .from("publications")
@@ -60,6 +64,7 @@ router.get("/:id/nomenclature", async (req, res) => {
     res.json(data || []);
 });
 
+// Ruta para actualizar un edificio
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
     const {
@@ -77,6 +82,8 @@ router.put("/:id", async (req, res) => {
     } = req.body;
 
     try {
+
+        // Actualizar el edificio en la base de datos
         const { error } = await supabase
             .from("buildings")
             .update({
@@ -106,4 +113,6 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+
+// Exportar el router para usarlo en index.js
 export default router;

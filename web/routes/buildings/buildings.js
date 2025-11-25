@@ -1,8 +1,10 @@
 import express from "express";
 import supabase from "../../config.js";
+
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
-
+// Ruta para obtener todas las construcciones
 router.get("/", async (req, res) => {
     const { data: buildings, error } = await supabase
         .from("buildings")
@@ -15,6 +17,7 @@ router.get("/", async (req, res) => {
     res.render("buildings/buildings", { buildings });
 });
 
+// Ruta para eliminar una construcción
 router.delete("/delete/:id", async (req, res) => {
     const id = Number(req.params.id);
 
@@ -31,4 +34,5 @@ router.delete("/delete/:id", async (req, res) => {
     return res.json({ success: true, message: "Edificació eliminada correctament!" });
 });
 
+// Exportar el router para usarlo en index.js
 export default router;
