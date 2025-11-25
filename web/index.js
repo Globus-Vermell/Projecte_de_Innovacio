@@ -28,8 +28,9 @@ import typologyEditRouter from "./routes/typology/typologyEdit.js";
 import usersRouter from "./routes/users/users.js";
 import usersFormRouter from "./routes/users/usersForm.js";
 import usersEditRouter from "./routes/users/usersEdit.js";
-const PORT = process.env.PORT || 3000;
 
+// Constante y configuración del srvidor Express
+const PORT = process.env.PORT || 3000;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -38,6 +39,7 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 
+// Configuración de la sesión para la autenticación
 app.use(session({
     secret: 'secretosecreto',
     resave: false,
@@ -45,15 +47,18 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+// Middleware para pasar el usuario a las vistas y poder controlar el acceso a ciertas páginas
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
     next();
 });
 
+// Ruta de inicio 
 app.get("/home", (req, res) => {
     res.render("home", { user: req.session?.user });
 });
 
+// Ruters de el backOffice
 app.use("/architects", arquitectosRouter);
 app.use("/architects/form", architectsFormRouter);
 app.use("/architects/edit", architectsEditRouter);

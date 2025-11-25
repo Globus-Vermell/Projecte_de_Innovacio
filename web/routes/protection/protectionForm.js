@@ -1,20 +1,25 @@
 import express from "express";
 import supabase from "../../config.js";
 
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para mostrar el formulario de nueva protección
 router.get("/", (req, res) => {
     res.render("protection/protectionForm");
 });
 
+// Ruta para manejar el envío del formulario de nueva protección
 router.post("/", async (req, res) => {
     const { level, description } = req.body;
 
+    // Validar que el nivel no esté vacío
     if (!level) {
         return res.status(400).json({ success: false, message: "El nivell és obligatori" });
     }
 
     try {
+        // Insertar la nueva protección en la base de datos
         const { error } = await supabase
             .from("protection")
             .insert([
@@ -36,4 +41,5 @@ router.post("/", async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

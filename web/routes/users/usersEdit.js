@@ -1,8 +1,10 @@
 import express from "express";
 import supabase from "../../config.js";
 
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener un usuario por ID para editar
 router.get("/:id", async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,11 +22,13 @@ router.get("/:id", async (req, res) => {
     res.render("users/usersEdit", { user });
 });
 
+// Ruta para actualizar un usuario
 router.put("/:id", async (req, res) => {
     const id = Number(req.params.id);
     const { name, email, password, level } = req.body;
 
     try {
+        // Actualizar el usuario en la base de datos
         const { error } = await supabase
             .from("users")
             .update({
@@ -47,4 +51,5 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;

@@ -1,8 +1,10 @@
 import express from 'express';
 import supabase from '../../config.js';
 
+// Constante y configuración del srvidor Express
 const router = express.Router();
 
+// Ruta para obtener una tipología por ID para editar
 router.get('/:id', async (req, res) => {
     const id = Number(req.params.id);
 
@@ -20,11 +22,13 @@ router.get('/:id', async (req, res) => {
     res.render('typology/typologyEdit', { typology });
 });
 
+// Ruta para actualizar una tipología
 router.put('/:id', async (req, res) => {
     const id = Number(req.params.id);
     const { name, image } = req.body;
 
     try {
+        // Actualizar la tipología en la base de datos
         const { error } = await supabase
             .from('typology')
             .update({ name, image })
@@ -42,4 +46,5 @@ router.put('/:id', async (req, res) => {
     }
 });
 
+// Exportar el router para usarlo en index.js
 export default router;
