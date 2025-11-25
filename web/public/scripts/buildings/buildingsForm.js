@@ -66,6 +66,38 @@ document.addEventListener("DOMContentLoaded", async () => {
         e.preventDefault();
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
+        //creamos variable pictureUrl
+        let pictureUrl = "";
+
+        // Subir la imagen si se ha seleccionado una
+        const pictureFile = formData.get("picture");
+        // Si se ha seleccionado un archivo
+        if (pictureFile && pictureFile.size > 0) {
+            const uploadData = new FormData();
+            uploadData.append("picture", pictureFile);
+
+            // Subir la imagen al servidor
+            try {
+                const uploadRes = await fetch("/buildings/form/upload", {
+                    method: "POST",
+                    body: uploadData
+                });
+                //
+                const uploadResult = await uploadRes.json();
+                if (uploadResult.success) {
+                    pictureUrl = uploadResult.filePath;
+                } else {
+                    alert("Error al subir la imagen.");
+                    return;
+                }
+            } catch (err) {
+                console.error("Error al subir la imagen:", err);
+                alert("Error al subir la imagen.");
+                return;
+            }
+        }
+
+        data.pictureUrl = pictureUrl;
 
         const oblig = ["nom", "adreca", "any_construccio", "publicacio_id"];
         for (let field of oblig) {
