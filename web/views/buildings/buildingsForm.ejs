@@ -55,24 +55,15 @@
                     <input type="number" id="surface_area" name="surface_area" />
                 </div>
 
-                <div class="form-group">
-                    <label for="publicacio_id">Publicació: <span class="required">*</span></label>
-                    <select id="publicacio_id" name="publicacio_id" required></select>
-                </div>
-
                 <div class="form-row">
+                    <div class="form-group">
+                        <label for="publicacio_id">Publicació: <span class="required">*</span></label>
+                        <select id="publicacio_id" name="publicacio_id" required></select>
+                    </div>
                     <div class="form-group">
                         <label for="arquitectes">Arquitectes:</label>
                         <select id="arquitectes" name="arquitectes"></select>
                     </div>
-
-                    <div class="form-group">
-                        <label for="tipologia">Tipologia:</label>
-                        <select id="tipologia" name="tipologia"></select>
-                    </div>
-                </div>
-
-                <div class="form-row">
                     <div class="form-group">
                         <label for="id_protection">Protecció:</label>
                         <select id="id_protection" name="id_protection">
@@ -80,14 +71,25 @@
                         </select>
                     </div>
 
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="tipologia">Tipologia:</label>
+                        <select id="tipologia" name="tipologia"></select>
+                    </div>
+
+
                     <div class="form-group">
                         <label for="id_nomenclature">Nomenclatura:</label>
                         <select id="id_nomenclature" name="id_nomenclature">
                             <option value="">-- Cap --</option>
                         </select>
                     </div>
+                    <div class="form-group"></div>
                 </div>
-                
+
                 <!-- Botón de envío -->
                 <button type="submit" class="submit-button">
                     <i class="fas fa-save"></i> Guardar
