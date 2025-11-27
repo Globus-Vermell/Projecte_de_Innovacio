@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
     const { data: publications, error } = await supabase
         .from("publications")
         .select("*")
-        .order("name");
+        .order("title");
 
     if (error) {
         console.error("Error al obtener publicaciones:", error);
