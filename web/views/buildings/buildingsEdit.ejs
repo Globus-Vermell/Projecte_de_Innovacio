@@ -21,42 +21,66 @@
 
 
     <main class="flex-container">
+
         <!-- Formulario de edición del edificio -->
         <section class="form-container">
             <form id="form-edificacio">
-                <!-- Campos del formulario -->
-                <div class="form-group">
-                    <label for="nom">Nom: <span class="required">*</span></label>
-                    <input type="text" id="nom" name="nom" value="<%= building.name %>" required />
-                </div>
 
-                <div class="form-group">
-                    <label for="adreca">Adreça: <span class="required">*</span></label>
-                    <input type="text" id="adreca" name="adreca" value="<%= building.location %>" required />
-                </div>
+                <!-- Contenedor que agrupa los primeros campos + imagen -->
+                <div class="top-section">
 
-                <div class="form-group">
-                    <label for="cordenades">Cordenades: <span class="required">*</span></label>
-                    <input type="text" id="cordenades" name="cordenades" value="<%= building.coordinates %>" required />
-                </div>
+                    <!-- Campos izquierdos -->
+                    <div class="fields-left">
+                        <div class="form-group">
+                            <label for="nom">Nom: <span class="required">*</span></label>
+                            <input type="text" id="nom" name="nom" value="<%= building.name %>" required />
+                        </div>
 
-                <div class="form-group">
-                    <label for="any_construccio">Any construcció: <span class="required">*</span></label>
-                    <input type="number" id="any_construccio" name="any_construccio"
-                        value="<%= building.construction_year %>" required />
+                        <div class="form-group">
+                            <label for="adreca">Adreça: <span class="required">*</span></label>
+                            <input type="text" id="adreca" name="adreca" value="<%= building.location %>" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cordenades">Cordenades: <span class="required">*</span></label>
+                            <input type="text" id="cordenades" name="cordenades" value="<%= building.coordinates %>"
+                                required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="any_construccio">Any construcció: <span class="required">*</span></label>
+                            <input type="number" id="any_construccio" name="any_construccio"
+                                value="<%= building.construction_year %>" required />
+                        </div>
+                    </div>
+
+                    <!-- Imagen derecha -->
+                    <div class="image-container">
+                        <% if (building.picture) { %>
+                            <img src="<%= building.picture %>" alt="Imatge de l'edificació" class="building-image">
+                            <% } else { %>
+                                <div class="no-image-placeholder">
+                                    <i class="fas fa-building"></i>
+                                    <p>Sense imatge</p>
+                                </div>
+                                <% } %>
+                    </div>
+
                 </div>
 
                 <div class="form-group">
                     <label for="picture">Imatge:</label>
-                    <% if (building.picture) { %>
-                        <img src="<%= building.picture %>" alt="Imatge actual">
-                        <% } %>
-                            <input type="file" id="picture" name="picture" accept="image/*" />
+                    <input type="file" id="picture" name="picture" accept="image/*" />
                 </div>
 
                 <div class="form-group">
                     <label for="description">Descripció:</label>
                     <textarea id="description" name="description"><%= building.description %></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Descripció Extra:</label>
+                    <textarea id="extra-description" name="extra-description"></textarea>
                 </div>
 
                 <div class="form-group">
@@ -83,7 +107,7 @@
                 </div>
 
                 <div class="form-row">
-                    <div class="form-group">
+                    <div class="form-group" id="typology-container">
                         <label for="tipologia">Tipologia:</label>
                         <select id="tipologia" name="tipologia"></select>
                     </div>
