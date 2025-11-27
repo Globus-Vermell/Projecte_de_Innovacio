@@ -55,7 +55,7 @@ app.get("/home", (req, res) => {
     res.render("home", { user: req.session?.user });
 });
 
-// Ruters de el backOffice
+// Ruters del backOffice
 app.use("/architects", arquitectosRouter);
 app.use("/architects/form", architectsFormRouter);
 app.use("/architects/edit", architectsEditRouter);
