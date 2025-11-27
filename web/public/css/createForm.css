@@ -4,15 +4,19 @@
 
 body {
     font-family: Arial, sans-serif;
-    margin: 0; /* Elimina márgenes por defecto del navegador */
-    background-color: #f5f5f5; /* Gris muy claro para diferenciar del contenedor blanco */
-    color: #333; /* Texto gris oscuro para mejor lectura que el negro puro */
-    
+    margin: 0;
+    /* Elimina márgenes por defecto del navegador */
+    background-color: #f5f5f5;
+    /* Gris muy claro para diferenciar del contenedor blanco */
+    color: #333;
+    /* Texto gris oscuro para mejor lectura que el negro puro */
+
     /* Configuración Flexbox para estructura de página completa */
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Asegura que el cuerpo ocupe al menos el 100% de la altura de la ventana */
-    
+    min-height: 100vh;
+    /* Asegura que el cuerpo ocupe al menos el 100% de la altura de la ventana */
+
     /* IMPORTANTE: Este margen evita que el contenido quede oculto 
        debajo del encabezado que tiene posición fija (fixed) */
     margin-top: 60px;
@@ -29,31 +33,39 @@ body {
 
 .form-header {
     display: flex;
-    align-items: center; /* Centra verticalmente el contenido del header */
+    align-items: center;
+    /* Centra verticalmente el contenido del header */
     padding: 20px 40px;
     background-color: #fff;
-    border-bottom: 1px solid #eee; /* Línea sutil de separación */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave para dar profundidad */
-    
+    border-bottom: 1px solid #eee;
+    /* Línea sutil de separación */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    /* Sombra suave para dar profundidad */
+
     /* Configuración para que el menú se quede fijo al hacer scroll */
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    right: 0; 
-    z-index: 1000; /* Asegura que el header esté siempre por encima del contenido */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    /* Asegura que el header esté siempre por encima del contenido */
 }
 
 /* Estilo del botón/enlace de "Volver" */
 .back-link {
     color: #555;
-    text-decoration: none; /* Quita el subrayado */
+    text-decoration: none;
+    /* Quita el subrayado */
     margin-right: 20px;
-    font-size: 1.5em; /* Icono grande para fácil clic */
-    transition: color 0.2s ease; /* Transición suave al pasar el ratón */
+    font-size: 1.5em;
+    /* Icono grande para fácil clic */
+    transition: color 0.2s ease;
+    /* Transición suave al pasar el ratón */
 }
 
 .back-link:hover {
-    color: #cc0000; /* Cambio a rojo corporativo en hover */
+    color: #cc0000;
+    /* Cambio a rojo corporativo en hover */
 }
 
 .page-title {
@@ -68,15 +80,20 @@ body {
    ========================================= */
 
 .form-container {
-    flex-grow: 1; /* Ocupa el espacio vertical disponible */
+    flex-grow: 1;
+    /* Ocupa el espacio vertical disponible */
     padding: 30px 40px;
-    
+
     /* Control de anchura */
-    max-width: 1400px; /* Evita que el formulario sea demasiado ancho en pantallas grandes */
-    margin: 30px auto; /* Centrado horizontal automático y margen vertical */
-    
-    background-color: #fff; /* Fondo blanco tipo "tarjeta" */
-    border-radius: 8px; /* Bordes suavizados */
+    max-width: 1400px;
+    /* Evita que el formulario sea demasiado ancho en pantallas grandes */
+    margin: 30px auto;
+    /* Centrado horizontal automático y margen vertical */
+
+    background-color: #fff;
+    /* Fondo blanco tipo "tarjeta" */
+    border-radius: 8px;
+    /* Bordes suavizados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
@@ -86,11 +103,13 @@ body {
 
 /* Contenedor de cada campo individual */
 .form-group {
-    margin-bottom: 20px; /* Espacio vertical entre campos */
+    margin-bottom: 20px;
+    /* Espacio vertical entre campos */
 }
 
 .form-group label {
-    display: block; /* Fuerza el label a ocupar su propia línea sobre el input */
+    display: block;
+    /* Fuerza el label a ocupar su propia línea sobre el input */
     margin-bottom: 8px;
     font-weight: bold;
     color: #555;
@@ -99,7 +118,8 @@ body {
 /* Indicador visual de campo obligatorio (*) */
 .form-group .required {
     color: #cc0000;
-    font-weight: normal; /* Menos peso visual que la etiqueta */
+    font-weight: normal;
+    /* Menos peso visual que la etiqueta */
 }
 
 /* Estilos comunes para todos los inputs y textareas */
@@ -111,27 +131,36 @@ body {
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1em;
-    
+
     /* CRUCIAL: box-sizing hace que el padding y el borde se incluyan 
        en el cálculo del ancho total, evitando desbordamientos */
     box-sizing: border-box;
-    
+
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 /* Ajustes específicos para áreas de texto grandes */
 .form-group textarea {
     min-height: 120px;
-    resize: vertical; /* Permite al usuario agrandar solo hacia abajo, no a los lados */
+    resize: vertical;
+    /* Permite al usuario agrandar solo hacia abajo, no a los lados */
 }
 
 /* --- Estados de Foco (Accesibilidad) --- */
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
 .form-group textarea:focus {
-    outline: none; /* Elimina el borde azul estándar del navegador */
-    border-color: #f40202; /* Borde rojo activo */
-    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2); /* Resplandor rojo suave */
+    outline: none;
+    /* Elimina el borde azul estándar del navegador */
+    border-color: #f40202;
+    /* Borde rojo activo */
+    box-shadow: 0 0 0 3px rgba(204, 0, 0, 0.2);
+    /* Resplandor rojo suave */
+}
+
+/* Ocultar el contenedor de tipologías por defecto */
+#typology-container {
+    display: none;
 }
 
 /* =========================================
@@ -141,13 +170,16 @@ body {
 /* Fila para poner dos campos lado a lado (ej. Fechas) */
 .form-row {
     display: flex;
-    gap: 20px; /* Espacio horizontal entre columnas */
+    gap: 20px;
+    /* Espacio horizontal entre columnas */
     margin-bottom: 20px;
 }
 
 .form-row .form-group {
-    flex: 1; /* Fuerza a que ambos campos tengan exactamente el mismo ancho */
-    margin-bottom: 0; /* Elimina el margen inferior individual para usar el de la fila */
+    flex: 1;
+    /* Fuerza a que ambos campos tengan exactamente el mismo ancho */
+    margin-bottom: 0;
+    /* Elimina el margen inferior individual para usar el de la fila */
 }
 
 /* =========================================
@@ -162,24 +194,27 @@ body {
     border-radius: 5px;
     font-size: 1.1em;
     font-weight: bold;
-    cursor: pointer; /* Cambia el cursor a "mano" */
-    
+    cursor: pointer;
+    /* Cambia el cursor a "mano" */
+
     /* Alineación de icono y texto dentro del botón */
     display: flex;
     align-items: center;
     justify-content: center;
-    
+
     margin-top: 20px;
     transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .submit-button i {
-    margin-right: 10px; /* Espacio entre el icono y el texto */
+    margin-right: 10px;
+    /* Espacio entre el icono y el texto */
     font-size: 1.1em;
 }
 
 .submit-button:hover {
-    background-color: #cc0000; /* Rojo más oscuro al pasar el ratón */
+    background-color: #cc0000;
+    /* Rojo más oscuro al pasar el ratón */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -189,21 +224,24 @@ body {
 
 @media (max-width: 768px) {
     .form-header {
-        padding: 15px 20px; /* Cabecera más compacta */
+        padding: 15px 20px;
+        /* Cabecera más compacta */
     }
 
     .page-title {
-        font-size: 1.5em; /* Título más pequeño para evitar saltos de línea */
+        font-size: 1.5em;
+        /* Título más pequeño para evitar saltos de línea */
     }
 
     .form-container {
-        padding: 20px; /* Menos relleno en el contenedor principal */
+        padding: 20px;
+        /* Menos relleno en el contenedor principal */
         margin: 20px auto;
     }
 
     /* Transformar filas en columnas para pantallas estrechas */
     .form-row {
-        flex-direction: column; 
+        flex-direction: column;
         gap: 15px;
     }
 
@@ -212,6 +250,7 @@ body {
     }
 
     .submit-button {
-        width: 100%; /* Botón de ancho completo para facilitar el toque táctil */
+        width: 100%;
+        /* Botón de ancho completo para facilitar el toque táctil */
     }
 }
