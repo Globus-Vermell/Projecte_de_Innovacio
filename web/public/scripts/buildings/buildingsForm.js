@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const selectArquitectes = document.getElementById("arquitectes");
     const selectTipologia = document.getElementById("tipologia");
     const selectProtection = document.getElementById("id_protection");
-    const selectNomenclature = document.getElementById("id_nomenclature");
 
     async function carregarDesplegables() {
 
@@ -47,16 +46,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             opt.value = p.id_protection;
             opt.textContent = p.level;
             selectProtection.appendChild(opt);
-        });
-
-        const resNomenclature = await fetch("/buildings/form/nomenclature");
-        const nomenclatures = await resNomenclature.json();
-        selectNomenclature.innerHTML = '<option value="">-- Cap --</option>';
-        nomenclatures.forEach(n => {
-            const opt = document.createElement("option");
-            opt.value = n.id_nomenclature;
-            opt.textContent = n.name;
-            selectNomenclature.appendChild(opt);
         });
     }
 

@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
     res.render("buildings/buildingsForm");
 });
 
-// Rutas para obtener datos relacionados para el formulario (publications, architects, typologies, protections, nomenclature)
+// Rutas para obtener datos relacionados para el formulario (publications, architects, typologies, protections)
 router.get("/publications", async (req, res) => {
     const { data } = await supabase
         .from("publications")
@@ -43,13 +43,6 @@ router.get("/protection", async (req, res) => {
     res.json(data || []);
 });
 
-router.get("/nomenclature", async (req, res) => {
-    const { data } = await supabase
-        .from("nomenclature")
-        .select("id_nomenclature, name");
-    res.json(data || []);
-});
-
 // Ruta para manejar la subida de imágenes
 router.post("/upload", upload.single('picture'), (req, res) => {
     if (!req.file) {
@@ -64,16 +57,17 @@ router.post("/upload", upload.single('picture'), (req, res) => {
 router.post("/", async (req, res) => {
     const {
         nom, adreca, any_construccio, description, surface_area,
-        publicacio_id, arquitectes, tipologia, id_protection, id_nomenclature,
-        pictureUrl
+        publicacio_id, arquitectes, tipologia, id_protection,
+        pictureUrl, cordenades
     } = req.body;
-    
+
     try {
         // Insertar la nueva construcción en la base de datos
         const { error } = await supabase.from("buildings").insert([{
             name: nom,
             picture: pictureUrl,
             location: adreca,
+            coordinates: cordenades,
             construction_year: parseInt(any_construccio),
             description,
             surface_area: parseInt(surface_area),
@@ -81,7 +75,6 @@ router.post("/", async (req, res) => {
             id_architect: parseInt(arquitectes),
             id_typology: parseInt(tipologia),
             id_protection: parseInt(id_protection),
-            id_nomenclature: parseInt(id_nomenclature)
         }]);
         if (error) throw error;
         res.json({ success: true, message: "Edificación guardada correctamente!" });

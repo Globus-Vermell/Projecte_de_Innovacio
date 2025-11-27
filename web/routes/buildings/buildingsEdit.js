@@ -23,7 +23,7 @@ router.get("/:id", async (req, res) => {
 
 });
 
-// Ruta para obtener datos relacionados para el formulario de edición ( publications, architects, typologies, protections, nomenclature)
+// Ruta para obtener datos relacionados para el formulario de edición ( publications, architects, typologies, protections)
 router.get("/:id/publications", async (req, res) => {
     const { data, error } = await supabase
         .from("publications")
@@ -56,13 +56,7 @@ router.get("/:id/protections", async (req, res) => {
     res.json(data || []);
 });
 
-router.get("/:id/nomenclature", async (req, res) => {
-    const { data, error } = await supabase
-        .from("nomenclature")
-        .select("id_nomenclature, name");
-    if (error) return res.status(500).json({ error: error.message });
-    res.json(data || []);
-});
+
 
 // Ruta para actualizar un edificio
 router.put("/:id", async (req, res) => {
@@ -70,6 +64,7 @@ router.put("/:id", async (req, res) => {
     const {
         nom,
         adreca,
+        cordenades,
         any_construccio,
         picture,
         description,
@@ -78,7 +73,6 @@ router.put("/:id", async (req, res) => {
         arquitectes,
         tipologia,
         id_protection,
-        id_nomenclature
     } = req.body;
 
     try {
@@ -89,6 +83,7 @@ router.put("/:id", async (req, res) => {
             .update({
                 name: nom,
                 location: adreca,
+                coordinates: cordenades,
                 construction_year: parseInt(any_construccio),
                 picture,
                 description,
@@ -96,8 +91,7 @@ router.put("/:id", async (req, res) => {
                 id_publication: parseInt(publicacio_id),
                 id_architect: parseInt(arquitectes),
                 id_typology: parseInt(tipologia),
-                id_protection: parseInt(id_protection),
-                id_nomenclature: parseInt(id_nomenclature)
+                id_protection: parseInt(id_protection)
             })
             .eq("id_building", id);
 
