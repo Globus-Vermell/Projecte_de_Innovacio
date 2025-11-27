@@ -31,19 +31,24 @@
 
                 <!-- Nombre de la tipología -->
                 <div class="form-group">
-                    <label for="name">Nombre: <span class="required">*</span></label>
+                    <label for="name">Nom: <span class="required">*</span></label>
                     <input type="text" id="name" name="name" value="<%= typology.name %>" required />
                 </div>
 
                 <!-- Imagen de la tipología -->
                 <div class="form-group">
-                    <label for="image">Imagen:</label>
-                    <input type="text" id="image" name="image" value="<%= typology.image %>" />
+                    <label for="image">Imatge :</label>
+
+                    <% if (typology.image) { %>
+                        <img src="<%= typology.image %>" alt="Imatge actual">
+                        <% } %>
+
+                            <input type="file" id="image" name="image" accept="image/*" />
                 </div>
 
                 <!-- Botón de envío -->
                 <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> Guardar cambios
+                    <i class="fas fa-save"></i> Desar cambis
                 </button>
 
             </form>

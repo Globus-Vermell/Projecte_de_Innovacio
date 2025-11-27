@@ -43,6 +43,28 @@ router.get("/protection", async (req, res) => {
     res.json(data || []);
 });
 
+// Ruta para obtener tipologías filtradas por publicación
+router.get("/typologies/:publicationId", async (req, res) => {
+    const pubId = parseInt(req.params.publicationId);
+
+    // Hacemos un Join para obtener las tipologías de la tabla intermedia
+    const { data, error } = await supabase
+        .from('publication_typologies')
+        .select(`
+            id_typology,
+            typology ( * )
+        `)
+        .eq('id_publication', pubId);
+
+    if (error) {
+        console.error("Error obteniendo tipologías por publicación:", error);
+        return res.status(500).json([]);
+    }
+    // Limpiamos la respuesta para devolver solo el array de objetos 'typology'
+    const formattedData = data.map(item => item.typology);
+    res.json(formattedData);
+});
+
 // Ruta para manejar la subida de imágenes
 router.post("/upload", upload.single('picture'), (req, res) => {
     if (!req.file) {

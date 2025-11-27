@@ -1,7 +1,10 @@
 import express from 'express';
 import supabase from '../../config.js';
+import multer from "multer";
 
-// Constante y configuración del srvidor Express
+// Configuración de multer para guardar en la carpeta de tipologías
+const upload = multer({ dest: 'public/images/buildings' });
+
 const router = express.Router();
 
 // Ruta para obtener una tipología por ID para editar
@@ -20,6 +23,16 @@ router.get('/:id', async (req, res) => {
     }
 
     res.render('typology/typologyEdit', { typology });
+});
+
+// Ruta para subir la imagen de la tipología al servidor
+router.post("/upload", upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ success: false, message: "No s'ha pujat cap fitxer." });
+    }
+    // Retornar la ruta relativa per guardar-la a la BDD
+    const filePath = `/images/buildings/${req.file.filename}`;
+    res.json({ success: true, filePath });
 });
 
 // Ruta para actualizar una tipología
@@ -46,5 +59,4 @@ router.put('/:id', async (req, res) => {
     }
 });
 
-// Exportar el router para usarlo en index.js
 export default router;

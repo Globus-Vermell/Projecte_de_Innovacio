@@ -59,6 +59,31 @@ router.get("/:id/protections", async (req, res) => {
     res.json(data || []);
 });
 
+// Ruta para obtener tipologías filtradas por publicación (para uso del frontend)
+router.get("/typologies-by-publication/:publicationId", async (req, res) => {
+    // Obtenemos el ID de la publicación
+    const pubId = parseInt(req.params.publicationId);
+
+    // Obtenemos las tipologías filtradas por publicación
+    const { data, error } = await supabase
+        .from('publication_typologies')
+        .select(`
+            id_typology,
+            typology ( * )
+        `)
+        .eq('id_publication', pubId);
+
+    if (error) {
+        console.error("Error obtenint tipologies per publicació:", error);
+        return res.status(500).json([]);
+    }
+
+    // Formatear la respuesta para devolver solo el array de tipologías
+    const formattedData = data.map(item => item.typology);
+
+    res.json(formattedData || []);
+});
+
 // Ruta para manejar la subida de imágenes en la edición
 router.post("/upload", upload.single('picture'), (req, res) => {
     if (!req.file) {

@@ -1,12 +1,63 @@
 document.addEventListener("DOMContentLoaded", async () => {
+    // Obtenemos los elementos del formulario
     const form = document.getElementById("form-edificacio");
     const selectPublicacions = document.getElementById("publicacio_id");
     const selectArquitectes = document.getElementById("arquitectes");
     const selectTipologia = document.getElementById("tipologia");
+    const containerTipologia = document.getElementById("typology-container");
     const selectProtection = document.getElementById("id_protection");
 
-    async function carregarDesplegables() {
+    // Función para cargar las tipologías
+    async function cargarTipologias(pubId, preselectedId = null) {
+        // Limpiar opciones anteriores
+        selectTipologia.innerHTML = '';
 
+        // Si no hay publicación, ocultamos el contenedor
+        if (!pubId) {
+            containerTipologia.style.display = 'none';
+            return;
+        }
+
+        try {
+            // Petición al endpoint que creamos en el backend
+            const res = await fetch(`/buildings/edit/typologies-by-publication/${pubId}`);
+            const tipologies = await res.json();
+
+            // Si hay tipologías, las mostramos
+            if (tipologies && tipologies.length > 0) {
+                containerTipologia.style.display = 'block';
+
+                // Opción por defecto
+                const defaultOpt = document.createElement("option");
+                defaultOpt.value = "";
+                defaultOpt.textContent = "-- Selecciona una tipologia --";
+                selectTipologia.appendChild(defaultOpt);
+
+                // Generar opciones
+                tipologies.forEach(t => {
+                    const opt = document.createElement("option");
+                    opt.value = t.id_typology;
+                    opt.textContent = t.name;
+
+                    // Seleccionar la tipologia por defecto si coincide con el edificio actual
+                    if (preselectedId && t.id_typology === preselectedId) {
+                        opt.selected = true;
+                    }
+
+                    selectTipologia.appendChild(opt);
+                });
+            } else {
+                // Si no hay tipologías, ocultamos el contenedor
+                containerTipologia.style.display = 'none';
+            }
+        } catch (err) {
+            console.error("Error carregant tipologies:", err);
+        }
+    }
+
+    // Función para cargar los desplegables
+    async function carregarDesplegables() {
+        // Obtenemos las publicaciones
         const resPub = await fetch(`/buildings/edit/${building.id_building}/publications`);
         const publicacions = await resPub.json();
         selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
@@ -18,6 +69,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             selectPublicacions.appendChild(opt);
         });
 
+        // Obtenemos los arquitectos
         const resArq = await fetch(`/buildings/edit/${building.id_building}/architects`);
         const arquitectes = await resArq.json();
         selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
@@ -29,17 +81,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             selectArquitectes.appendChild(opt);
         });
 
-        const resTip = await fetch(`/buildings/edit/${building.id_building}/typologies`);
-        const tipologies = await resTip.json();
-        selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
-        tipologies.forEach(t => {
-            const opt = document.createElement("option");
-            opt.value = t.id_typology;
-            opt.textContent = t.name;
-            if (t.id_typology === building.id_typology) opt.selected = true;
-            selectTipologia.appendChild(opt);
-        });
-
+        // Obtenemos las protecciones
         const resProtection = await fetch(`/buildings/edit/${building.id_building}/protections`);
         const protections = await resProtection.json();
         selectProtection.innerHTML = '<option value="">-- Cap --</option>';
@@ -51,8 +93,17 @@ document.addEventListener("DOMContentLoaded", async () => {
             selectProtection.appendChild(opt);
         });
     }
-
+    // Cargar desplegables iniciales
     await carregarDesplegables();
+    // Cargar tipologías iniciales
+    if (building.id_publication) {
+        await cargarTipologias(building.id_publication, building.id_typology);
+    }
+    // Evento al cambiar la publicación
+    selectPublicacions.addEventListener("change", async (e) => {
+        const pubId = e.target.value;
+        await cargarTipologias(pubId, null);
+    });
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
