@@ -1,7 +1,10 @@
 import express from "express";
 import supabase from "../../config.js";
+import multer from "multer";
 
-// Constante y configuración del srvidor Express
+// Configuración de multer
+const upload = multer({ dest: 'public/images/buildings' });
+
 const router = express.Router();
 
 // Ruta para mostrar el formulario de nueva tipología
@@ -9,7 +12,16 @@ router.get("/", (req, res) => {
     res.render("typology/typologyForm");
 });
 
-// Ruta para manejar el envío del formulario de nueva tipología
+// Ruta auxiliar para subir la imagen al crear
+router.post("/upload", upload.single('image'), (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({ success: false, message: "No s'ha pujat cap fitxer." });
+    }
+    const filePath = `/images/buildings/${req.file.filename}`;
+    res.json({ success: true, filePath });
+});
+
+// Ruta para manejar el envío del formulario
 router.post("/", async (req, res) => {
     const { name, image } = req.body;
 
@@ -22,13 +34,9 @@ router.post("/", async (req, res) => {
         // Insertar la nueva tipología en la base de datos
         const { error } = await supabase
             .from("typology")
-            .insert([
-                {
-                    name,
-                    image: image
-                }
-            ]);
+            .insert([{ name, image: image }]);
 
+        // Validar que la inserción se haya realizado correctamente
         if (error) {
             console.error("Error al guardar tipologia:", error);
             return res.status(400).json({ success: false, message: "Error al guardar la tipologia" });
@@ -41,5 +49,4 @@ router.post("/", async (req, res) => {
     }
 });
 
-// Exportar el router para usarlo en index.js
 export default router;
