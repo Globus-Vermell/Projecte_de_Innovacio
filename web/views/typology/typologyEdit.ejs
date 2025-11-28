@@ -29,21 +29,32 @@
         <section class="form-container">
             <form id="form-typology-edit">
 
-                <!-- Nombre de la tipología -->
-                <div class="form-group">
-                    <label for="name">Nom: <span class="required">*</span></label>
-                    <input type="text" id="name" name="name" value="<%= typology.name %>" required />
-                </div>
+                <div class="top-section">
+                    <div class="fields-left">
+                        <!-- Nombre de la tipología -->
+                        <div class="form-group">
+                            <label for="name">Nom: <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" value="<%= typology.name %>" required />
+                        </div>
 
-                <!-- Imagen de la tipología -->
-                <div class="form-group">
-                    <label for="image">Imatge :</label>
-
-                    <% if (typology.image) { %>
-                        <img src="<%= typology.image %>" alt="Imatge actual">
-                        <% } %>
-
+                        <!-- Imagen de la tipología -->
+                        <div class="form-group">
+                            <label for="image">Imatge :</label>
                             <input type="file" id="image" name="image" accept="image/*" />
+                        </div>
+                    </div>
+
+                    <!-- Imagen a la derecha -->
+                    <div class="image-container-typology">
+                        <% if (typology.image) { %>
+                            <img src="<%= typology.image %>" alt="Imatge de la tipologia" class="typology-image">
+                            <% } else { %>
+                                <div class="no-image-placeholder">
+                                    <i class="fas fa-th-large"></i>
+                                    <p>Sense imatge</p>
+                                </div>
+                                <% } %>
+                    </div>
                 </div>
 
                 <!-- Botón de envío -->
