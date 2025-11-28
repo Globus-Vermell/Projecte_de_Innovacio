@@ -1,19 +1,25 @@
+// Formulario de creación de premio
 document.addEventListener("DOMContentLoaded", () => {
+    // Obtenemos el formulario
     const form = document.getElementById("form-prize");
 
+    // Agregamos el listener al formulario
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+        // Obtenemos los datos del formulario
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
         try {
+            // Enviamos los datos al servidor
             const res = await fetch("/prizes/form", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
 
+            // Obtenemos el resultado
             const result = await res.json();
             alert(result.message);
 

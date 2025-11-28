@@ -1,7 +1,10 @@
+// Formulario de creación de reforma
 document.addEventListener("DOMContentLoaded", async () => {
+    // Obtenemos el formulario y el select de arquitectos
     const form = document.getElementById("form-reform");
     const selectArchitects = document.getElementById("id_architect");
 
+    // Obtenemos los arquitectos
     const resArq = await fetch("/reform/form/architects");
     const architects = await resArq.json();
     architects.forEach(a => {
@@ -11,17 +14,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         selectArchitects.appendChild(opt);
     });
 
+    // Agregamos el listener al formulario
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+        // Obtenemos los datos del formulario
         const data = Object.fromEntries(new FormData(form).entries());
 
         try {
+            // Enviamos los datos al servidor
             const res = await fetch("/reform/form", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data)
             });
 
+            // Obtenemos la respuesta del servidor
             const result = await res.json();
             alert(result.message);
             if (result.success) form.reset();
