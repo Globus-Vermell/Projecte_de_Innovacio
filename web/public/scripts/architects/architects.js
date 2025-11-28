@@ -20,15 +20,23 @@ async function deleteArchitect(id) {
 }
 
 // Función para filtrar arquitectos
-function filterArchitects(searchTerm) {
-    // Obtenemos todas las partes relevantes directamente desde el ejs 
-    const cards = document.querySelectorAll('.card');
-    const s = searchTerm.toLowerCase();
+function filterArchitects() {
+    // 1. Buscamos el input por su ID
+    const input = document.getElementById('searchInput');
+    
+    // 2. Obtenemos el valor y lo pasamos a minúsculas (con seguridad)
+    // Si el input no existe o está vacío, usamos una cadena vacía ''
+    const searchTerm = input ? input.value.toLowerCase() : '';
 
-    //Filtramos las cards por nombre o descripción para ver si coinciden con el término de búsqueda
+    const cards = document.querySelectorAll('.card');
+
+    // 3. Filtramos las cards
     cards.forEach(card => {
-        const name = card.dataset.name.toLowerCase();
-        const desc = card.dataset.description.toLowerCase();
-        card.style.display = (name.includes(s) || desc.includes(s)) ? 'flex' : 'none';
+        // Usamos dataset.name o un string vacío por seguridad
+        const name = (card.dataset.name || '').toLowerCase();
+        const desc = (card.dataset.description || '').toLowerCase();
+        
+        // Si coincide, mostramos (flex), si no, ocultamos (none)
+        card.style.display = (name.includes(searchTerm) || desc.includes(searchTerm)) ? 'flex' : 'none';
     });
 }

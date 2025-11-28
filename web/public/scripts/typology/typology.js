@@ -21,19 +21,23 @@ async function deleteTypology(id) {
 }
 
 // Función para filtrar tipologías
-function filterTypologies(searchTerm) {
-    // Obtenemos todas las partes relevantes directamente desde el ejs 
+function filterTypologies() {
+    // 1. Buscamos el input por su ID
+    const input = document.getElementById('searchInput');
+    
+    // 2. Obtenemos el valor y lo pasamos a minúsculas (con seguridad)
+    // Si el input no existe o está vacío, usamos una cadena vacía ''
+    const searchTerm = input ? input.value.toLowerCase() : '';
+
     const cards = document.querySelectorAll('.card');
-    const lower = searchTerm.toLowerCase();
 
-    //Filtramos las cards por nombre para ver si coinciden con el término de búsqueda
+    // 3. Filtramos las cards
     cards.forEach(card => {
+        // Usamos dataset.name o un string vacío por seguridad
         const name = (card.dataset.name || '').toLowerCase();
-
-        if (name.includes(lower)) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
+        const desc = (card.dataset.description || '').toLowerCase();
+        
+        // Si coincide, mostramos (flex), si no, ocultamos (none)
+        card.style.display = (name.includes(searchTerm) || desc.includes(searchTerm)) ? 'flex' : 'none';
     });
 }

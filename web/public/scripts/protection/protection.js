@@ -17,18 +17,17 @@ async function deleteProtection(id) {
 }
 
 // Función para filtrar protecciones
-function filterProtections(searchTerm) {
+function filterProtections() {
     // Obtenemos todas las partes relevantes directamente desde el ejs 
+    const input = document.getElementById('searchInput');
+    const searchTerm = input ? input.value.toLowerCase() : '';
+
     const cards = document.querySelectorAll('.card');
-    const lower = searchTerm.toLowerCase();
     //Filtramos las cards por nivel o descripción para ver si coinciden con el término de búsqueda
     cards.forEach(card => {
-        const level = card.dataset.level.toLowerCase();
-        const description = card.dataset.description.toLowerCase();
-        if (level.includes(lower) || description.includes(lower)) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
+        const level = (card.dataset.level || '').toLowerCase();
+        const desc = (card.dataset.description || '').toLowerCase();
+
+        card.style.display = (level.includes(searchTerm) || desc.includes(searchTerm)) ? 'flex' : 'none';
     });
 }

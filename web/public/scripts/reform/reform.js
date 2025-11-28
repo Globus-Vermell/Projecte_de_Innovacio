@@ -17,18 +17,23 @@ async function deleteReform(id) {
 }
 
 // Función para filtrar reformas
-function filterReforms(searchTerm) {
-    // Obtenemos todas las partes relevantes directamente desde el ejs
+function filterReforms() {
+    // 1. Buscamos el input por su ID
+    const input = document.getElementById('searchInput');
+    
+    // 2. Obtenemos el valor y lo pasamos a minúsculas (con seguridad)
+    // Si el input no existe o está vacío, usamos una cadena vacía ''
+    const searchTerm = input ? input.value.toLowerCase() : '';
+
     const cards = document.querySelectorAll('.card');
-    const lower = searchTerm.toLowerCase();
-    //Filtramos las cards por año o arquitecto para ver si coinciden con el término de búsqueda
+
+    // 3. Filtramos las cards
     cards.forEach(card => {
-        const year = card.dataset.year.toString();
-        const architect = card.dataset.architect.toString().toLowerCase();
-        if (year.includes(lower) || architect.includes(lower)) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
+        // Usamos dataset.name o un string vacío por seguridad
+        const name = (card.dataset.name || '').toLowerCase();
+        const desc = (card.dataset.description || '').toLowerCase();
+        
+        // Si coincide, mostramos (flex), si no, ocultamos (none)
+        card.style.display = (name.includes(searchTerm) || desc.includes(searchTerm)) ? 'flex' : 'none';
     });
 }

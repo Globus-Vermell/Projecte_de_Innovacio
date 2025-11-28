@@ -35,19 +35,68 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
-        <!-- Barra de búsqueda para filtrar Publicaciones -->
-        <div class="search-bar">
-            <i class="fas fa-search"></i>
+        <!-- Barra de búsqueda para filtrar construcciones -->
+        <div class="search-container-modern">
 
-            <input id="searchInput" type="text" placeholder="Buscar per nom, descripció..." onkeyup="filterPublications()">
+            <!-- Agrupa la barra de búsqueda y el botón de filtros en una fila -->
+            <form class="form" onsubmit="event.preventDefault()">
+                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
+                <button type="button">
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
+                        aria-labelledby="search">
+                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
+                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
+                        </path>
+                    </svg>
+                </button>
+                <!-- Mantenemos el ID 'searchInput'. 'onkeyup' llama a la función de filtrar cada vez que sueltas una tecla -->
+                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..." required=""
+                    type="text" onkeyup="filterPublications()">
+                <!-- 'type=reset' borra el texto automáticamente y 'onclick' refresca la lista vacía -->
+                <button class="reset" type="reset" onclick="filterPublications()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </form>
 
-            <select id="filterValidation" onchange="filterPublications()"
-                style="margin-left: 10px; padding: 5px; border-radius: 5px;">
-                <option value="all">Tots</option>
-                <option value="true">Validats</option>
-                <option value="false">Pendents</option>
-            </select>
+            <!-- Al hacer clic, ejecuta toggleDropdown() para mostrar u ocultar el menú -->
+            <div class="dropdown-wrapper">
+                <button id="multiLevelDropdownButton" class="dropdown-btn" type="button" onclick="toggleDropdown()">
+                    <i class="fas fa-filter"></i> Filtres
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+
+                <!-- Está oculto por defecto. JS le añade la clase .show para mostrarlo -->
+                <div id="multi-dropdown" class="dropdown-menu">
+
+                    <!-- Muestra el título y despliega un submenú lateral al pasar el ratón por encima (hover) -->
+                    <div class="dropdown-item-group">
+                        <div class="dropdown-item">
+                            <span>Estat Validació</span>
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                        <!-- Al hacer clic, llama a setFilter() enviando el ID del input oculto y el valor que queremos aplicar -->
+                        <div class="submenu">
+                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'all')">Tots</div>
+                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'true')">Validats</div>
+                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'false')">Pendents</div>
+                        </div>
+                    </div>
+
+                    <div style="border-top: 1px solid #eee; margin-top: 5px;">
+                        <div class="dropdown-item" onclick="resetFilters()" style="color: #666;">
+                            <i class="fas fa-times" style="margin-right: 8px;"></i> Netejar filtres
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </div>
+
+        <!-- Estos inputs no se ven en la pantalla, pero guardan la selección actual de los filtros en el código JavaScript pueda leerlos -->
+        <input type="hidden" id="filterValidation" value="all">
 
         <!-- Lista de publicaciones -->
         <section class="list">
@@ -58,7 +107,8 @@
 
                     <!-- Card de cada publicación, se guardan data para usar en filtros -->
                     <article class="card" data-title="<%= publication.title %>"
-                        data-description="<%= (publication.description || '') %>", data-validated="<%= publication.validated %>">
+                        data-description="<%= (publication.description || '') %>" ,
+                        data-validated="<%= publication.validated %>">
 
                         <!-- Información principal de la publicación -->
                         <div class="card-info">
@@ -89,16 +139,16 @@
                             </button>
 
                             <!-- Validar publicación -->
-                             <% if (publication.validated) { %>
-                            <button class="validated-button" disabled>
-                                <img src="/images/icons/check-icon.png" alt="Validat">Validat
-                            </button>
-                            <% } else { %>
-                            <button class="validation-button"
-                                onclick="validatePublication('<%= publication.id_publication %>')">
-                                <img src="/images/icons/check-icon.png" alt="Validar">Validar
-                            </button>
-                            <% } %>
+                            <% if (publication.validated) { %>
+                                <button class="validated-button" disabled>
+                                    <img src="/images/icons/check-icon.png" alt="Validat">Validat
+                                </button>
+                                <% } else { %>
+                                    <button class="validation-button"
+                                        onclick="validatePublication('<%= publication.id_publication %>')">
+                                        <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                    </button>
+                                    <% } %>
                         </div>
 
                     </article>
