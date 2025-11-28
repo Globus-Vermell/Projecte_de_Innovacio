@@ -208,12 +208,7 @@ body {
 }
 
 /* Ocultar el contenedor de tipologías por defecto */
-#typology-container {
-    display: none;
-}
-
-/* Ocultar el contenedor de tipologías por defecto */
-#typology-container {
+#typologies-container {
     display: none;
 }
 

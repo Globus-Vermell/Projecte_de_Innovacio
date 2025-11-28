@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("form-edificacio");
     const selectPublicacions = document.getElementById("publications");
     const selectArquitectes = document.getElementById("architects");
-    const selectTipologia = document.getElementById("tipologies");
+    const selectTipologia = document.getElementById("typologies");
     const containerTipologia = document.getElementById("typologies-container");
     const selectProtection = document.getElementById("protection");
 
