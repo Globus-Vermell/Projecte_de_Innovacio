@@ -28,44 +28,69 @@
 
 	<!-- Contenido principal de la página con todas las secciones -->
 	<main class="main-content">
-		<div class="card-grid">
-			<a href="/publications" class="card">
-				<i class="fas fa-file-alt"></i>
-				<span>Publicacions</span>
-			</a>
-			<a href="/buildings" class="card">
-				<i class="fas fa-building"></i>
-				<span>Edificacions</span>
-			</a>
-			<a href="/prizes" class="card">
-				<i class="fas fa-award"></i>
-				<span>Premis</span>
-			</a>
-			<a href="/protection" class="card">
-				<i class="fas fa-shield-alt"></i>
-				<span>Protecció</span>
-			</a>
-			<a href="/reform" class="card">
-				<i class="fas fa-wrench"></i>
-				<span>Reforma</span>
-			</a>
-			<a href="/typology" class="card">
-				<i class="fas fa-th-large"></i>
-				<span>Tipologia</span>
-			</a>
-			<a href="/architects" class="card">
-				<i class="fas fa-pencil-ruler"></i>
-				<span>Arquitectes</span>
-			</a>
+		<nav>
+			<ul class="card-grid">
 
-			<% if (user.level === "Admin") { %>
-				<a href="/users" class="card">
-					<i class="fas fa-users"></i>
-					<span>Usuaris</span>
-				</a>
-			<% } %>
+				<li>
+					<a href="/publications" class="card">
+						<i class="fas fa-file-alt"></i>
+						<span>Publicacions</span>
+					</a>
+				</li>
 
-		</div>
+				<li>
+					<a href="/buildings" class="card">
+						<i class="fas fa-building"></i>
+						<span>Edificacions</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="/prizes" class="card">
+						<i class="fas fa-award"></i>
+						<span>Premis</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="/protection" class="card">
+						<i class="fas fa-shield-alt"></i>
+						<span>Protecció</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="/reform" class="card">
+						<i class="fas fa-wrench"></i>
+						<span>Reforma</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="/typology" class="card">
+						<i class="fas fa-th-large"></i>
+						<span>Tipologia</span>
+					</a>
+				</li>
+
+				<li>
+					<a href="/architects" class="card">
+						<i class="fas fa-pencil-ruler"></i>
+						<span>Arquitectes</span>
+					</a>
+				</li>
+
+				<% if (user.level==="Admin" ) { %>
+					<li>
+						<a href="/users" class="card">
+							<i class="fas fa-users"></i>
+							<span>Usuaris</span>
+						</a>
+					</li>
+					<% } %>
+
+			</ul>
+		</nav>
 	</main>
 </body>
 
