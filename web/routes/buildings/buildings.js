@@ -6,16 +6,16 @@ const router = express.Router();
 
 // Ruta para obtener todas las construcciones
 router.get("/", async (req, res) => {
-try {
+    try {
         // 1. Petición para obtener los edificios (igual que antes)
         const buildingsQuery = supabase
             .from("buildings")
-            .select("*")
+            .select("*, building_images(image_url)")
             .order("name");
 
         // 2. Petición para obtener las publicaciones (NUEVO)
         const publicationsQuery = supabase
-            .from("publications") 
+            .from("publications")
             .select("*")
             .order("title"); // Opcional: ordenarlas alfabéticamente para el select
 
@@ -32,8 +32,8 @@ try {
         }
 
         // 3. Renderizamos pasando AMBAS listas a la vista
-        res.render("buildings/buildings", { 
-            buildings: buildingsResult.data, 
+        res.render("buildings/buildings", {
+            buildings: buildingsResult.data,
             publications: publicationsResult.data // <--- Esto es lo que usará el <select> del EJS
         });
 

@@ -112,7 +112,6 @@ router.post("/", async (req, res) => {
                 construction_year: parseInt(construction_year),
                 description,
                 surface_area: surface_area ? parseInt(surface_area) : null,
-                picture: mainPicture,
                 id_typology: parseInt(tipologies),
                 id_protection: protection ? parseInt(protection) : null,
             }])
@@ -161,17 +160,13 @@ router.post("/", async (req, res) => {
         }
 
         //Si hay imágenes, las insertamos
-        if (pictureUrls && pictureUrls.length > 1) {
-            //Definimos las imágenes extra
-            const extraImages = pictureUrls.slice(1).map(url => ({
+        if (pictureUrls && pictureUrls.length > 0) {
+            const allImages = pictureUrls.map(url => ({
                 id_building: buildingId,
                 image_url: url
             }));
 
-            //Insertamos las imágenes
-            const { error: imgErr } = await supabase
-                .from("building_images")
-                .insert(extraImages);
+            const { error: imgErr } = await supabase.from("building_images").insert(allImages);
             if (imgErr) throw imgErr;
         }
 

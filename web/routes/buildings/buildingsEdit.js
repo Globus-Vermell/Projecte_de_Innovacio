@@ -38,11 +38,21 @@ router.get("/:id", async (req, res) => {
         .eq("id_building", id);
     const currentArchitects = relArqs ? relArqs.map(r => r.id_architect) : [];
 
+    // Buscamos las imágenes  del edificio
+    const { data: images } = await supabase
+        .from("building_images")
+        .select("image_url")
+        .eq("id_building", id);
+
+    // Creamos un array simple de URLs con las extra
+    const imagenes = images ? images.map(i => i.image_url) : [];
+
     // Renderizamos la vista de edificació con los datos actuales
     res.render("buildings/buildingsEdit", {
         building,
         currentPublications,
-        currentArchitects
+        currentArchitects,
+        imagenes
     });
 });
 
@@ -115,10 +125,7 @@ router.put("/:id", async (req, res) => {
             id_protection: parseInt(id_protection)
         };
 
-        // Actualizamos la imagen principal si se sube una nueva
-        if (pictureUrls && pictureUrls.length > 0) {
-            updateData.picture = pictureUrls[0];
-        }
+
 
         // Actualizamos el edificio
         const { error: upError } = await supabase.from("buildings").update(updateData).eq("id_building", id);
@@ -144,13 +151,13 @@ router.put("/:id", async (req, res) => {
             }
         }
 
-        // Actualizamos las imágenes extra
-        if (pictureUrls && pictureUrls.length > 1) {
-            const extraImages = pictureUrls.slice(1).map(url => ({
+        // Actualizamos las imágenes 
+        if (pictureUrls && pictureUrls.length > 0) {
+            const newImages = pictureUrls.map(url => ({
                 id_building: id,
                 image_url: url
             }));
-            await supabase.from("building_images").insert(extraImages);
+            await supabase.from("building_images").insert(newImages);
         }
 
         res.json({ success: true, message: "Edificació actualitzada correctament!" });

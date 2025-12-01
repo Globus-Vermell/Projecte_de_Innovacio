@@ -32,7 +32,8 @@
         <div class="search-container-modern">
 
             <!-- Agrupa la barra de búsqueda y el botón de filtros en una fila -->
-            <form class="form" onsubmit="event.preventDefault()"> <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
+            <form class="form" onsubmit="event.preventDefault()">
+                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
                 <button type="button">
                     <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
                         aria-labelledby="search">
@@ -133,9 +134,10 @@
                         data-publication="<%= building.id_publication %>" data-validated="<%= building.validated %>">
 
                         <!-- Foto de la construcción -->
-                        <% if (building.picture) { %>
+                        <% if (building.building_images && building.building_images.length> 0) { %>
                             <figure class="card-image">
-                                <img src="<%= building.picture %>" alt="<%= building.name %>" class="img_list">
+                                <img src="<%= building.building_images[0].image_url %>" alt="<%= building.name %>"
+                                    class="img_list">
                             </figure>
                             <% } %>
 
@@ -175,17 +177,17 @@
                                         <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
                                     </button>
 
-                                   <!-- Validar publicación -->
-                             <% if (building.validated) { %>
-                            <button class="validated-button" disabled>
-                                <img src="/images/icons/check-icon.png" alt="Validat">Validat
-                            </button>
-                            <% } else { %>
-                            <button class="validation-button"
-                                onclick="validateBuilding('<%= building.id_building %>')">
-                                <img src="/images/icons/check-icon.png" alt="Validar">Validar
-                            </button>
-                            <% } %>
+                                    <!-- Validar publicación -->
+                                    <% if (building.validated) { %>
+                                        <button class="validated-button" disabled>
+                                            <img src="/images/icons/check-icon.png" alt="Validat">Validat
+                                        </button>
+                                        <% } else { %>
+                                            <button class="validation-button"
+                                                onclick="validateBuilding('<%= building.id_building %>')">
+                                                <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                            </button>
+                                            <% } %>
                                 </div>
 
                     </article>
