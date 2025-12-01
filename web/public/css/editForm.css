@@ -72,6 +72,21 @@ body {
 }
 
 /* =========================================
+   ESTRUCTURA DE COLUMNAS (Top Section)
+   ========================================= */
+.top-section {
+    display: flex;
+    gap: 30px; /* Espacio entre las dos columnas */
+    margin-bottom: 20px;
+}
+
+.fields-column {
+    flex: 1; /* Esto hace que ambas columnas midan lo mismo (50% / 50%) */
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
    SECCIÓN SUPERIOR CON IMAGEN
    ========================================= */
 
@@ -228,6 +243,42 @@ body {
 }
 
 /* =========================================
+   LAYOUT DE 3 COLUMNAS (Top Section)
+   ========================================= */
+
+.top-section {
+    display: flex;
+    gap: 30px; /* Espacio entre las tres grandes columnas */
+    align-items: flex-start; /* Alineados arriba */
+    margin-bottom: 30px;
+}
+
+/* Columna 1 (Izquierda) y Columna 2 (Centro) */
+.col-left, .col-center {
+    flex: 1; /* Ocupan el espacio disponible equitativamente */
+    display: flex;
+    flex-direction: column;
+    min-width: 250px; /* Para que no se aplasten demasiado */
+}
+
+/* Columna 3 (Derecha - Imagen) */
+.col-right {
+    flex-shrink: 0; /* No dejes que se encoja */
+    width: 320px;   /* Ancho fijo para la zona de la imagen */
+}
+
+/* Fila especial para poner dos cosas juntas (Protección + Tipología) */
+.split-row {
+    display: flex;
+    gap: 15px;
+}
+
+.split-row .form-group {
+    flex: 1; /* Mitad y mitad */
+    margin-bottom: 0; /* Quitamos margen extra si está dentro de una fila */
+}
+
+/* =========================================
    LAYOUT DE COLUMNAS (FILAS)
    ========================================= */
 
@@ -244,6 +295,47 @@ body {
     /* Hace que ambos campos ocupen el mismo ancho (50%) */
     margin-bottom: 0;
     /* Elimina el margen inferior porque ya lo tiene el .form-row */
+}
+
+/* =========================================
+   ESTILO PARA SELECTS (Igualando al MultiSelect)
+   ========================================= */
+
+.form-group select {
+    width: 100%;
+    /* Altura mínima igual que el MultiSelect */
+    min-height: 45px; 
+    
+    /* Padding para que el texto no se pegue a los bordes */
+    padding: 7px 12px;
+    
+    /* Bordes y colores copiados del MultiSelect.css */
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #fff;
+    
+    font-size: 14px; /* Tamaño de letra similar */
+    color: #212529; /* Color de texto oscuro */
+    box-sizing: border-box;
+    cursor: pointer;
+
+    /* Quitamos la flecha fea por defecto del navegador */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* ponemos la flechita mona del MultiSelect */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23949ba3' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    /* La posicionamos a la derecha */
+    background-position: right 15px center;
+    background-size: 12px;
+}
+
+/* Efecto cuando haces clic (Focus) */
+.form-group select:focus {
+    outline: none;
+    border-color: #c1c9d0; /* Color del borde activo */
 }
 
 /* =========================================
@@ -285,6 +377,19 @@ body {
 /* =========================================
    DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
    ========================================= */
+
+   /* Responsive: En móvil todo uno debajo de otro */
+@media (max-width: 1100px) {
+    .top-section {
+        flex-direction: column;
+    }
+    
+    .col-right {
+        width: 100%; /* La imagen ocupa todo el ancho en móvil */
+        display: flex;
+        justify-content: center;
+    }
+}
 
 @media (max-width: 768px) {
     .form-header {

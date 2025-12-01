@@ -27,48 +27,54 @@
             <!-- Formulario para añadir una nueva edificació -->
             <form id="form-edificacio" enctype="multipart/form-data">
                 <!-- Campos del formulario -->
-                <div class="form-group">
-                    <label for="name">Nom: <span class="required">*</span></label>
-                    <input type="text" id="name" name="name" required />
-                </div>
+                <div class="top-section">
 
-                <div class="form-group">
-                    <label for="address">Adreça: <span class="required">*</span></label>
-                    <input type="text" id="address" name="address" required />
-                </div>
+                    <div class="fields-column">
+                        <div class="form-group">
+                            <label for="name">Nom: <span class="required">*</span></label>
+                            <input type="text" id="name" name="name" required />
+                        </div>
 
-                <div class="form-group">
-                    <label for="coordinates">Cordenades: <span class="required">*</span></label>
-                    <input type="text" id="coordinates" name="coordinates" required />
-                </div>
+                        <div class="form-group">
+                            <label for="address">Adreça: <span class="required">*</span></label>
+                            <input type="text" id="address" name="address" required />
+                        </div>
 
-                <div class="form-group">
-                    <label for="construction_year">Any construcció: <span class="required">*</span></label>
-                    <input type="number" id="construction_year" name="construction_year" required />
-                </div>
+                        <div class="form-group">
+                            <label for="coordinates">Coordenades: <span class="required">*</span></label>
+                            <input type="text" id="coordinates" name="coordinates" required />
+                        </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="publications">Publicació: <span class="required">*</span></label>
-                        <select id="publications" name="publications" multiple></select>
-                    </div>
-                    <div class="form-group">
-                        <label for="architects">Arquitectes:</label>
-                        <select id="architects" name="architects" multiple></select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="protection">Protecció:</label>
-                        <select id="protection" name="protection">
-                            <option value="">-- Cap --</option>
-                        </select>
+                        <div class="form-group">
+                            <label for="construction_year">Any construcció: <span class="required">*</span></label>
+                            <input type="number" id="construction_year" name="construction_year" required />
+                        </div>
                     </div>
 
-                    <div class="form-group" id="typologies-container">
-                        <label for="typologies">Tipologia:</label>
-                        <select id="typologies" name="typologies"></select>
+                    <div class="fields-column">
+                        <div class="form-group">
+                            <label for="publications">Publicació: <span class="required">*</span></label>
+                            <select id="publications" name="publications" multiple></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="architects">Arquitectes:</label>
+                            <select id="architects" name="architects" multiple></select>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="protection">Protecció:</label>
+                                <select id="protection" name="protection">
+                                    <option value="">-- Cap --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group" id="typologies-container">
+                                <label for="typologies">Tipologia:</label>
+                                <select id="typologies" name="typologies"></select>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

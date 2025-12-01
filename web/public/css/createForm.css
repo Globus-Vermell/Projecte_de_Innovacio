@@ -76,6 +76,21 @@ body {
 }
 
 /* =========================================
+   ESTRUCTURA DE COLUMNAS (Top Section)
+   ========================================= */
+.top-section {
+    display: flex;
+    gap: 30px; /* Espacio entre las dos columnas */
+    margin-bottom: 20px;
+}
+
+.fields-column {
+    flex: 1; /* Esto hace que ambas columnas midan lo mismo (50% / 50%) */
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================================
    3. CONTENEDOR PRINCIPAL DEL FORMULARIO
    ========================================= */
 
@@ -183,6 +198,47 @@ body {
 }
 
 /* =========================================
+   ESTILO PARA SELECTS (Igualando al MultiSelect)
+   ========================================= */
+
+.form-group select {
+    width: 100%;
+    /* Altura mínima igual que el MultiSelect */
+    min-height: 45px; 
+    
+    /* Padding para que el texto no se pegue a los bordes */
+    padding: 7px 12px;
+    
+    /* Bordes y colores copiados del MultiSelect.css */
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    background-color: #fff;
+    
+    font-size: 14px; /* Tamaño de letra similar */
+    color: #212529; /* Color de texto oscuro */
+    box-sizing: border-box;
+    cursor: pointer;
+
+    /* Quitamos la flecha fea por defecto del navegador */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    /* ponemos la flechita mona del MultiSelect */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23949ba3' viewBox='0 0 16 16'%3E%3Cpath d='M8 13.1l-8-8 2.1-2.2 5.9 5.9 5.9-5.9 2.1 2.2z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    /* La posicionamos a la derecha */
+    background-position: right 15px center;
+    background-size: 12px;
+}
+
+/* Efecto cuando haces clic (Focus) */
+.form-group select:focus {
+    outline: none;
+    border-color: #c1c9d0; /* Color del borde activo */
+}
+
+/* =========================================
    6. BOTONES DE ACCIÓN
    ========================================= */
 
@@ -221,6 +277,12 @@ body {
 /* =========================================
    7. DISEÑO RESPONSIVO (MÓVILES)
    ========================================= */
+/* Ajuste para móviles: que se ponga uno debajo del otro */
+@media (max-width: 768px) {
+    .top-section {
+        flex-direction: column;
+    }
+}
 
 @media (max-width: 768px) {
     .form-header {
