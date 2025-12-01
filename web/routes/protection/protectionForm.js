@@ -1,5 +1,5 @@
 import express from "express";
-import supabase from "../../config.js";
+import { ProtectionModel } from "../../models/ProtectionModel.js";
 
 // Constante y configuración del srvidor Express
 const router = express.Router();
@@ -11,32 +11,23 @@ router.get("/", (req, res) => {
 
 // Ruta para manejar el envío del formulario de nueva protección
 router.post("/", async (req, res) => {
+    // Obtenemos los datos del formulario
     const { level, description } = req.body;
 
-    // Validar que el nivel no esté vacío
+    // Validamos que el nivel no esté vacío
     if (!level) {
         return res.status(400).json({ success: false, message: "El nivell és obligatori" });
     }
 
+    // Insertamos la nueva protección
     try {
-        // Insertar la nueva protección en la base de datos
-        const { error } = await supabase
-            .from("protection")
-            .insert([
-                {
-                    level,
-                    description: description
-                }
-            ]);
-
-        if (error) {
-            console.error("Error al guardar protecció:", error);
-            return res.status(400).json({ success: false, message: "Error al guardar la protecció" });
-        }
+        await ProtectionModel.create({
+            level,
+            description
+        });
 
         return res.json({ success: true, message: "Protecció guardada correctament!" });
     } catch (err) {
-        console.error("Error:", err);
         return res.status(500).json({ success: false, message: "Error intern del servidor" });
     }
 });
