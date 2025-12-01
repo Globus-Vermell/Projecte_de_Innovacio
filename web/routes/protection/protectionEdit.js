@@ -1,7 +1,7 @@
 import express from 'express';
 import { ProtectionModel } from '../../models/ProtectionModel.js';
 
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
 // Ruta para obtener una protección por ID para editar

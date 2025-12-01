@@ -1,40 +1,31 @@
 import express from "express";
-import supabase from "../../config.js";
+import { TypologyModel } from "../../models/TypologyModel.js";
 
-
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
 // Ruta para obtener todas las tipologías
 router.get("/", async (req, res) => {
-    const { data: typologies, error } = await supabase
-        .from("typology")
-        .select("*")
-        .order("name");
-
-    if (error) {
-        console.error("Error al obtener tipologías:", error);
-        return res.status(500).send("Error al obtener tipologías");
+    try {
+        // Obtenemos todas las tipologías
+        const typologies = await TypologyModel.getAll();
+        res.render("typology/typology", { typologies });
+    } catch (error) {
+        res.status(500).send("Error al obtener tipologías");
     }
-
-    res.render("typology/typology", { typologies });
 });
 
 // Ruta para eliminar una tipología
 router.delete("/delete/:id", async (req, res) => {
+    // Obtenemos el ID de la tipología
     const id = Number(req.params.id);
-
-    const { error } = await supabase
-        .from("typology")
-        .delete()
-        .eq("id_typology", id);
-
-    if (error) {
-        console.error("Error borrando:", error);
+    try {
+        // Eliminamos la tipología
+        await TypologyModel.delete(id);
+        return res.json({ success: true, message: "Tipología eliminada correctament!" });
+    } catch (error) {
         return res.status(500).json({ success: false, message: "Error al borrar." });
     }
-
-    return res.json({ success: true, message: "Tipología eliminada correctament!" });
 });
 
 // Exportar el router para usarlo en index.js
