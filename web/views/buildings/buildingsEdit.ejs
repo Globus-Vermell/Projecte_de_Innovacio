@@ -7,6 +7,8 @@
     <!-- Estilos para el formulario de edición -->
     <link rel="stylesheet" href="/css/editForm.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Libreria MultiSelect -->
+    <link rel="stylesheet" href="/css/MultiSelect.css">
 </head>
 
 <body>
@@ -70,7 +72,7 @@
 
                 <div class="form-group">
                     <label for="picture">Imatge:</label>
-                    <input type="file" id="picture" name="picture" accept="image/*" />
+                    <input type="file" id="picture" name="picture" multiple accept="image/*" />
                 </div>
 
                 <div class="form-group">
@@ -90,11 +92,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="publications">Publicació: <span class="required">*</span></label>
-                        <select id="publications" name="publications" required></select>
+                        <select id="publications" name="publications" required multiple></select>
                     </div>
                     <div class="form-group">
                         <label for="architects">Arquitectes:</label>
-                        <select id="architects" name="architects"></select>
+                        <select id="architects" name="architects" multiple></select>
                     </div>
                 </div>
 
@@ -128,6 +130,8 @@
     <!-- Script que guarda la información del edificio para poder editarla -->
     <script>
         const building = JSON.parse('<%- JSON.stringify(building) %>');
+        const PublicationInicial = JSON.parse('<%- JSON.stringify(currentPublications) %>');
+        const ArchitectInicial = JSON.parse('<%- JSON.stringify(currentArchitects) %>');
     </script>
     <!-- Script que maneja la lógica del formulario de edición -->
     <script src="/scripts/buildings/buildingsEdit.js"></script>

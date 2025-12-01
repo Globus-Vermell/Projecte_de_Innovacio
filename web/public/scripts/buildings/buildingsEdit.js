@@ -7,32 +7,99 @@ document.addEventListener("DOMContentLoaded", async () => {
     const containerTipologia = document.getElementById("typologies-container");
     const selectProtection = document.getElementById("protection");
 
+    // Función para cargar los desplegables
+    async function carregarDesplegables() {
+        try {
+            // pedimos todos los datos en paralelo para que no tarde tanto
+            // Usamos las rutas genéricas de /form porque devuelven las listas completas
+            const [publicacions, architectes, protections] = await Promise.all([
+                fetch("/buildings/form/publications").then(res => res.json()),
+                fetch("/buildings/form/architects").then(res => res.json()),
+                fetch("/buildings/form/protection").then(res => res.json())
+            ]);
+
+            // Obtenemos las publicaciones
+            publicacions.forEach(pub => {
+                const opt = new Option(pub.title, pub.id_publication);
+                if (PublicationInicial.includes(pub.id_publication)) {
+                    opt.selected = true;
+                }
+                selectPublicacions.add(opt);
+            });
+
+            // Obtenemos los arquitectos
+            architectes.forEach(arq => {
+                const opt = new Option(arq.name, arq.id_architect);
+                if (ArchitectInicial.includes(arq.id_architect)) {
+                    opt.selected = true;
+                }
+                selectArquitectes.add(opt);
+            });
+
+            // Obtenemos las protecciones
+            selectProtection.innerHTML = '<option value="">-- Cap --</option>';
+            protections.forEach(p => {
+                const opt = document.createElement("option");
+                opt.value = p.id_protection;
+                opt.textContent = p.level;
+                if (building.id_protection === p.id_protection) opt.selected = true;
+                selectProtection.appendChild(opt);
+            });
+
+            // Importante: Inicializamos la librería MultiSelect
+            new MultiSelect(selectArquitectes, {
+                placeholder: 'Selecciona arquitectes...',
+                search: true,
+                selectAll: true
+            });
+
+            new MultiSelect(selectPublicacions, {
+                placeholder: 'Selecciona publicacions...',
+                search: true,
+                selectAll: true,
+                onChange: function () {
+                    actualizarTipologias();
+                }
+            });
+
+            // Cargar tipologías iniciales basadas en los datos actuales
+            await actualizarTipologias(true);
+
+        } catch (err) {
+            console.error("Error cargando los desplegables:", err);
+        }
+    }
+
     // Función para cargar las tipologías
-    async function cargarTipologias(pubId, preselectedId = null) {
+    async function actualizarTipologias(isInitialLoad = false) {
+        // Buscamos los inputs ocultos que crea la librería con el nombre "publications[]"
+        const hiddenInputs = document.querySelectorAll('input[name="publications[]"]');
+        let selectedIds = Array.from(hiddenInputs).map(input => input.value);
+
+        // Fallback para carga inicial si la librería tarda: leer del array global
+        if (selectedIds.length === 0 && isInitialLoad) {
+            selectedIds = initialPubs.map(String);
+        }
+
         // Limpiar opciones anteriores
-        selectTipologia.innerHTML = '';
+        selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
 
         // Si no hay publicación, ocultamos el contenedor
-        if (!pubId) {
+        if (selectedIds.length === 0) {
             containerTipologia.style.display = 'none';
             return;
         }
 
+        containerTipologia.style.display = 'block';
+
         try {
-            // Petición al endpoint que creamos en el backend
-            const res = await fetch(`/buildings/edit/typologies-by-publication/${pubId}`);
+            // Petición al endpoint que creamos en el backend (filtrado múltiple)
+            const idsString = selectedIds.join(',');
+            const res = await fetch(`/buildings/edit/typologies/filter?ids=${idsString}`);
             const tipologies = await res.json();
 
             // Si hay tipologías, las mostramos
             if (tipologies && tipologies.length > 0) {
-                containerTipologia.style.display = 'block';
-
-                // Opción por defecto
-                const defaultOpt = document.createElement("option");
-                defaultOpt.value = "";
-                defaultOpt.textContent = "-- Selecciona una tipologia --";
-                selectTipologia.appendChild(defaultOpt);
-
                 // Generar opciones
                 tipologies.forEach(t => {
                     const opt = document.createElement("option");
@@ -40,87 +107,57 @@ document.addEventListener("DOMContentLoaded", async () => {
                     opt.textContent = t.name;
 
                     // Seleccionar la tipologia por defecto si coincide con el edificio actual
-                    if (preselectedId && t.id_typology === preselectedId) {
+                    if (building.id_typology === t.id_typology) {
                         opt.selected = true;
                     }
 
                     selectTipologia.appendChild(opt);
                 });
-            } else {
-                // Si no hay tipologías, ocultamos el contenedor
-                containerTipologia.style.display = 'none';
             }
         } catch (err) {
             console.error("Error carregant tipologies:", err);
         }
     }
 
-    // Función para cargar los desplegables
-    async function carregarDesplegables() {
-        // Obtenemos las publicaciones
-        const resPub = await fetch(`/buildings/edit/${building.id_building}/publications`);
-        const publicacions = await resPub.json();
-        selectPublicacions.innerHTML = '<option value="">-- Selecciona una publicació --</option>';
-        publicacions.forEach(pub => {
-            const opt = document.createElement("option");
-            opt.value = pub.id_publication;
-            opt.textContent = pub.title;
-            if (pub.id_publication === building.id_publication) opt.selected = true;
-            selectPublicacions.appendChild(opt);
-        });
-
-        // Obtenemos los arquitectos
-        const resArq = await fetch(`/buildings/edit/${building.id_building}/architects`);
-        const arquitectes = await resArq.json();
-        selectArquitectes.innerHTML = '<option value="">-- Selecciona un arquitecte --</option>';
-        arquitectes.forEach(arq => {
-            const opt = document.createElement("option");
-            opt.value = arq.id_architect;
-            opt.textContent = arq.name;
-            if (arq.id_architect === building.id_architect) opt.selected = true;
-            selectArquitectes.appendChild(opt);
-        });
-
-        // Obtenemos las protecciones
-        const resProtection = await fetch(`/buildings/edit/${building.id_building}/protections`);
-        const protections = await resProtection.json();
-        selectProtection.innerHTML = '<option value="">-- Cap --</option>';
-        protections.forEach(p => {
-            const opt = document.createElement("option");
-            opt.value = p.id_protection;
-            opt.textContent = p.level;
-            if (p.id_protection === building.id_protection) opt.selected = true;
-            selectProtection.appendChild(opt);
-        });
-    }
     // Cargar desplegables iniciales
     await carregarDesplegables();
-    // Cargar tipologías iniciales
-    if (building.id_publication) {
-        await cargarTipologias(building.id_publication, building.id_typology);
-    }
-    // Evento al cambiar la publicación
-    selectPublicacions.addEventListener("change", async (e) => {
-        const pubId = e.target.value;
-        await cargarTipologias(pubId, null);
-    });
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
+        const data = {};
+
+        // Recorremos el formData limpiando los nombres de la librería
+        for (const [key, value] of formData.entries()) {
+            if (key === 'pictures') continue;
+
+            const cleanKey = key.replace('[]', '');
+
+            if (data[cleanKey]) {
+                if (!Array.isArray(data[cleanKey])) data[cleanKey] = [data[cleanKey]];
+                data[cleanKey].push(value);
+            } else {
+                data[cleanKey] = value;
+            }
+        }
+
+        // Aseguramos arrays
+        if (data.publications && !Array.isArray(data.publications)) data.publications = [data.publications];
+        if (data.architects && !Array.isArray(data.architects)) data.architects = [data.architects];
 
         // Decidir qué imagen usar (la nueva o la antigua)
-        let pictureUrl = building.picture;
+        let pictureUrls = [];
 
         // Obtenemos el archivo de la imagen
-        const pictureFile = formData.get("picture");
+        const pictureInput = document.getElementById("picture");
 
         // Si el usuario ha seleccionado un archivo nuevo, lo subimos
-        if (pictureFile && pictureFile.size > 0) {
+        if (pictureInput.files && pictureInput.files.length > 0) {
             const uploadData = new FormData();
-            uploadData.append("picture", pictureFile);
+            for (const file of pictureInput.files) {
+                uploadData.append("pictures", file);
+            }
 
             try {
                 // Subimos la imagen
@@ -132,7 +169,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 // Obtenemos el resultado de la subida
                 const uploadResult = await uploadRes.json();
                 if (uploadResult.success) {
-                    pictureUrl = uploadResult.filePath;
+                    pictureUrls = uploadResult.filePaths;
                 } else {
                     alert("Error al subir la nueva imagen.");
                     return;
@@ -144,13 +181,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         }
 
-        // Asignamos la URL final (nueva o vieja) al objeto data que enviaremos
-        data.picture = pictureUrl;
+        // Asignamos la URL final 
+        data.pictureUrls = pictureUrls;
 
         // Validación de campos obligatorios
-        const oblig = ["name", "address", "construction_year", "publications"];
+        const oblig = ["nom", "adreca", "any_construccio", "publications"];
         for (let field of oblig) {
-            if (!data[field]) {
+            const val = data[field];
+            if (!val || (Array.isArray(val) && val.length === 0)) {
                 alert(`El camp "${field}" és obligatori.`);
                 return;
             }
@@ -158,7 +196,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         // Petición PUT (actualizar datos)
         try {
-
             const res = await fetch(`/buildings/edit/${building.id_building}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
@@ -174,4 +211,3 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 });
-
