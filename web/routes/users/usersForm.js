@@ -1,5 +1,5 @@
 import express from "express";
-import supabase from "../../config.js";
+import { UserModel } from "../../models/UserModel.js";
 
 // Constante y configuración del srvidor Express
 const router = express.Router();
@@ -11,9 +11,10 @@ router.get("/", (req, res) => {
 
 // Ruta para manejar el envío del formulario de nuevo usuario
 router.post("/", async (req, res) => {
+    // Obtenemos los datos del formulario
     const { name, email, password, confirmPassword, level } = req.body;
 
-    // Validar que los campos obligatorios no estén vacíos
+    // Validamos que los campos obligatorios no estén vacíos
     if (!name || !email || !password) {
         return res.status(400).json({
             success: false,
@@ -21,7 +22,7 @@ router.post("/", async (req, res) => {
         });
     }
 
-    // validación de confirmación de contraseña
+    // Validamos que las contraseñas coincidan
     if (password !== confirmPassword) {
         return res.status(400).json({
             success: false,
@@ -30,22 +31,13 @@ router.post("/", async (req, res) => {
     }
 
     try {
-        // Insertar el nuevo usuario en la base de datos
-        const { error } = await supabase
-            .from("users")
-            .insert([
-                {
-                    name,
-                    email,
-                    password,
-                    level
-                }
-            ]);
-
-        if (error) {
-            console.error("Error al guardar usuari:", error);
-            return res.status(400).json({ success: false, message: "Error al guardar l'usuari" });
-        }
+        // Creamos el usuario
+        await UserModel.create({
+            name,
+            email,
+            password,
+            level
+        });
 
         return res.json({ success: true, message: "Usuari creat correctament!" });
     } catch (err) {
