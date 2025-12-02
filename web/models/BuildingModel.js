@@ -1,0 +1,239 @@
+import supabase from "../config.js";
+
+// Modelo de edificaciones
+export class BuildingModel {
+
+    // Método para obtener todas las construcciones
+    static async getAll() {
+        const { data, error } = await supabase
+            .from("buildings")
+            .select("*, building_images(image_url)")
+            .order("name");
+
+        if (error) throw error;
+        return data;
+    }
+
+    // Método para obtener una construcción por ID
+    static async getById(id) {
+        const { data, error } = await supabase
+            .from("buildings")
+            .select("*")
+            .eq("id_building", id)
+            .single();
+
+        if (error) throw error;
+        return data;
+    }
+
+    // Método para obtener datos relacionados (imágenes, arquitectos, publicaciones)
+    static async getRelatedData(id) {
+        // Ejecutamos las consultas en paralelo
+        const [pubRes, arqRes, imgRes] = await Promise.all([
+            supabase.from("building_publications").select("id_publication").eq("id_building", id),
+            supabase.from("building_architects").select("id_architect").eq("id_building", id),
+            supabase.from("building_images").select("image_url").eq("id_building", id)
+        ]);
+
+        if (pubRes.error) throw pubRes.error;
+        if (arqRes.error) throw arqRes.error;
+        if (imgRes.error) throw imgRes.error;
+
+        return {
+            publications: pubRes.data.map(r => r.id_publication),
+            architects: arqRes.data.map(r => r.id_architect),
+            images: imgRes.data.map(r => r.image_url)
+        };
+    }
+
+    // Método para obtener tipologías filtradas por publicaciones
+    static async getTypologiesByPublicationIds(idsArray) {
+        const { data, error } = await supabase
+            .from('publication_typologies')
+            .select(`
+                id_typology,
+                typology ( * )
+            `)
+            .in('id_publication', idsArray);
+
+        if (error) throw error;
+
+        // Limpiamos la respuesta y eliminamos duplicados
+        const formattedData = data.map(item => item.typology);
+        const uniqueTypologies = Array.from(new Map(formattedData.map(item => [item.id_typology, item])).values());
+
+        return uniqueTypologies;
+    }
+
+    // Método para subir imágenes al Storage
+    static async uploadImages(files) {
+        const filePaths = [];
+
+        await Promise.all(files.map(async (file) => {
+            // Limpiamos el nombre quitando espacios y caracteres raros
+            const cleanName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_');
+            const fileName = `${Date.now()}_${cleanName}`;
+
+            // Subimos a Supabase Storage
+            const { error } = await supabase.storage
+                .from('images')
+                .upload(`buildings/${fileName}`, file.buffer, {
+                    contentType: file.mimetype
+                });
+
+            if (error) throw error;
+
+            // Obtenemos la URL pública
+            const { data } = supabase.storage
+                .from('images')
+                .getPublicUrl(`buildings/${fileName}`);
+
+            filePaths.push(data.publicUrl);
+        }));
+
+        return filePaths;
+    }
+
+    // Método para crear una construcción completa
+    static async create(buildingData, relations) {
+        // 1. Insertamos el edificio
+        const { data: newBuilding, error } = await supabase
+            .from("buildings")
+            .insert([buildingData])
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        const buildingId = newBuilding.id_building;
+
+        // 2. Insertamos relaciones (Arquitectos)
+        if (relations.architects && relations.architects.length > 0) {
+            const inserts = relations.architects.map(id => ({
+                id_building: buildingId,
+                id_architect: parseInt(id)
+            }));
+            const { error: err } = await supabase.from("building_architects").insert(inserts);
+            if (err) throw err;
+        }
+
+        // 3. Insertamos relaciones (Publicaciones)
+        if (relations.publications && relations.publications.length > 0) {
+            const inserts = relations.publications.map(id => ({
+                id_building: buildingId,
+                id_publication: parseInt(id)
+            }));
+            const { error: err } = await supabase.from("building_publications").insert(inserts);
+            if (err) throw err;
+        }
+
+        // 4. Insertamos relaciones (Imágenes)
+        if (relations.pictureUrls && relations.pictureUrls.length > 0) {
+            const inserts = relations.pictureUrls.map(url => ({
+                id_building: buildingId,
+                image_url: url
+            }));
+            const { error: err } = await supabase.from("building_images").insert(inserts);
+            if (err) throw err;
+        }
+
+        return true;
+    }
+
+    // Método para actualizar una construcción completa
+    static async update(id, buildingData, relations) {
+        // 1. Actualizamos datos básicos
+        const { error } = await supabase
+            .from("buildings")
+            .update(buildingData)
+            .eq("id_building", id);
+
+        if (error) throw error;
+
+        // 2. Actualizamos Arquitectos (Borrar y reinsertar)
+        if (relations.architects) {
+            await supabase.from("building_architects").delete().eq("id_building", id);
+            if (relations.architects.length > 0) {
+                const inserts = relations.architects.map(aid => ({
+                    id_building: id,
+                    id_architect: parseInt(aid)
+                }));
+                const { error: err } = await supabase.from("building_architects").insert(inserts);
+                if (err) throw err;
+            }
+        }
+
+        // 3. Actualizamos Publicaciones (Borrar y reinsertar)
+        if (relations.publications) {
+            await supabase.from("building_publications").delete().eq("id_building", id);
+            if (relations.publications.length > 0) {
+                const inserts = relations.publications.map(pid => ({
+                    id_building: id,
+                    id_publication: parseInt(pid)
+                }));
+                const { error: err } = await supabase.from("building_publications").insert(inserts);
+                if (err) throw err;
+            }
+        }
+
+        // 4. Añadimos nuevas imágenes (No borramos las viejas aquí, solo añadimos)
+        if (relations.pictureUrls && relations.pictureUrls.length > 0) {
+            const inserts = relations.pictureUrls.map(url => ({
+                id_building: id,
+                image_url: url
+            }));
+            const { error: err } = await supabase.from("building_images").insert(inserts);
+            if (err) throw err;
+        }
+
+        return true;
+    }
+
+    // Método para eliminar una construcción y sus recursos
+    static async delete(id) {
+        // 1. Recogemos las imágenes para borrarlas del Storage
+        const { data: images, error: findError } = await supabase
+            .from("building_images")
+            .select("image_url")
+            .eq("id_building", id);
+
+        if (findError) throw findError;
+
+        if (images && images.length > 0) {
+            // Extraemos las rutas relativas
+            const pathsToDelete = images.map(img => {
+                const parts = img.image_url.split('/images/');
+                return parts.length > 1 ? parts[1] : null;
+            }).filter(path => path !== null);
+
+            // Borramos del storage
+            if (pathsToDelete.length > 0) {
+                const { error: storageError } = await supabase.storage
+                    .from('images')
+                    .remove(pathsToDelete);
+
+                if (storageError) console.error("Error borrando archivos de Storage:", storageError);
+            }
+        }
+
+        // 2. Borramos la construcción de la BDD (Cascade se encarga de las relaciones)
+        const { error } = await supabase
+            .from("buildings")
+            .delete()
+            .eq("id_building", id);
+
+        if (error) throw error;
+        return true;
+    }
+
+    // Método para validar una construcción
+    static async validate(id, validated) {
+        const { error } = await supabase
+            .from('buildings')
+            .update({ validated })
+            .eq('id_building', id);
+
+        if (error) throw error;
+        return true;
+    }
+}

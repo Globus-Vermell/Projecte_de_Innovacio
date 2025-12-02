@@ -1,58 +1,47 @@
 import express from 'express';
-import supabase from '../../config.js';
+import { ReformModel } from '../../models/ReformModel.js';
+import { ArchitectModel } from '../../models/ArchitectModel.js';
 
-
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
 // Ruta para obtener una reforma por ID para editar
 router.get('/:id', async (req, res) => {
+    // Obtenemos el id de la reforma
     const id = Number(req.params.id);
 
-    const { data: reform, error } = await supabase
-        .from('reform')
-        .select('*')
-        .eq('id_reform', id)
-        .single();
+    try {
+        // Obtenemos la reforma
+        const reform = await ReformModel.getById(id);
 
-    if (error || !reform) {
+        if (!reform) {
+            return res.status(404).send('Reforma no trobada');
+        }
+
+        // Obtener los arquitectos para el formulario de edición
+        const architects = await ArchitectModel.getAll();
+
+        res.render('reform/reformEdit', { reform, architects });
+    } catch (error) {
         console.error('Error fetching reform:', error);
-        return res.status(404).send('Reforma no trobada');
+        return res.status(500).send('Error al obtenir dades');
     }
-
-
-    // Ruta para obtener los arquitectos para el formulario de ediciónº
-    const { data: architects, error: archError } = await supabase
-        .from('architects')
-        .select('*');
-
-    if (archError) {
-        console.error('Error fetching architects:', archError);
-        return res.status(500).send('Error al obtenir arquitectes');
-    }
-
-    res.render('reform/reformEdit', { reform, architects });
 });
 
 // Ruta para actualizar una reforma
 router.put('/:id', async (req, res) => {
+    // Obtenemos el id de la reforma
     const id = Number(req.params.id);
+
+    // Obtenemos los datos del formulario
     const { year, id_architect } = req.body;
 
     try {
-        // Actualizar la reforma en la base de datos
-        const { error } = await supabase
-            .from('reform')
-            .update({
-                year: parseInt(year),
-                id_architect: parseInt(id_architect)
-            })
-            .eq('id_reform', id);
-
-        if (error) {
-            console.error('Error updating reform:', error);
-            return res.status(400).json({ success: false, message: 'Error al actualizar la reforma' });
-        }
+        // Actualizar la reforma
+        await ReformModel.update(id, {
+            year: parseInt(year),
+            id_architect: parseInt(id_architect)
+        });
 
         res.json({ success: true, message: 'Reforma actualitzada correctament!' });
     } catch (err) {

@@ -1,26 +1,27 @@
 import express from "express";
-import supabase from "../../config.js";
+import { PublicationModel } from "../../models/PublicationModel.js";
+import { TypologyModel } from "../../models/TypologyModel.js";
 
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
 // Ruta para mostrar el formulario de nueva publicación
-
 router.get("/", async (req, res) => {
-    // Obtenemos todas las tipologías para mostrarlas en el formulario
-    const { data: typologies, error } = await supabase
-        .from("typology")
-        .select("*")
-        .order("name");
-
-    if (error) console.error(error);
-
-    res.render("publications/publicationsForm", { typologies: typologies });
+    try {
+        // Obtenemos todas las tipologías para mostrarlas en el formulario
+        const typologies = await TypologyModel.getAll();
+        res.render("publications/publicationsForm", { typologies });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Error al cargar el formulario");
+    }
 });
 
 // Ruta para manejar el envío del formulario de nueva publicación
 router.post("/", async (req, res) => {
+    // Obtenemos los datos del formulario
     const { title, description, themes, acknowledgment, publication_edition, selectedTypologies } = req.body;
+
     // Validamos que los campos obligatorios no estén vacíos
     if (!title || !themes || !publication_edition) {
         return res.status(400).json({
@@ -30,41 +31,20 @@ router.post("/", async (req, res) => {
     }
 
     try {
-        //Insertamos la publicación a la base de datos
-        const { data: pubData, error: pubError } = await supabase
-            .from("publications")
-            .insert([{
-                title,
-                description: description || null,
-                themes,
-                acknowledgment: acknowledgment || null,
-                publication_edition
-            }])
-            .select();
+        // Preparamos los datos
+        const pubData = {
+            title,
+            description: description || null,
+            themes,
+            acknowledgment: acknowledgment || null,
+            publication_edition
+        };
 
-        if (pubError) throw pubError;
+        // Procesamos IDs de tipologías
+        const typeIds = selectedTypologies ? (Array.isArray(selectedTypologies) ? selectedTypologies : [selectedTypologies]) : [];
 
-        // Obtenemos el ID de la publicación recién insertada
-        const newPubId = pubData[0].id_publication;
-
-        // Validamos que se hayan seleccionado tipologías
-        if (selectedTypologies && selectedTypologies.length > 0) {
-            // Convertimos si es un solo string a array, o usamos el array directamente
-            const typeIds = Array.isArray(selectedTypologies) ? selectedTypologies : [selectedTypologies];
-
-            // Insertamos las relaciones entre publicación y tipología
-            const insertData = typeIds.map(typeId => ({
-                id_publication: newPubId,
-                id_typology: parseInt(typeId)
-            }));
-
-            // Insertamos las relaciones entre publicación y tipología
-            const { error: relError } = await supabase
-                .from("publication_typologies")
-                .insert(insertData);
-
-            if (relError) throw relError;
-        }
+        // Creamos la publicación
+        await PublicationModel.create(pubData, typeIds);
 
         return res.json({ success: true, message: "Publicació guardada correctament!" });
     } catch (err) {

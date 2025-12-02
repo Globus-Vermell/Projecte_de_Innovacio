@@ -1,40 +1,34 @@
 import express from "express";
-import supabase from "../../config.js";
+import { ReformModel } from "../../models/ReformModel.js";
 
-
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
 // Ruta para obtener todas las reformas
 router.get("/", async (req, res) => {
-	const { data: reformas, error } = await supabase
-		.from("reform")
-		.select("*, architects(name)")
-		.order("year", { ascending: false });
-
-	if (error) {
+	try {
+		// Obtenemos todas las reformas
+		const reformas = await ReformModel.getAll();
+		res.render("reform/reform", { reformas });
+	} catch (error) {
 		console.error("Error al obtener reformas:", error);
-		return res.status(500).send("Error al obtener reformas");
+		res.status(500).send("Error al obtener reformas");
 	}
-
-	res.render("reform/reform", { reformas });
 });
 
 // Ruta para eliminar una reforma
 router.delete("/delete/:id", async (req, res) => {
+	// Obtenemos el id de la reforma
 	const id = Number(req.params.id);
 
-	const { error } = await supabase
-		.from("reform")
-		.delete()
-		.eq("id_reform", id);
-
-	if (error) {
+	try {
+		// Borrar la reforma de la base de datos
+		await ReformModel.delete(id);
+		return res.json({ success: true, message: "Reforma eliminada correctament!" });
+	} catch (error) {
 		console.error("Error borrando:", error);
 		return res.status(500).json({ success: false, message: "Error al borrar." });
 	}
-
-	return res.json({ success: true, message: "Reforma eliminada correctament!" });
 });
 
 // Exportar el router para usarlo en index.js

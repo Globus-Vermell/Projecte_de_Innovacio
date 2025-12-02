@@ -1,7 +1,8 @@
 import express from "express";
-import supabase from "../../config.js";
+import { ReformModel } from "../../models/ReformModel.js";
+import { ArchitectModel } from "../../models/ArchitectModel.js";
 
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
 // Ruta para mostrar el formulario de nueva reforma
@@ -11,16 +12,18 @@ router.get("/", (req, res) => {
 
 // Ruta para obtener la lista de arquitectos para el formulario
 router.get("/architects", async (req, res) => {
-    const { data, error } = await supabase
-        .from("architects")
-        .select("id_architect, name");
-
-    if (error) return res.status(500).json([]);
-    res.json(data || []);
+    try {
+        // Obtenemos todos los arquitectos
+        const architects = await ArchitectModel.getAll();
+        res.json(architects || []);
+    } catch (error) {
+        return res.status(500).json([]);
+    }
 });
 
 // Ruta para manejar el envío del formulario de nueva reforma
 router.post("/", async (req, res) => {
+    // Obtenemos los datos del formulario
     const { year, id_architect } = req.body;
 
     // Validar que el arquitecto no esté vacío
@@ -29,20 +32,11 @@ router.post("/", async (req, res) => {
     }
 
     try {
-        // Insertar la nueva reforma en la base de datos
-        const { error } = await supabase
-            .from("reform")
-            .insert([
-                {
-                    year: parseInt(year),
-                    id_architect: parseInt(id_architect)
-                }
-            ]);
-
-        if (error) {
-            console.error("Error al guardar reforma:", error);
-            return res.status(400).json({ success: false, message: "Error al guardar la reforma" });
-        }
+        // Insertar la nueva reforma
+        await ReformModel.create({
+            year: parseInt(year),
+            id_architect: parseInt(id_architect)
+        });
 
         return res.json({ success: true, message: "Reforma guardada correctament!" });
     } catch (err) {

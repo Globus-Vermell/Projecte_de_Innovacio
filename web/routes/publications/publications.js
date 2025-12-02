@@ -1,56 +1,52 @@
 import express from "express";
-import supabase from "../../config.js";
+import { PublicationModel } from "../../models/PublicationModel.js";
 
-// Constante y configuración del srvidor Express
+// Constante y configuración del servidor Express
 const router = express.Router();
 
-// Ruta para obtener todas las construcciones
+// Ruta para obtener todas las publicaciones
 router.get("/", async (req, res) => {
-    const { data: publications, error } = await supabase
-        .from("publications")
-        .select("*")
-        .order("title");
-
-    if (error) {
+    try {
+        // Obtenemos todas las publicaciones
+        const publications = await PublicationModel.getAll();
+        res.render("publications/publications", { publications });
+    } catch (error) {
         console.error("Error al obtener publicaciones:", error);
         return res.status(500).send("Error al obtener publicaciones");
     }
-    res.render("publications/publications", { publications });
 });
 
-// Ruta para eliminar una construcción
+// Ruta para eliminar una publicación
 router.delete("/delete/:id", async (req, res) => {
+    // Obtenemos el id de la publicación
     const id = Number(req.params.id);
 
-    const { error } = await supabase
-        .from("publications")
-        .delete()
-        .eq("id_publication", id);
-
-    if (error) {
+    try {
+        // Borramos la publicación
+        await PublicationModel.delete(id);
+        return res.json({ success: true, message: "Publicación eliminada correctament!" });
+    } catch (error) {
         console.error("Error borrando:", error);
         return res.status(500).json({ success: false, message: "Error al borrar." });
     }
-
-    return res.json({ success: true, message: "Publicación eliminada correctament!" });
 });
+
 // Ruta para validar una publicación
 router.put('/validation/:id', async (req, res) => {
+    // Obtenemos el id de la publicación
     const id = Number(req.params.id);
+    // Obtenemos el estat de validació
     const { validated } = req.body;
-    try {
-        // Actualizamos la publicación
-        const { error: updateError } = await supabase
-            .from('publications')
-            .update({ validated })
-            .eq('id_publication', id);
 
-        if (updateError) throw updateError;
+    try {
+        // Actualizamos el estat de validació
+        await PublicationModel.updateValidation(id, validated);
         res.json({ success: true, message: 'Estat de validació actualitzat correctament!' });
     } catch (err) {
         console.error(err);
         res.status(500).json({ success: false, message: 'Error intern del servidor' });
     }
 });
+
 // Exportar el router para usarlo en index.js
 export default router;
