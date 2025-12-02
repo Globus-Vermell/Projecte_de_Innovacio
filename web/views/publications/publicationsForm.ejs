@@ -40,8 +40,7 @@
 
                 <div class="form-group">
                     <label for="themes">Temàtica:<span class="required">*</span></label>
-                    <select id="themes" name="themes" required>
-                        <option value="">-- Selecciona una temàtica --</option>
+                    <select id="themes" name="themes" required multiple>
                         <option value="etapes">Etapes</option>
                         <option value="arquitectura tematica">Arquitectura Temàtica</option>
                         <option value="barris">Barris</option>
@@ -62,11 +61,13 @@
                 <div class="form-group">
                     <label for="typologies">Tipologies Relacionades:</label>
                     <select id="typologies" name="selectedTypologies" multiple>
-                        <% if (typologies && typologies.length > 0) { %>
-                            <% typologies.forEach(t => { %>
-                                <option value="<%= t.id_typology %>"><%= t.name %></option>
-                            <% }) %>
-                        <% } %>
+                        <% if (typologies && typologies.length> 0) { %>
+                            <% typologies.forEach(t=> { %>
+                                <option value="<%= t.id_typology %>">
+                                    <%= t.name %>
+                                </option>
+                                <% }) %>
+                                    <% } %>
                     </select>
                 </div>
 
@@ -78,10 +79,10 @@
         </section>
     </main>
 
-    <!-- Script con la lógica del formulario -->
-    <script src="/scripts/publications/publicationsForm.js"></script>
     <!-- Script MultiSelect -->
     <script src="/scripts/MultiSelect.js"></script>
+    <!-- Script con la lógica del formulario -->
+    <script src="/scripts/publications/publicationsForm.js"></script>
 </body>
 
 </html>

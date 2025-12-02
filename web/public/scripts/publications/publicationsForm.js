@@ -31,12 +31,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // Inicializamos el MultiSelect para el campo de tipologías
+    // Inicializamos el MultiSelect para el campo de tipologías y temas 
     new MultiSelect(document.getElementById('typologies'), {
         placeholder: 'Selecciona tipologies...',
         search: true,
         selectAll: true
     });
+
+    if (document.getElementById('themes')) {
+        new MultiSelect(document.getElementById('themes'), {
+            placeholder: 'Selecciona temàtiques...',
+            search: true,
+            selectAll: true
+        });
+    }
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -60,8 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Aseguramos que sea array por si acaso
-        if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) {
-            data.selectedTypologies = [data.selectedTypologies];
+        if (data.themes && !Array.isArray(data.themes)) {
+            data.themes = [data.themes];
         }
 
         // Enviamos los datos

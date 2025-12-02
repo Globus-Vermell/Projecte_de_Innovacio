@@ -47,12 +47,23 @@
                 <!-- Tema -->
                 <div class="form-group">
                     <label for="themes">Temàtica: <span class="required">*</span></label>
-                    <select id="themes" name="themes" required>
-                        <option value="etapes" <%=publication.themes==='etapes' ? 'selected' : '' %>>etapes</option>
-                        <option value="arquitectura tematica" <%=publication.themes==='arquitectura tematica'
+                    <select id="themes" name="themes" required multiple>
+
+                        <option value="etapes" <%=publication.themes && publication.themes.includes('etapes')
                             ? 'selected' : '' %>>
-                            arquitectura temática</option>
-                        <option value="barris" <%=publication.themes==='barris' ? 'selected' : '' %>>barris</option>
+                            etapes
+                        </option>
+
+                        <option value="arquitectura tematica" <%=publication.themes &&
+                            publication.themes.includes('arquitectura tematica') ? 'selected' : '' %>>
+                            arquitectura temática
+                        </option>
+
+                        <option value="barris" <%=publication.themes && publication.themes.includes('barris')
+                            ? 'selected' : '' %>>
+                            barris
+                        </option>
+
                     </select>
                 </div>
 

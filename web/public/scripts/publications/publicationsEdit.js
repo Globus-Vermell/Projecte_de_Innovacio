@@ -29,9 +29,8 @@ form.addEventListener('submit', async (e) => {
     }
 
     // Validar que los campos obligatorios no estén vacíos
-    if (!data.title || !data.themes || !data.publication_edition) {
-        alert('Els camps title, themes i publication_edition són obligatoris.');
-        return;
+    if (data.themes && !Array.isArray(data.themes)) {
+        data.themes = [data.themes];
     }
 
     try {
@@ -56,6 +55,14 @@ form.addEventListener('submit', async (e) => {
 if (document.getElementById('typologies')) {
     new MultiSelect(document.getElementById('typologies'), {
         placeholder: 'Selecciona tipologies...',
+        search: true,
+        selectAll: true
+    });
+}
+
+if (document.getElementById('themes')) {
+    new MultiSelect(document.getElementById('themes'), {
+        placeholder: 'Selecciona temàtiques...',
         search: true,
         selectAll: true
     });
