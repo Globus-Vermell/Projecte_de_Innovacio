@@ -176,88 +176,6 @@ input:not(:placeholder-shown) ~ .reset {
 }
 
 /* =========================================
-   DROPDOWN MULTINIVEL (Estilo Tailwind convertido)
-   ========================================= */
-.dropdown-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-btn {
-    background-color: #f40202;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    transition: background 0.3s;
-    height: 45px; /* Misma altura que el buscador */
-}
-
-.dropdown-btn:hover {
-    background-color: #a00000;
-}
-
-.dropdown-menu {
-    display: none; /* Oculto por defecto */
-    position: absolute;
-    right: 0; /* Alineado a la derecha */
-    top: 100%;
-    margin-top: 10px;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    border-radius: 12px;
-    padding: 10px 0;
-    z-index: 100;
-    border: 1px solid #eee;
-}
-
-.dropdown-menu.show {
-    display: block;
-}
-
-.dropdown-item {
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #333;
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 0.95em;
-    position: relative; /* Para posicionar el submenú */
-}
-
-.dropdown-item:hover {
-    background-color: #f9f9f9;
-    color: #cc0000;
-}
-
-/* Submenú lateral */
-.submenu {
-    display: none;
-    position: absolute;
-    right: 100%; /* Aparece a la izquierda del menú padre */
-    top: 0;
-    background-color: white;
-    min-width: 180px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    border-radius: 12px;
-    padding: 10px 0;
-    border: 1px solid #eee;
-}
-
-/* Mostrar submenú al hacer hover (versión CSS simple) */
-.dropdown-item-group:hover .submenu {
-    display: block;
-}
-
-/* =========================================
    3. CONTENIDO PRINCIPAL
    ========================================= */
 
@@ -570,8 +488,64 @@ input:not(:placeholder-shown) ~ .reset {
 }
 
 /* =========================================
+   ESTILOS PARA LOS FILTROS EN HEADER
+   ========================================= */
+
+.header-filters {
+    display: flex;
+    gap: 15px; /* Espacio entre los desplegables */
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-grow: 1; /* Ocupa el espacio central */
+    margin: 0 20px;
+}
+
+.header-select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 20px; /* Bordes redonditos */
+    background-color: #f9f9f9;
+    color: #555;
+    font-size: 0.9em;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    min-width: 140px;
+}
+
+.header-select:hover {
+    border-color: #cc0000;
+    background-color: #fff;
+}
+
+.header-select:focus {
+    box-shadow: 0 0 0 2px rgba(204, 0, 0, 0.1);
+}
+
+/* =========================================
    6. DISEÑO RESPONSIVO (MÓVIL)
    ========================================= */
+
+   /* Ajuste responsive para que no se rompa en móviles */
+@media (max-width: 900px) {
+    .page-header {
+        flex-direction: column;
+        gap: 15px;
+        height: auto;
+        padding-bottom: 20px;
+    }
+    
+    .header-filters {
+        order: 3; /* Pone los filtros abajo del todo en móvil */
+        width: 100%;
+        margin: 0;
+    }
+    
+    .header-select {
+        flex: 1; /* Que ocupen el ancho disponible */
+    }
+}
+
 
 @media (max-width: 768px) {
     /* Header en columna */

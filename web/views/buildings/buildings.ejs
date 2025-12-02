@@ -5,20 +5,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Llistat de construccions</title>
-    <!-- Css principal y estilo de Emojis y simbolos usandos en la pagina-->
     <link rel="stylesheet" href="/css/paginaPrincipal.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 
 <body>
-    <!-- Cabecera de la Página-->
     <header class="page-header">
-        <!-- Botón para volver atrás -->
+        
         <div class="header-left">
             <a href="/" class="back-link"><i class="fas fa-arrow-left"></i></a>
             <h1 class="page-title">Construccions</h1>
         </div>
-        <!-- Botón para añadir nuevo edificio -->
+
+        <div class="header-filters">
+            
+            <select id="filterValidation" class="header-select" onchange="filterBuildings()">
+                <option value="all">Estat: Tots</option>
+                <option value="true">Validats</option>
+                <option value="false">Pendents</option>
+            </select>
+
+            <select id="filterImage" class="header-select" onchange="filterBuildings()">
+                <option value="all">Imatge: Totes</option>
+                <option value="true">Amb imatge</option>
+                <option value="false">Sense imatge</option>
+            </select>
+
+            <select id="filterPublication" class="header-select" onchange="filterBuildings()">
+                <option value="all">Publicació: Totes</option>
+                <% if (publications && publications.length > 0) { %>
+                    <% publications.forEach(pub => { %>
+                        <option value="<%= pub.id_publication %>"><%= pub.title %></option>
+                    <% }) %>
+                <% } %>
+            </select>
+        </div>
+
         <div class="header-right">
             <a href="/buildings/form" class="add-button">
                 <i class="fas fa-plus"></i> Afegir nou edifici
@@ -26,185 +48,70 @@
         </div>
     </header>
 
-    <!-- Contenido principal -->
     <main class="main-content">
-        <!-- Barra de búsqueda para filtrar construcciones -->
         <div class="search-container-modern">
-
-            <!-- Agrupa la barra de búsqueda y el botón de filtros en una fila -->
             <form class="form" onsubmit="event.preventDefault()">
-                <!-- El atributo 'onsubmit' evita que la página se recargue si el usuario pulsa Enter por error -->
                 <button type="button">
-                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img"
-                        aria-labelledby="search">
-                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9"
-                            stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round">
-                        </path>
+                    <svg width="17" height="16" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="search">
+                        <path d="M7.667 12.667A5.333 5.333 0 107.667 2a5.333 5.333 0 000 10.667zM14.334 14l-2.9-2.9" stroke="currentColor" stroke-width="1.333" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                 </button>
-                <!-- Mantenemos el ID 'searchInput'. 'onkeyup' llama a la función de filtrar cada vez que sueltas una tecla -->
-                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..." required=""
-                    type="text" onkeyup="filterBuildings()">
-                <!-- 'type=reset' borra el texto automáticamente y 'onclick' refresca la lista vacía -->
-                <button class="reset" type="reset" onclick="filterBuildings()">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor" stroke-width="2">
+                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..." required="" type="text" onkeyup="filterBuildings()">
+                <button class="reset" type="reset" onclick="resetFilters()">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </form>
-
-            <!-- Al hacer clic, ejecuta toggleDropdown() para mostrar u ocultar el menú -->
-            <div class="dropdown-wrapper">
-                <button id="multiLevelDropdownButton" class="dropdown-btn" type="button" onclick="toggleDropdown()">
-                    <i class="fas fa-filter"></i> Filtres
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-
-                <!-- Está oculto por defecto. JS le añade la clase .show para mostrarlo -->
-                <div id="multi-dropdown" class="dropdown-menu">
-
-                    <!-- Muestra el título y despliega un submenú lateral al pasar el ratón por encima (hover) -->
-                    <div class="dropdown-item-group">
-                        <div class="dropdown-item">
-                            <span>Estat Validació</span>
-                            <i class="fas fa-chevron-left"></i>
-                        </div>
-                        <!-- Al hacer clic, llama a setFilter() enviando el ID del input oculto y el valor que queremos aplicar -->
-                        <div class="submenu">
-                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'all')">Tots</div>
-                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'true')">Validats</div>
-                            <div class="dropdown-item" onclick="setFilter('filterValidation', 'false')">Pendents</div>
-                        </div>
-                    </div>
-
-                    <div class="dropdown-item-group">
-                        <div class="dropdown-item">
-                            <span>Imatge</span>
-                            <i class="fas fa-chevron-left"></i>
-                        </div>
-                        <div class="submenu">
-                            <div class="dropdown-item" onclick="setFilter('filterImage', 'all')">Tots</div>
-                            <div class="dropdown-item" onclick="setFilter('filterImage', 'true')">Amb imatge</div>
-                            <div class="dropdown-item" onclick="setFilter('filterImage', 'false')">Sense imatge</div>
-                        </div>
-                    </div>
-
-                    <div class="dropdown-item-group">
-                        <div class="dropdown-item">
-                            <span>Publicació</span>
-                            <i class="fas fa-chevron-left"></i>
-                        </div>
-                        <div class="submenu" style="max-height: 200px; overflow-y: auto;">
-                            <div class="dropdown-item" onclick="setFilter('filterPublication', 'all')">Totes</div>
-                            <% if (publications && publications.length> 0) { %>
-                                <% publications.forEach(pub=> { %>
-                                    <div class="dropdown-item"
-                                        onclick="setFilter('filterPublication', '<%= pub.id_publication %>')">
-                                        <%= pub.title %>
-                                    </div>
-                                    <% }) %>
-                                        <% } %>
-                        </div>
-                    </div>
-
-                    <div style="border-top: 1px solid #eee; margin-top: 5px;">
-                        <div class="dropdown-item" onclick="resetFilters()" style="color: #666;">
-                            <i class="fas fa-times" style="margin-right: 8px;"></i> Netejar filtres
-                        </div>
-                    </div>
-
-                </div>
-            </div>
         </div>
 
-        <!-- Estos inputs no se ven en la pantalla, pero guardan la selección actual de los filtros en el código JavaScript pueda leerlos -->
-        <input type="hidden" id="filterValidation" value="all">
-        <input type="hidden" id="filterImage" value="all">
-        <input type="hidden" id="filterPublication" value="all">
-
-        <!-- Lista de construcciones -->
         <section class="list">
-            <!-- Blucle logico que busca que existan buildings en la base de datos-->
-            <% if (buildings && buildings.length> 0) { %>
-                <% buildings.forEach(building=> { %>
-                    <!-- Card de cada construcción , se guardan data en el article para poder usarlo en el filtro -->
-                    <article class="card" data-name="<%= building.name %>"
-                        data-description="<%= building.description %>" data-validated="<%= building.validated %>"
-                        data-publication="<%= building.id_publication %>" data-validated="<%= building.validated %>">
+            <% if (buildings && buildings.length > 0) { %>
+                <% buildings.forEach(building => { %>
+                    <article class="card" 
+                        data-name="<%= building.name %>"
+                        data-description="<%= building.description %>" 
+                        data-validated="<%= building.validated %>"
+                        data-publication="<%= building.id_publication %>">
 
-                        <!-- Foto de la construcción -->
-                        <% if (building.building_images && building.building_images.length> 0) { %>
+                        <% if (building.building_images && building.building_images.length > 0) { %>
                             <figure class="card-image">
-                                <img src="<%= building.building_images[0].image_url %>" alt="<%= building.name %>"
-                                    class="img_list">
+                                <img src="<%= building.building_images[0].image_url %>" alt="<%= building.name %>" class="img_list">
                             </figure>
+                        <% } %>
+
+                        <div class="card-info">
+                            <h3 class="card-title"><%= building.name %></h3>
+                            <p class="card-coords"><%= building.location %></p>
+                            <p class="card-date"><i class="fas fa-calendar-alt"></i> <%= building.construction_year %></p>
+                            <p class="card-architect"><%= building.architect %></p>
+                            <p class="card-description"><%= building.description %></p>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
+                                <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
+                            </a>
+                            <button class="delete-button" onclick="deleteBuilding('<%= building.id_building %>')">
+                                <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
+                            </button>
+                            <% if (building.validated) { %>
+                                <button class="validated-button" disabled>
+                                    <img src="/images/icons/check-icon.png" alt="Validat">Validat
+                                </button>
+                            <% } else { %>
+                                <button class="validation-button" onclick="validateBuilding('<%= building.id_building %>')">
+                                    <img src="/images/icons/check-icon.png" alt="Validar">Validar
+                                </button>
                             <% } %>
-
-                                <!-- Información principal del edificio -->
-                                <div class="card-info">
-                                    <h3 class="card-title">
-                                        <%= building.name %>
-                                    </h3>
-
-                                    <p class="card-coords">
-                                        <%= building.location %>
-                                    </p>
-
-                                    <p class="card-date">
-                                        <i class="fas fa-calendar-alt"></i>
-                                        <%= building.construction_year %>
-                                    </p>
-
-                                    <p class="card-architect">
-                                        <%= building.architect %>
-                                    </p>
-
-                                    <!-- Descripción del edificio -->
-                                    <p class="card-description">
-                                        <%= building.description %>
-                                    </p>
-                                </div>
-
-                                <!-- Botones clicables para poder hacer diferentes acciones: Editar, Borrar y validar -->
-                                <div class="card-actions">
-                                    <a href="/buildings/edit/<%= building.id_building %>" class="edit-button">
-                                        <img src="/images/icons/edit_icon.png" alt="Editar"> Editar
-                                    </a>
-
-                                    <button class="delete-button"
-                                        onclick="deleteBuilding('<%= building.id_building %>')">
-                                        <img src="/images/icons/trash-2-64.png" alt="Borrar">Eliminar
-                                    </button>
-
-                                    <!-- Validar publicación -->
-                                    <% if (building.validated) { %>
-                                        <button class="validated-button" disabled>
-                                            <img src="/images/icons/check-icon.png" alt="Validat">Validat
-                                        </button>
-                                        <% } else { %>
-                                            <button class="validation-button"
-                                                onclick="validateBuilding('<%= building.id_building %>')">
-                                                <img src="/images/icons/check-icon.png" alt="Validar">Validar
-                                            </button>
-                                            <% } %>
-                                </div>
-
+                        </div>
                     </article>
-
-                    <% }) %>
-                        <!-- Si no hay construcciones, se muestra un mensaje -->
-                        <% } else { %>
-
-                            <p class="no-architects">No hi ha construccions disponibles.</p>
-
-                            <% } %>
-
+                <% }) %>
+            <% } else { %>
+                <p class="no-architects">No hi ha construccions disponibles.</p>
+            <% } %>
         </section>
-
     </main>
-    <!-- Script para el filtrado y eliminación de construcciones -->
     <script src="/scripts/buildings/buildings.js"></script>
 </body>
-
 </html>
