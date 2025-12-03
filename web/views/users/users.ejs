@@ -47,8 +47,9 @@
                         </path>
                     </svg>
                 </button>
-                <input id="searchInput" class="input" placeholder="Buscar per nom, descripció..." required=""
-                    type="text" onkeyup="filterUsers()">
+                <input id="searchInput" class="input" placeholder="Buscar per nom, email..."
+                    value="<%= typeof currentFilters !== 'undefined' ? currentFilters.search : '' %>" type="text"
+                    onkeydown="if(event.key === 'Enter') filterUsers()">
                 <!-- 'type=reset' borra el texto automáticamente y 'onclick' refresca la lista vacía -->
                 <button class="reset" type="reset" onclick="filterUsers()">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"

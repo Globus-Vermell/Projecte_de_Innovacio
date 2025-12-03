@@ -35,34 +35,13 @@ async function validatePublication(id) {
 
 // Función de filtrado
 function filterPublications() {
-    const inputVal = document.getElementById('searchInput').value.toLowerCase();
-    const valSelect = document.getElementById('filterValidation').value;
-
-    const cards = document.querySelectorAll('.card');
-
-    cards.forEach(card => {
-        // 1. Filtro Texto (Usamos dataset.title que es lo que pusiste en el EJS)
-        const title = (card.dataset.title || '').toLowerCase();
-        const description = (card.dataset.description || '').toLowerCase();
-        
-        const matchesText = title.includes(inputVal) || description.includes(inputVal);
-
-        // 2. Filtro Validación
-        const isValidated = card.dataset.validated; 
-        const matchesValidation = (valSelect === 'all') ? true : (isValidated === valSelect);
-
-        // Mostrar u ocultar (¡Solo comprobamos Text y Validation!)
-        if (matchesText && matchesValidation) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
-// Función para reiniciar todo
-function resetFilters() {
-    document.getElementById('searchInput').value = '';
-    document.getElementById('filterValidation').value = 'all';
-    filterPublications(); 
+    const inputVal = document.getElementById('searchInput').value;
+    const valSelect = document.getElementById('filterValidation').value; // Si usas el select de validación
+    
+    const params = new URLSearchParams();
+    if (inputVal) params.set('search', inputVal);
+    if (valSelect !== 'all') params.set('validated', valSelect);
+    
+    params.set('page', 1);
+    window.location.href = `/publications?${params.toString()}`;
 }

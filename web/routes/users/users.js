@@ -8,12 +8,17 @@ const router = express.Router();
 // Ruta para obtener todos los usuarios
 router.get("/", isAdmin, async (req, res) => {
     try {
-        // Obtenemos todos los usuarios
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 15;
-        const result = await UserModel.getAll(page, limit);
-        const users = result.data;
-        res.render("users/users", { users, pagination: result });
+        const limit = 15;
+        const filters = { search: req.query.search || '' };
+
+        const result = await UserModel.getAll(page, limit, filters);
+
+        res.render("users/users", {
+            users: result.data,
+            pagination: result,
+            currentFilters: filters
+        });
     } catch (error) {
         console.error("Error al obtener usuarios:", error);
         res.status(500).send("Error en obtenir usuaris");

@@ -7,14 +7,18 @@ const router = express.Router();
 // Ruta para obtener todas las publicaciones
 router.get("/", async (req, res) => {
     try {
-        // Obtenemos todas las publicaciones
         const page = parseInt(req.query.page) || 1;
-        const limit = 15;
-        const result = await PublicationModel.getAll(page, limit);
+        const filters = { 
+            search: req.query.search || '',
+            validated: req.query.validated || 'all' 
+        };
+        
+        const result = await PublicationModel.getAll(page, 15, filters);
 
         res.render("publications/publications", {
             publications: result.data,
-            pagination: result
+            pagination: result,
+            currentFilters: filters
         });
     } catch (error) {
         console.error("Error al obtener publicaciones:", error);

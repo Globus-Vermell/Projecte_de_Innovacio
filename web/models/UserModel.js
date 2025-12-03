@@ -3,11 +3,12 @@ import supabase from "../config.js";
 // Modelo de usuario
 export class UserModel {
     // Metodo para obtener todos los usuarios
-    static async getAll(page = null, limit = null) {
-        let query = supabase
-            .from("users")
-            .select("*")
-            .order("name");
+    static async getAll(page = 1, limit = 15, filters = {}) {
+        let query = supabase.from("users").select("*").order("name");
+
+        if (filters.search) {
+            query = query.or(`name.ilike.%${filters.search}%,email.ilike.%${filters.search}%`);
+        }
         if (page && limit) {
             const from = (page - 1) * limit;
             const to = from + limit - 1;

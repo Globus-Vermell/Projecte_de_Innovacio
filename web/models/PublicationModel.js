@@ -4,11 +4,12 @@ import supabase from "../config.js";
 export class PublicationModel {
 
     // Método para obtener todas las publicaciones
-    static async getAll(page = null, limit = null) {
-        let query = supabase
-            .from("publications")
-            .select("*")
-            .order("title");
+    static async getAll(page = 1, limit = 15, filters = {}) {
+        let query = supabase.from("publications").select("*").order("title");
+
+        if (filters.search) {
+            query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%`);
+        }
         if (page && limit) {
             const from = (page - 1) * limit;
             const to = from + limit - 1;
