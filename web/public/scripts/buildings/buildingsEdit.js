@@ -20,20 +20,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     });
 
-    await actualizarTipologias(true);
+    await actualizarTipologias();
 
-    async function actualizarTipologias(isInitialLoad = false) {
+    async function actualizarTipologias() {
         const hiddenInputs = document.querySelectorAll('input[name="publications[]"]');
         const selectedIds = Array.from(hiddenInputs).map(input => input.value);
 
+        containerTipologia.style.display = 'none';
         selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
 
-        if (selectedIds.length === 0) {
-            containerTipologia.style.display = 'none';
-            return;
-        }
-
-        containerTipologia.style.display = 'block';
+        if (selectedIds.length === 0) return;
 
         try {
             const idsString = selectedIds.join(',');
@@ -41,6 +37,8 @@ document.addEventListener("DOMContentLoaded", async () => {
             const tipologies = await res.json();
 
             if (tipologies && tipologies.length > 0) {
+                containerTipologia.style.display = 'block';
+
                 tipologies.forEach(t => {
                     const opt = document.createElement("option");
                     opt.value = t.id_typology;

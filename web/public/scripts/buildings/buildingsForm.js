@@ -24,22 +24,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const hiddenInputs = document.querySelectorAll('input[name="publications[]"]');
         const selectedIds = Array.from(hiddenInputs).map(input => input.value);
 
+        containerTipologia.style.display = 'none';
         selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
 
-        if (selectedIds.length === 0) {
-            containerTipologia.style.display = 'none';
-            return;
-        }
-
-        containerTipologia.style.display = 'block';
+        if (selectedIds.length === 0) return;
 
         try {
             const idsString = selectedIds.join(',');
             const res = await fetch(`/buildings/typologies/filter?ids=${idsString}`);
-            const tipologies = await res.json();
+            const typologies = await res.json();
 
-            if (tipologies && tipologies.length > 0) {
-                tipologies.forEach(t => {
+            if (typologies && typologies.length > 0) {
+                containerTipologia.style.display = 'block';
+
+                typologies.forEach(t => {
                     const opt = document.createElement("option");
                     opt.value = t.id_typology;
                     opt.textContent = t.name;

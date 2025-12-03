@@ -59,7 +59,7 @@ export class ReformController {
                 return res.status(404).send('Reforma no trobada');
             }
 
-            const architects = await ArchitectModel.getAll();
+            const architects = await ArchitectModel.getAll(null, null);
 
             res.render('reform/reformEdit', { reform, architects: architects.data });
         } catch (error) {
