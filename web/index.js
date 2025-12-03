@@ -1,34 +1,40 @@
 import express from 'express';
 import session from "express-session";
-import prizesRouter from "./routes/prizes.js";
+import dotenv from 'dotenv';
+
+
 import loginRouter from "./routes/login.js";
 import usersRouter from "./routes/users.js";
 import architectsRouter from "./routes/architects.js";
+import buildingsRouter from "./routes/buildings.js";
+import prizesRouter from "./routes/prizes.js";
 import protectionsRouter from "./routes/protections.js";
+import publicationsRouter from "./routes/publications.js";
 import reformsRouter from "./routes/reforms.js";
 import typologiesRouter from "./routes/typologies.js";
-import publicationsRouter from "./routes/publications.js";
-import buildingsRouter from "./routes/buildings.js";
 
-// Constante y configuración del srvidor Express
+dotenv.config();
+
 const PORT = process.env.PORT || 3000;
 const app = express();
+
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
-
-// Configuración de la sesión para la autenticación
+// Configuración de la sesión 
 app.use(session({
-    secret: 'secretosecreto',
+    secret: process.env.SESSION_SECRET || 'secretosecreto',
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false }
 }));
 
-// Middleware para pasar el usuario a las vistas y poder controlar el acceso a ciertas páginas
+// Middleware para pasar el usuario a las vistas
 app.use((req, res, next) => {
     res.locals.user = req.session.user;
     next();
@@ -39,18 +45,15 @@ app.get("/home", (req, res) => {
     res.render("home", { user: req.session?.user });
 });
 
-// Ruters del backOffice
+app.use("/", loginRouter);
+app.use("/users", usersRouter);
 app.use("/architects", architectsRouter);
 app.use("/buildings", buildingsRouter);
-app.use("/", loginRouter);
 app.use("/prizes", prizesRouter);
 app.use("/protection", protectionsRouter);
 app.use('/publications', publicationsRouter);
 app.use("/reforms", reformsRouter);
 app.use("/typologies", typologiesRouter);
-app.use("/users", usersRouter);
-
-
 
 // Start
 app.listen(PORT, () => {
