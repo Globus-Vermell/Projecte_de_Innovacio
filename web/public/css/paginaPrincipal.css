@@ -518,6 +518,63 @@ input:not(:placeholder-shown) ~ .reset {
 }
 
 /* =========================================
+   PAGINACIÓN 
+   ========================================= */
+
+.pagination-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    gap: 20px; 
+    margin-top: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+/* Estilo de los botones (Anterior / Siguiente) */
+.pagination-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    padding: 10px 20px;
+    background-color: #fff; 
+    color: #333; 
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 30px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); 
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+}
+
+/* Efecto Hover: */
+.pagination-btn:hover:not(.disabled) {
+    background-color: #f40202; 
+    color: #fff; 
+    transform: translateY(-3px); 
+}
+
+/* Estado Deshabilitado (cuando no hay página anterior/siguiente) */
+.pagination-btn.disabled {
+    color: #aaa;
+    background-color: transparent;
+    box-shadow: none;
+    cursor: not-allowed; 
+    pointer-events: none; 
+}
+
+/* Texto central "Pàgina X de Y" */
+.pagination-info {
+    font-size: 1.1em;
+    color: #555;
+    font-weight: 600;
+    background-color: #fff;
+    padding: 8px 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* =========================================
    6. DISEÑO RESPONSIVO (MÓVIL)
    ========================================= */
 
