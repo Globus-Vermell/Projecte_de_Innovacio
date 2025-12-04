@@ -1,7 +1,8 @@
 import { UserModel } from "../models/UserModel.js";
+import { AppError } from "../utils/AppError.js";
 
 export class UserController {
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = 15;
@@ -15,22 +16,21 @@ export class UserController {
                 currentFilters: filters
             });
         } catch (error) {
-            console.error("Error al obtener usuarios:", error);
-            res.status(500).send("Error en obtenir usuaris");
+            next(error);
         }
     }
 
-    static async formEdit(req, res) {
+    static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
             const user = await UserModel.getById(id);
             res.render('users/usersEdit', { user });
         } catch (error) {
-            return res.status(404).send('Usuari no trobat');
+            next(error);
         }
     }
 
-    static async update(req, res) {
+    static async update(req, res, next) {
         const id = Number(req.params.id);
         const { name, email, password, level } = req.body;
 
@@ -44,30 +44,23 @@ export class UserController {
 
             return res.json({ success: true, message: "Usuari actualitzat correctament!" });
         } catch (err) {
-            console.error("Error:", err);
-            return res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
-    static async formCreate(req, res) {
+    static async formCreate(req, res, next) {
         res.render('users/usersForm');
     }
 
-    static async create(req, res) {
+    static async create(req, res, next) {
         const { name, email, password, confirmPassword, level } = req.body;
 
         if (!name || !email || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "Nom, email i contrasenya són obligatoris"
-            });
+            return next(new AppError("Nom, email i contrasenya són obligatoris", 400));
         }
 
         if (password !== confirmPassword) {
-            return res.status(400).json({
-                success: false,
-                message: "Les contrasenyes no coincideixen"
-            });
+            return next(new AppError("Les contrasenyes no coincideixen", 400));
         }
 
         try {
@@ -80,19 +73,18 @@ export class UserController {
 
             return res.json({ success: true, message: "Usuari creat correctament!" });
         } catch (err) {
-            console.error("Error:", err);
-            return res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
 
-    static async delete(req, res) {
+    static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {
             await UserModel.delete(id);
             return res.json({ success: true, message: "Usuari eliminat correctament!" });
         } catch (error) {
-            return res.status(500).json({ success: false, message: "Error al eliminar." });
+            next(error);
         }
     }
 }

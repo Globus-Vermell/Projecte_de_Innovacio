@@ -1,7 +1,7 @@
 import express from 'express';
 import session from "express-session";
 import dotenv from 'dotenv';
-
+import { errorHandler } from './middlewares/error.js';
 
 import loginRouter from "./routes/login.js";
 import usersRouter from "./routes/users.js";
@@ -54,6 +54,9 @@ app.use("/protection", protectionsRouter);
 app.use('/publications', publicationsRouter);
 app.use("/reforms", reformsRouter);
 app.use("/typologies", typologiesRouter);
+
+// Controllador de errores
+app.use(errorHandler);
 
 // Start
 app.listen(PORT, () => {

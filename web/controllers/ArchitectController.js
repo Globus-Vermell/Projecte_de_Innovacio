@@ -1,12 +1,13 @@
 import { ArchitectModel } from "../models/ArchitectModel.js";
+import { AppError } from "../utils/AppError.js";
 
 export class ArchitectController {
 
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = parseInt(req.query.limit) || 15;
-            
+
             // Recogemos el texto de búsqueda de la URL
             const filters = {
                 search: req.query.search || ''
@@ -21,19 +22,19 @@ export class ArchitectController {
                 currentFilters: filters
             });
         } catch (error) {
-            console.error("Error al obtener arquitectos:", error);
-            res.status(500).send("Error al obtenir arquitectes");
+            next(error);
         }
     }
 
-    static async formCreate(req, res) {
+    static async formCreate(req, res, next) {
         res.render("architects/architectsForm");
     }
-    static async create(req, res) {
+
+    static async create(req, res, next) {
         const { name, description, birth_year, death_year, nationality } = req.body;
 
         if (!name) {
-            return res.status(400).json({ success: false, message: "El nom és obligatori" });
+            return next(new AppError("El nom és obligatori", 400));
         }
 
         try {
@@ -47,26 +48,24 @@ export class ArchitectController {
 
             return res.json({ success: true, message: "Arquitecte guardat correctament!" });
         } catch (err) {
-            console.error("Error creando arquitecto:", err);
-            return res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
-    static async formEdit(req, res) {
+    static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
             const architect = await ArchitectModel.getById(id);
             if (!architect) {
-                return res.status(404).send("Arquitecte no trobat");
+                return next(new AppError("Arquitecte no trobat", 404));
             }
             res.render("architects/architectsEdit", { architect });
         } catch (error) {
-            console.error("Error obteniendo arquitecto:", error);
-            return res.status(500).send("Error intern del servidor");
+            next(error);
         }
     }
 
-    static async update(req, res) {
+    static async update(req, res, next) {
         const id = Number(req.params.id);
         const { name, description, birth_year, death_year, nationality } = req.body;
 
@@ -81,19 +80,17 @@ export class ArchitectController {
 
             return res.json({ success: true, message: "Arquitecte actualitzat correctament!" });
         } catch (err) {
-            console.error("Error actualizando:", err);
-            return res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
-    static async delete(req, res) {
+    static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {
             await ArchitectModel.delete(id);
             return res.json({ success: true, message: "Arquitecte eliminat correctament!" });
         } catch (error) {
-            console.error("Error eliminando:", error);
-            return res.status(500).json({ success: false, message: "Error al eliminar." });
+            next(error);
         }
     }
 }

@@ -3,14 +3,15 @@ import { PublicationModel } from "../models/PublicationModel.js";
 import { ArchitectModel } from "../models/ArchitectModel.js";
 import { TypologyModel } from "../models/TypologyModel.js";
 import { ProtectionModel } from "../models/ProtectionModel.js";
+import { AppError } from "../utils/AppError.js";
 
 export class BuildingController {
 
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = 15;
-            
+
             // Recogemos TODOS los filtros
             const filters = {
                 search: req.query.search || '',
@@ -31,11 +32,11 @@ export class BuildingController {
                 currentFilters: filters // Pasamos los filtros a la vista
             });
         } catch (err) {
-            res.status(500).send("Error del servidor");
+            next(err);
         }
     }
 
-    static async formCreate(req, res) {
+    static async formCreate(req, res, next) {
         try {
             const [publications, architects, typologies, protections] = await Promise.all([
                 PublicationModel.getAll(null, null),
@@ -51,11 +52,11 @@ export class BuildingController {
                 protections: protections || []
             });
         } catch (error) {
-            res.status(500).send("Error al cargar el formulari");
+            next(error);
         }
     }
 
-    static async create(req, res) {
+    static async create(req, res, next) {
         const {
             name, address, construction_year, description, surface_area,
             publications, architects, tipologies, protection,
@@ -85,17 +86,17 @@ export class BuildingController {
             res.json({ success: true, message: "Edificació guardada correctament!" });
 
         } catch (err) {
-            res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
-    static async formEdit(req, res) {
+    static async formEdit(req, res, next) {
         const id = Number(req.params.id);
 
         try {
             const building = await BuildingModel.getById(id);
             if (!building) {
-                return res.status(404).send("Edificació no trobada");
+                return next(new AppError("Edificació no trobada", 404));
             }
 
             const related = await BuildingModel.getRelatedData(id);
@@ -119,11 +120,11 @@ export class BuildingController {
             });
 
         } catch (err) {
-            res.status(500).send("Error del servidor");
+            next(err);
         }
     }
 
-    static async update(req, res) {
+    static async update(req, res, next) {
         const id = Number(req.params.id);
         const {
             name, address, coordinates, construction_year, description,
@@ -154,33 +155,33 @@ export class BuildingController {
             res.json({ success: true, message: "Edificació actualitzada correctament!" });
 
         } catch (err) {
-            res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
-    static async delete(req, res) {
+    static async delete(req, res, next) {
         const id = Number(req.params.id);
 
         try {
             await BuildingModel.delete(id);
             return res.json({ success: true, message: "Edificació eliminada correctament!" });
         } catch (err) {
-            return res.status(500).json({ success: false, message: "Error al borrar." });
+            next(err);
         }
     }
 
-    static async validate(req, res) {
+    static async validate(req, res, next) {
         const id = Number(req.params.id);
         const { validated } = req.body;
         try {
             await BuildingModel.validate(id, validated);
             res.json({ success: true, message: 'Estat de validació actualitzat correctament!' });
         } catch (err) {
-            res.status(500).json({ success: false, message: 'Error intern del servidor' });
+            next(err);
         }
     }
 
-    static async filterTypologies(req, res) {
+    static async filterTypologies(req, res, next) {
         const idsParam = req.query.ids;
         if (!idsParam) return res.json([]);
 
@@ -189,20 +190,20 @@ export class BuildingController {
             const typologies = await BuildingModel.getTypologiesByPublicationIds(pubIds);
             res.json(typologies);
         } catch (error) {
-            return res.status(500).json([]);
+            next(error);
         }
     }
 
-    static async upload(req, res) {
+    static async upload(req, res, next) {
         if (!req.files || req.files.length === 0) {
-            return res.status(400).json({ success: false, message: "No s'ha pujat cap fitxer." });
+            return next(new AppError("No s'ha pujat cap fitxer.", 400));
         }
 
         try {
             const filePaths = await BuildingModel.uploadImages(req.files);
             res.json({ success: true, filePaths });
         } catch (err) {
-            res.status(500).json({ success: false, message: "Error al pujar fitxers al núvol." });
+            next(err);
         }
     }
 }

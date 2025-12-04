@@ -1,12 +1,14 @@
 import { PublicationModel } from "../models/PublicationModel.js";
 import { TypologyModel } from "../models/TypologyModel.js";
+import { AppError } from "../utils/AppError.js";
+
 export class PublicationController {
 
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = 15;
-            
+
             // Recogemos filtros
             const filters = {
                 search: req.query.search || '',
@@ -21,18 +23,17 @@ export class PublicationController {
                 currentFilters: filters
             });
         } catch (error) {
-            console.error("Error:", error);
-            res.status(500).send("Error a l'obtenir publicacions");
+            next(error);
         }
     }
 
-    static async formEdit(req, res) {
+    static async formEdit(req, res, next) {
         const id = Number(req.params.id);
 
         try {
             const publication = await PublicationModel.getById(id);
             if (!publication) {
-                return res.status(404).send('Publicació no trobada');
+                return next(new AppError('Publicació no trobada', 404));
             }
 
             const allTypologies = await TypologyModel.getAll();
@@ -45,12 +46,11 @@ export class PublicationController {
             });
 
         } catch (err) {
-            console.error('Error fetching data:', err);
-            return res.status(500).send('Error intern del servidor');
+            next(err);
         }
     }
 
-    static async update(req, res) {
+    static async update(req, res, next) {
         const id = Number(req.params.id);
         const { title, description, themes, acknowledgment, publication_edition, selectedTypologies } = req.body;
 
@@ -68,31 +68,26 @@ export class PublicationController {
 
             res.json({ success: true, message: 'Publicació actualitzada correctament!' });
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ success: false, message: 'Error intern del servidor' });
+            next(err);
         }
     }
 
-    static async formCreate(req, res) {
+    static async formCreate(req, res, next) {
         try {
             const allTypologies = await TypologyModel.getAll();
             res.render('publications/publicationsForm', {
                 typologies: allTypologies || []
             });
         } catch (err) {
-            console.error('Error fetching data:', err);
-            return res.status(500).send('Error intern del servidor');
+            next(err);
         }
     }
 
-    static async create(req, res) {
+    static async create(req, res, next) {
         const { title, description, themes, acknowledgment, publication_edition, selectedTypologies } = req.body;
 
         if (!title || !themes || !publication_edition) {
-            return res.status(400).json({
-                success: false,
-                message: "Els camps title, themes i publication_edition són obligatoris."
-            });
+            return next(new AppError("Els camps title, themes i publication_edition són obligatoris.", 400));
         }
 
         try {
@@ -109,24 +104,22 @@ export class PublicationController {
 
             res.json({ success: true, message: 'Publicació creada correctament!' });
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ success: false, message: 'Error intern del servidor' });
+            next(err);
         }
     }
 
-    static async delete(req, res) {
+    static async delete(req, res, next) {
         const id = Number(req.params.id);
 
         try {
             await PublicationModel.delete(id);
             return res.json({ success: true, message: "Publicación eliminada correctament!" });
         } catch (error) {
-            console.error("Error borrando:", error);
-            return res.status(500).json({ success: false, message: "Error al borrar." });
+            next(error);
         }
     }
 
-    static async validation(req, res) {
+    static async validation(req, res, next) {
         const id = Number(req.params.id);
         const { validated } = req.body;
 
@@ -134,8 +127,7 @@ export class PublicationController {
             await PublicationModel.updateValidation(id, validated);
             res.json({ success: true, message: 'Estat de validació actualitzat correctament!' });
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ success: false, message: 'Error intern del servidor' });
+            next(err);
         }
     }
 }

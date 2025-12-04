@@ -1,48 +1,48 @@
 import { TypologyModel } from "../models/TypologyModel.js";
 import supabase from "../config.js";
+import { AppError } from "../utils/AppError.js";
 
 export class TypologyController {
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
             const filters = { search: req.query.search || '' };
             const typologies = await TypologyModel.getAll(filters);
-            // Pasamos currentFilters a la vista
             res.render("typology/typology", { typologies, currentFilters: filters });
         } catch (error) {
-            res.status(500).send("Error al obtenir tipologies");
+            next(error);
         }
     }
 
-    static async formCreate(req, res) {
+    static async formCreate(req, res, next) {
         res.render("typology/typologyForm");
     }
 
-    static async create(req, res) {
+    static async create(req, res, next) {
         const { name, image } = req.body;
 
         if (!name) {
-            return res.status(400).json({ success: false, message: "El nom és obligatori" });
+            return next(new AppError("El nom és obligatori", 400));
         }
 
         try {
             await TypologyModel.create({ name, image });
             return res.json({ success: true, message: "Tipologia guardada correctament!" });
         } catch (err) {
-            return res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
-    static async formEdit(req, res) {
+    static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
             const typology = await TypologyModel.getById(id);
             res.render('typology/typologyEdit', { typology });
         } catch (error) {
-            return res.status(404).send('Tipologia no trobada');
+            next(error);
         }
     }
 
-    static async update(req, res) {
+    static async update(req, res, next) {
         const id = Number(req.params.id);
         const { name, image } = req.body;
 
@@ -50,23 +50,23 @@ export class TypologyController {
             await TypologyModel.update(id, { name, image });
             res.json({ success: true, message: 'Tipologia actualitzada correctament!' });
         } catch (err) {
-            res.status(500).json({ success: false, message: 'Error intern del servidor' });
+            next(err);
         }
     }
 
-    static async delete(req, res) {
+    static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {
             await TypologyModel.delete(id);
             return res.json({ success: true, message: "Tipologia eliminada correctament!" });
         } catch (error) {
-            return res.status(500).json({ success: false, message: "Error al eliminar." });
+            next(error);
         }
     }
 
-    static async upload(req, res) {
+    static async upload(req, res, next) {
         if (!req.file) {
-            return res.status(400).json({ success: false, message: "No s'ha pujat cap fitxer." });
+            return next(new AppError("No s'ha pujat cap fitxer.", 400));
         }
 
         try {
@@ -88,8 +88,7 @@ export class TypologyController {
             res.json({ success: true, filePath: data.publicUrl });
 
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ success: false, message: "Error al pujar la imatge." });
+            next(err);
         }
     }
 }

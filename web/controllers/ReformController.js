@@ -1,8 +1,9 @@
 import { ReformModel } from "../models/ReformModel.js";
 import { ArchitectModel } from "../models/ArchitectModel.js";
+import { AppError } from "../utils/AppError.js";
 
 export class ReformController {
-    static async index(req, res) {
+    static async index(req, res, next) {
         try {
             const page = parseInt(req.query.page) || 1;
             const limit = 15;
@@ -15,25 +16,24 @@ export class ReformController {
                 currentFilters: filters
             });
         } catch (error) {
-            console.error("Error:", error);
-            res.status(500).send("Error al obtenir les reformes");
+            next(error);
         }
     }
 
-    static async formCreate(req, res) {
+    static async formCreate(req, res, next) {
         try {
             const architects = await ArchitectModel.getAll(null, null);
             res.render("reform/reformForm", { architects: architects.data || [] });
         } catch (error) {
-            res.status(500).send("Error al cargar el formulari");
+            next(error);
         }
     }
 
-    static async create(req, res) {
+    static async create(req, res, next) {
         const { year, id_architect } = req.body;
 
         if (!id_architect) {
-            return res.status(400).json({ success: false, message: "L'arquitecte és obligatori" });
+            return next(new AppError("L'arquitecte és obligatori", 400));
         }
 
         try {
@@ -44,31 +44,29 @@ export class ReformController {
 
             return res.json({ success: true, message: "Reforma guardada correctament!" });
         } catch (err) {
-            console.error("Error:", err);
-            return res.status(500).json({ success: false, message: "Error intern del servidor" });
+            next(err);
         }
     }
 
-    static async formEdit(req, res) {
+    static async formEdit(req, res, next) {
         const id = Number(req.params.id);
 
         try {
             const reform = await ReformModel.getById(id);
 
             if (!reform) {
-                return res.status(404).send('Reforma no trobada');
+                return next(new AppError('Reforma no trobada', 404));
             }
 
             const architects = await ArchitectModel.getAll(null, null);
 
             res.render('reform/reformEdit', { reform, architects: architects.data });
         } catch (error) {
-            console.error('Error fetching reform:', error);
-            return res.status(500).send('Error al obtenir dades');
+            next(error);
         }
     }
 
-    static async update(req, res) {
+    static async update(req, res, next) {
         const id = Number(req.params.id);
 
         const { year, id_architect } = req.body;
@@ -81,20 +79,18 @@ export class ReformController {
 
             res.json({ success: true, message: 'Reforma actualitzada correctament!' });
         } catch (err) {
-            console.error(err);
-            res.status(500).json({ success: false, message: 'Error intern del servidor' });
+            next(err);
         }
     }
 
-    static async delete(req, res) {
+    static async delete(req, res, next) {
         const id = Number(req.params.id);
 
         try {
             await ReformModel.delete(id);
             return res.json({ success: true, message: "Reforma eliminada correctament!" });
         } catch (error) {
-            console.error("Error borrando:", error);
-            return res.status(500).json({ success: false, message: "Error al borrar." });
+            next(error);
         }
     }
-}   
+}
