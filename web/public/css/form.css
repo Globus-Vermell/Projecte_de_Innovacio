@@ -190,7 +190,75 @@ body {
 }
 
 /* =========================================
-   5. BOTONES
+   5. ESTILOS PARA DESCRIPCIONES EXTRA
+   ========================================= */
+
+.description-row {
+    display: flex;
+    gap: 10px; 
+    align-items: flex-start; 
+    margin-bottom: 15px;
+}
+
+.description-row textarea {
+    flex-grow: 1;
+    min-height: 80px; 
+    margin-bottom: 0; 
+}
+
+.delete-description-button img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1); 
+    display: block; 
+}
+
+.delete-description-button {
+    background-color: #f40202;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: background-color 0.2s ease, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0; /* Quitamos padding extra si es solo el icono */
+    width: 45px; /* Cuadradito perfecto */
+    height: 45px;
+}
+
+.delete-description-button:hover {
+    background-color: #cc0000;
+}
+
+.add-description-button {
+    background-color: #28a150; 
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; 
+    transition: background-color 0.2s ease, transform 0.1s;
+    margin-top: 5px;
+}
+
+.add-description-button:hover {
+    background-color: #1f8140; 
+}
+
+.add-description-button i {
+    font-size: 1.1em;
+}
+
+/* =========================================
+   6. BOTONES
    ========================================= */
 .submit-button {
     background-color: #f40202;
@@ -212,7 +280,7 @@ body {
 .submit-button i { margin-right: 10px; }
 
 /* =========================================
-   6. RESPONSIVE
+   7. RESPONSIVE
    ========================================= */
 @media (max-width: 1100px) {
     .top-section { flex-direction: column; }
