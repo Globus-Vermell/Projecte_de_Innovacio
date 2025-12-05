@@ -49,6 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    const reformsMS = new MultiSelect(document.getElementById('reforms'), {
+        placeholder: 'Selecciona reformes...',
+        search: true,
+        selectAll: true
+    });
+
     async function actualizarTipologias() {
         const hiddenInputs = document.querySelectorAll('input[name="publications[]"]');
         const selectedIds = Array.from(hiddenInputs).map(input => input.value);
@@ -163,6 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 if (publicationsMS) {
                     publicationsMS.reset();
+                }
+                if (reformsMS) {
+                    reformsMS.reset();
                 }
                 if (containerTipologia) {
                     containerTipologia.style.display = 'none';

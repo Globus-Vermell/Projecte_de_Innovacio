@@ -44,7 +44,7 @@ export class BuildingService {
         const {
             name, address, construction_year, description, surface_area,
             publications, architects, typologies, protection,
-            coordinates, pictureUrls, extra_descriptions
+            coordinates, pictureUrls, extra_descriptions, reforms
         } = data;
 
         const buildingData = {
@@ -65,7 +65,8 @@ export class BuildingService {
         const relations = {
             architects: Array.isArray(architects) ? architects : [],
             publications: Array.isArray(publications) ? publications : [publications],
-            pictureUrls: pictureUrls || []
+            pictureUrls: pictureUrls || [],
+            reforms: Array.isArray(reforms) ? reforms : []
         };
 
         return await BuildingModel.create(buildingData, relations, descriptionsArray);
@@ -75,7 +76,7 @@ export class BuildingService {
         const {
             name, address, coordinates, construction_year, description,
             surface_area, typologies, protection,
-            architects, publications, pictureUrls, extra_descriptions
+            architects, publications, pictureUrls, extra_descriptions, reforms
         } = data;
 
         const buildingData = {
@@ -96,7 +97,8 @@ export class BuildingService {
         const relations = {
             architects: architects ? (Array.isArray(architects) ? architects : [architects]) : [],
             publications: publications ? (Array.isArray(publications) ? publications : [publications]) : [],
-            pictureUrls: pictureUrls || []
+            pictureUrls: pictureUrls || [],
+            reforms: reforms ? (Array.isArray(reforms) ? reforms : [reforms]) : []
         };
 
         return await BuildingModel.update(id, buildingData, relations, descriptionsArray);

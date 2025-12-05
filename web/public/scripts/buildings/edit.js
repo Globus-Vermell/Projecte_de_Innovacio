@@ -58,6 +58,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             actualizarTipologias();
         }
     });
+    new MultiSelect(document.getElementById('reforms'), {
+        placeholder: 'Selecciona reformes...',
+        search: true,
+        selectAll: true
+    });
 
     await actualizarTipologias();
 

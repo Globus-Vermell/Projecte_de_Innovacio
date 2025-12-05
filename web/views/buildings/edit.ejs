@@ -135,6 +135,19 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="reforms">Reformes:</label>
+                        <select id="reforms" name="reforms" multiple>
+                            <% if (reforms && reforms.length> 0) { %>
+                                <% reforms.forEach(reform=> { %>
+                                    <% const isSelected=currentReforms.includes(reform.id_reform) ? 'selected' : '' %>
+                                        <option value="<%= reform.id_reform %>" <%=isSelected %>><%= reform.name %>
+                                        </option>
+                                        <% }) %>
+                                            <% } %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
                         <label>Descripcions Extra:</label>
                         <div id="descriptions-container"></div>
                         <button type="button" id="button-add-description" class="add-description-button">

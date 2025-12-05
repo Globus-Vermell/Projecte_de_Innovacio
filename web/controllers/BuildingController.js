@@ -3,6 +3,7 @@ import { PublicationModel } from "../models/PublicationModel.js";
 import { ArchitectModel } from "../models/ArchitectModel.js";
 import { TypologyModel } from "../models/TypologyModel.js";
 import { ProtectionModel } from "../models/ProtectionModel.js";
+import { ReformModel } from "../models/ReformModel.js";
 
 export class BuildingController {
 
@@ -17,18 +18,20 @@ export class BuildingController {
 
     static async formCreate(req, res, next) {
         try {
-            const [publications, architects, typologies, protections] = await Promise.all([
+            const [publications, architects, typologies, protections, reforms] = await Promise.all([
                 PublicationModel.getAll(null, null),
                 ArchitectModel.getAll(null, null),
                 TypologyModel.getAll(),
-                ProtectionModel.getAll()
+                ProtectionModel.getAll(),
+                ReformModel.getAll()
             ]);
 
             res.render("buildings/create", {
                 publications: publications.data || [],
                 architects: architects.data || [],
                 typologies: typologies || [],
-                protections: protections || []
+                protections: protections || [],
+                reforms: reforms || []
             });
         } catch (error) {
             next(error);
@@ -49,11 +52,12 @@ export class BuildingController {
         try {
             const { building, related } = await BuildingService.getBuildingById(id);
 
-            const [publications, architects, typologies, protections] = await Promise.all([
+            const [publications, architects, typologies, protections, reforms] = await Promise.all([
                 PublicationModel.getAll(null, null),
                 ArchitectModel.getAll(null, null),
                 TypologyModel.getAll(),
-                ProtectionModel.getAll()
+                ProtectionModel.getAll(),
+                ReformModel.getAll()
             ]);
 
             res.render("buildings/edit", {
@@ -64,7 +68,8 @@ export class BuildingController {
                 publications: publications.data || [],
                 architects: architects.data || [],
                 typologies: typologies || [],
-                protections: protections || []
+                protections: protections || [],
+                reforms: reforms || []
             });
         } catch (err) {
             next(err);

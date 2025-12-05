@@ -70,23 +70,26 @@ export class BuildingModel {
     // Método para obtener datos relacionados (imágenes, arquitectos, publicaciones, descripciones extra)
     static async getRelatedData(id) {
         // Ejecutamos las consultas en paralelo
-        const [pubRes, arqRes, imgRes, descRes] = await Promise.all([
+        const [pubRes, arqRes, imgRes, descRes, reformsRes] = await Promise.all([
             supabase.from("building_publications").select("id_publication").eq("id_building", id),
             supabase.from("building_architects").select("id_architect").eq("id_building", id),
             supabase.from("building_images").select("image_url").eq("id_building", id),
-            supabase.from("buildings_descriptions").select("*").eq("id_building", id).order('display_order', { ascending: true })
+            supabase.from("buildings_descriptions").select("*").eq("id_building", id).order('display_order', { ascending: true }),
+            supabase.from("building_reform").select("id_reform").eq("id_building", id)
         ]);
 
         if (pubRes.error) throw pubRes.error;
         if (arqRes.error) throw arqRes.error;
         if (imgRes.error) throw imgRes.error;
         if (descRes.error) throw descRes.error;
+        if (reformsRes.error) throw reformsRes.error;
 
         return {
             publications: pubRes.data.map(r => r.id_publication),
             architects: arqRes.data.map(r => r.id_architect),
             images: imgRes.data.map(r => r.image_url),
-            descriptions: descRes.data // Array de objetos {id_description, content, display_order...}
+            descriptions: descRes.data, // Array de objetos {id_description, content, display_order...}
+            reforms: reformsRes.data
         };
     }
 
@@ -177,17 +180,7 @@ export class BuildingModel {
             if (err) throw err;
         }
 
-        // 5. Insertamos relaciones (Tipologías)
-        if (relations.typologies && relations.typologies.length > 0) {
-            const inserts = relations.typologies.map(id => ({
-                id_building: buildingId,
-                id_typology: parseInt(id)
-            }));
-            const { error: err } = await supabase.from("building_typologies").insert(inserts);
-            if (err) throw err;
-        }
-
-        // 6. Insertamos relaciones (Descripciones)
+        // 5. Insertamos relaciones (Descripciones)
         if (descriptionsArray && descriptionsArray.length > 0) {
             const descriptionInserts = descriptionsArray.map((text, index) => ({
                 id_building: buildingId,
@@ -195,6 +188,16 @@ export class BuildingModel {
                 display_order: index
             }));
             const { error: err } = await supabase.from("buildings_descriptions").insert(descriptionInserts);
+            if (err) throw err;
+        }
+
+        // 6. Insertamos relaciones (Reformas)
+        if (relations.reforms && relations.reforms.length > 0) {
+            const inserts = relations.reforms.map(id => ({
+                id_building: buildingId,
+                id_reform: parseInt(id)
+            }));
+            const { error: err } = await supabase.from("building_reform").insert(inserts);
             if (err) throw err;
         }
 
@@ -245,6 +248,18 @@ export class BuildingModel {
             }));
             const { error: err } = await supabase.from("building_images").insert(inserts);
             if (err) throw err;
+        }
+
+        if (relations.reforms) {
+            await supabase.from("building_reform").delete().eq("id_building", id);
+            if (relations.reforms.length > 0) {
+                const inserts = relations.reforms.map(rid => ({
+                    id_building: id,
+                    id_reform: parseInt(rid)
+                }));
+                const { error: err } = await supabase.from("building_reform").insert(inserts);
+                if (err) throw err;
+            }
         }
 
 
