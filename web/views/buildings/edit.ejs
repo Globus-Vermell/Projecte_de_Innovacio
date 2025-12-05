@@ -3,6 +3,7 @@
 
 <head>
     <%- include('../partials/head', { title: 'Editar construcció' , cssType: 'form' }) %>
+        <link rel="stylesheet" href="/css/carruselImg.css">
 </head>
 
 <body>
@@ -101,18 +102,30 @@
                         </div>
 
                         <div class="col-right">
-                            <div class="image-container-building" style="margin-top: 0;
- width: 100%;">
+                            <div class="image-container-building" style="margin-top: 0; width: 100%;">
                                 <% if (imagenes && imagenes.length> 0) { %>
-                                    <img src="<%= imagenes[0] %>" alt="Imatge de l'edificació" class="building-image">
+                                    <div class="carousel-images">
+                                        <% imagenes.forEach((image, index)=> { %>
+                                            <img src="<%= image %>" alt="..."
+                                                class="building-image <%= index === 0 ? 'active' : '' %>">
+                                            <% }) %>
+                                    </div>
+
+                                    <button type="button" id="prev-btn" class="carousel-btn prev-btn">❮</button>
+                                    <button type="button" id="next-btn" class="carousel-btn next-btn">❯</button>
+
                                     <% } else { %>
                                         <div class="no-image-placeholder">
+
                                             <i class="fas fa-building"></i>
+
                                             <p>Sense imatge</p>
+
                                         </div>
                                         <% } %>
                             </div>
                         </div>
+                    </div>
 
                     </div>
 
@@ -140,6 +153,7 @@
         <script>
             const building = JSON.parse('<%- JSON.stringify(building) %>');
         </script>
+        <script src="/scripts/carruselImg.js"></script>
         <script src="/scripts/MultiSelect.js"></script>
         <script src="/scripts/buildings/edit.js"></script>
 </body>

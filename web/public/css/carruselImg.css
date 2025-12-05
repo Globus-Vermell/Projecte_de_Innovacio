@@ -1,0 +1,78 @@
+        .image-container-building {
+            position: relative;
+            overflow: hidden; 
+            height: 350px; /* IMPORTANTE: Define una altura fija */
+            width: 100%;
+        }
+        
+        /* Contenedor que agrupa las imágenes. */
+        .carousel-images {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CLAVES: Apilamiento y Ocultación */
+        .building-image {
+            position: absolute; 
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0; /* Oculta todas por defecto */
+            transition: opacity 0.5s ease-in-out; 
+        }
+
+        /* Clase 'active': solo la imagen con esta clase será visible */
+        .building-image.active {
+            opacity: 1; 
+            z-index: 1; 
+        }
+
+        /* Estilos para los botones (para que se posicionen sobre la imagen) */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .prev-btn {
+            left: 10px;
+        }
+
+        .next-btn {
+            right: 10px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .indicator {
+            display: block;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .indicator.active {
+            background-color: #007bff;
+        }
