@@ -23,7 +23,7 @@ export const errorHandler = (err, req, res, next) => {
         });
     }
 
-    console.error('🔥 ERROR CRÍTICO:', err);
+    console.error('ERROR CRÍTICO:', err);
 
     return res.status(500).json({
         success: false,
