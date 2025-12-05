@@ -71,7 +71,7 @@ export class PublicationService {
         };
 
         const typeIds = selectedTypologies
-            ? (Array.isArray(selectedTypologies) ? selectedTypologies : [selectedTypologies])
+            ? (Array.isArray(selectedTypologies) ? selectedTypologies : [])
             : [];
 
         return await PublicationModel.update(id, pubData, typeIds);
