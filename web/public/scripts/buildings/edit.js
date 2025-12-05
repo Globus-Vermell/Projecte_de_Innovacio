@@ -90,6 +90,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     selectTipologia.appendChild(opt);
                 });
             }
+
         } catch (err) {
             console.error(err);
         }
@@ -166,10 +167,16 @@ document.addEventListener("DOMContentLoaded", async () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
             const result = await res.json();
             alert(result.message);
-            if (result.success) window.location.href = "/buildings";
+
+            if (result.success) {
+                // Recuperamos los filtros de la mochilita
+                const savedFilters = sessionStorage.getItem('buildings_filters') || '';
+
+                // Redirigimos concatenando los filtros antiguos 
+                window.location.href = "/buildings" + savedFilters;
+            }
         } catch (err) {
             console.error(err);
             alert("Error al enviar el formulario.");

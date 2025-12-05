@@ -5,7 +5,7 @@ async function deleteProtection(id) {
 
     try {
         // Realizar la solicitud DELETE al servidor
-        const res = await fetch(`/protection/delete/${id}`, { method: "DELETE" });
+        const res = await fetch(`/protections/delete/${id}`, { method: "DELETE" });
         // Procesar la respuesta del servidor
         const data = await res.json();
         alert(data.message);
@@ -23,5 +23,5 @@ function filterProtections() {
     
     if (inputVal) params.set('search', inputVal);
     
-    window.location.href = `/protection?${params.toString()}`;
+    window.location.href = `/protections?${params.toString()}`;
 }

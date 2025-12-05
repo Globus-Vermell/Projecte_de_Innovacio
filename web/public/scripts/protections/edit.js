@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
             // Enviamos los datos al servidor
-            const res = await fetch(`/protection/edit/${protection.id_protection}`, {
+            const res = await fetch(`/protections/edit/${protection.id_protection}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
