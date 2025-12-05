@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Función para eliminar un premio
 async function deletePrize(id) {
     // Confirmar la eliminación
@@ -10,12 +11,17 @@ async function deletePrize(id) {
         });
         // Procesar la respuesta del servidor
         const data = await res.json();
-        alert(data.message);
-
+        Swal.fire({
+            text: data.message
+        });
         if (data.success) location.reload();
     } catch (err) {
         console.error(err);
-        alert("Error al eliminar el premi");
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Error al eliminar el premi"
+        });
     }
 }
 // Función para filtrar premios

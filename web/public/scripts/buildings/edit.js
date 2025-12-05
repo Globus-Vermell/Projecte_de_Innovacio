@@ -1,3 +1,5 @@
+import Swal from 'sweetalert2';
+
 document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("form-edificacio");
     const selectPublicacions = document.getElementById("publications");
@@ -146,12 +148,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                 if (uploadResult.success) {
                     pictureUrls = uploadResult.filePaths;
                 } else {
-                    alert("Error al subir la nueva imagen: " + uploadResult.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: "Error al subir la nueva imagen: " + uploadResult.message
+                    });
                     return;
                 }
             } catch (err) {
                 console.error(err);
-                alert("Error de conexión al subir imagen.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Error de conexión al subir imagen."
+                });
                 return;
             }
         }
@@ -161,7 +171,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         for (let field of oblig) {
             const val = data[field];
             if (!val || (Array.isArray(val) && val.length === 0)) {
-                alert(`El camp "${field}" és obligatori.`);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: `El camp "${field}" és obligatori.`
+                });
                 return;
             }
         }
@@ -173,7 +187,12 @@ document.addEventListener("DOMContentLoaded", async () => {
                 body: JSON.stringify(data),
             });
             const result = await res.json();
-            alert(result.message);
+            
+            Swal.fire({
+                icon: result.success ? 'success' : 'error',
+                title: result.success ? 'Éxit' : 'Error',
+                text: result.message
+            });
 
             if (result.success) {
                 // Recuperamos los filtros de la mochilita
@@ -184,7 +203,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
         } catch (err) {
             console.error(err);
-            alert("Error al enviar el formulario.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Error al enviar el formulario."
+            });
         }
     });
 });

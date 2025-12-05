@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Formulario de edición de premio
 const form = document.getElementById('form-prize-edit');
 
@@ -19,10 +20,17 @@ form.addEventListener('submit', async (e) => {
 
         // Obtenemos el resultado
         const result = await res.json();
-        alert(result.message);
+        Swal.fire({
+            text: result.message
+        });
+        
         if (result.success) window.location.href = '/prizes';
     } catch (err) {
         console.error(err);
-        alert('Error al actualizar el premi');
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Error al actualizar el premi"
+        });
     }
 });

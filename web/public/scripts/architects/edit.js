@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Obtener el formulario de edición
 const form = document.getElementById("form-edit-architect");
 
@@ -17,11 +18,17 @@ form.addEventListener("submit", async (e) => {
         
         // Procesar la respuesta del servidor
         const result = await res.json();
-        alert(result.message);
+        Swal.fire({
+            text: result.message,
+        });
         // Redirigir si la actualización fue exitosa
         if (result.success) window.location.href = "/architects";
     } catch (err) {
         console.error(err);
-        alert("Error al actualizar el arquitecte");
+        Swal.fire({
+            title: "Error",
+            icon: "error",
+            text: "Error al actualizar el arquitecte",
+        });
     }
 });

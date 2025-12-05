@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-edificacio");
     const selectPublicacions = document.getElementById("publications");
@@ -131,12 +132,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (uploadResult.success) {
                     pictureUrls = uploadResult.filePaths;
                 } else {
-                    alert("Error al pujar la imatge: " + uploadResult.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: "Error al pujar la imatge: " + uploadResult.message
+                    });
                     return;
                 }
             } catch (err) {
                 console.error(err);
-                alert("Error de connexió al pujar imatge.");
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "Error de connexió al pujar imatge."
+                });
                 return;
             }
         }
@@ -146,7 +155,11 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let field of obligatorios) {
             const val = data[field];
             if (!val || (Array.isArray(val) && val.length === 0)) {
-                alert(`El camp "${field}" és obligatori.`);
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Warning',
+                    text: `El camp "${field}" és obligatori.`
+                });
                 return;
             }
         }
@@ -159,7 +172,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await res.json();
-            alert(result.message);
+            Swal.fire({
+                icon: result.success ? 'success' : 'error',
+                title: result.success ? 'Éxit' : 'Error',
+                text: result.message
+            });
 
             if (result.success) {
                 form.reset();
@@ -183,7 +200,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (err) {
             console.error(err);
-            alert("Error al enviar el formulari.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Error al enviar el formulari."
+            });
         }
     });
 });

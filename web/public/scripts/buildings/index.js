@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Función para eliminar un edificio
 async function deleteBuilding(id) {
     // Confirmar la eliminación
@@ -10,12 +11,19 @@ async function deleteBuilding(id) {
         });
         // Procesar la respuesta del servidor
         const data = await res.json();
-        alert(data.message);
+        
+        Swal.fire({
+            text: data.message
+        });
 
         if (data.success) location.reload();
     } catch (err) {
         console.error(err);
-        alert("Error al eliminar l'edifici");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Error al eliminar l'edifici"
+        });
     }
 }
 
@@ -51,10 +59,17 @@ async function validateBuilding(id) {
         });
 
         const data = await res.json();
-        alert(data.message);
+        
+        Swal.fire({
+            text: data.message
+        });
         if (data.success) location.reload();
     } catch (err) {
         console.error(err);
-        alert("Error al validar la construcció");
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: "Error al validar la construcció"
+        });
     }
 }

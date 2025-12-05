@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Formulario de creación de premio
 document.addEventListener("DOMContentLoaded", () => {
     // Obtenemos el formulario
@@ -21,12 +22,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Obtenemos el resultado
             const result = await res.json();
-            alert(result.message);
+            Swal.fire({
+                text: result.message
+            });
 
             if (result.success) form.reset();
         } catch (err) {
             console.error("Error:", err);
-            alert("Error al enviar el formulari.");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Error al enviar el formulari."
+            });
         }
     });
 });

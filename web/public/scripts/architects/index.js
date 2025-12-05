@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Función para eliminar un arquitecto
 async function deleteArchitect(id) {
     // Confirmar la eliminación
@@ -11,11 +12,17 @@ async function deleteArchitect(id) {
 
         // Procesar la respuesta del servidor
         const data = await res.json();
-        alert(data.message);
+        Swal.fire({
+            text: data.message,
+        });
 
         if (data.success) location.reload();
     } catch (err) {
-        alert("Error al eliminar l'arquitecte");
+        Swal.fire({
+            title: "Error",
+            icon: "error",
+            text: "Error al eliminar l'arquitecte",
+        });
     }
 }
 

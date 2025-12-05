@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Formulario de edición de protección
 document.addEventListener("DOMContentLoaded", () => {
     // Obtenemos el formulario
@@ -19,11 +20,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Obtenemos la respuesta del servidor
             const result = await res.json();
-            alert(result.message);
+            Swal.fire({
+                text: result.message
+            });
             if (result.success) window.location.href = '/protection';
         } catch (err) {
             console.error(err);
-            alert('Error al actualizar la protecció');
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Error al actualizar la protecció"
+            });
         }
     });
 });

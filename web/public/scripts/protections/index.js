@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 // Función para eliminar una protección
 async function deleteProtection(id) {
     // Confirmar la eliminación
@@ -8,11 +9,17 @@ async function deleteProtection(id) {
         const res = await fetch(`/protections/delete/${id}`, { method: "DELETE" });
         // Procesar la respuesta del servidor
         const data = await res.json();
-        alert(data.message);
+        Swal.fire({
+            text: data.message
+        })
         if (data.success) location.reload();
     } catch (err) {
         console.error(err);
-        alert("Error al eliminar la protecció");
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Error al eliminar la protecció"
+        })
     }
 }
 
