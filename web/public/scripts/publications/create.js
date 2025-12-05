@@ -2,19 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-publication");
 
     // Inicializamos el MultiSelect para el campo de tipologías y temas 
-    new MultiSelect(document.getElementById('typologies'), {
+    const typologiesMS = new MultiSelect(document.getElementById('typologies'), {
         placeholder: 'Selecciona tipologies...',
         search: true,
         selectAll: true
     });
 
-    if (document.getElementById('themes')) {
-        new MultiSelect(document.getElementById('themes'), {
-            placeholder: 'Selecciona temàtiques...',
-            search: true,
-            selectAll: true
-        });
-    }
+    const themesMS = new MultiSelect(document.getElementById('themes'), {
+        placeholder: 'Selecciona temàtiques...',
+        search: true,
+        selectAll: true
+    });
+
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -53,7 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await res.json();
             alert(result.message);
 
-            if (result.success) form.reset();
+            if (result.success) {
+                form.reset();
+                if (typologiesMS) {
+                    typologiesMS.reset();
+                }
+                if (themesMS) {
+                    themesMS.reset();
+                }
+            }
         } catch (err) {
             console.error("Error:", err);
             alert("Error al enviar el formulari.");

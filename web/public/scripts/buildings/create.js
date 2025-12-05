@@ -34,13 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
         btnAddDescription.addEventListener('click', () => addDescriptionField());
     }
 
-    new MultiSelect(selectArquitectes, {
+    const architectsMS = new MultiSelect(selectArquitectes, {
         placeholder: 'Selecciona arquitectes...',
         search: true,
         selectAll: true
     });
 
-    new MultiSelect(selectPublicacions, {
+    const publicationsMS = new MultiSelect(selectPublicacions, {
         placeholder: 'Selecciona publicacions...',
         search: true,
         selectAll: true,
@@ -154,10 +154,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await res.json();
             alert(result.message);
+
             if (result.success) {
                 form.reset();
-                containerTipologia.style.display = 'none';
-                descriptionsContainer.innerHTML = '';
+
+                if (architectsMS) {
+                    architectsMS.reset();
+                }
+                if (publicationsMS) {
+                    publicationsMS.reset();
+                }
+                if (containerTipologia) {
+                    containerTipologia.style.display = 'none';
+                }
+                if (descriptionsContainer) {
+                    descriptionsContainer.innerHTML = '';
+                }
             }
 
         } catch (err) {
