@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Obtener el formulario de edición
 const form = document.getElementById("form-edit-architect");
 
@@ -15,7 +14,7 @@ form.addEventListener("submit", async (e) => {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
         });
-        
+
         // Procesar la respuesta del servidor
         const result = await res.json();
         Swal.fire({

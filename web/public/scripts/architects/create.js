@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Formulario de creación de arquitecto
 document.addEventListener("DOMContentLoaded", () => {
     // Obtenemos el formulario

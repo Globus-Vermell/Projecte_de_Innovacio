@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Función para eliminar un arquitecto
 async function deleteArchitect(id) {
     // Confirmar la eliminación
@@ -30,14 +29,14 @@ async function deleteArchitect(id) {
 function filterArchitects() {
     // 1. Obtenemos el valor del input
     const inputVal = document.getElementById('searchInput').value;
-    
+
     // 2. Preparamos los parámetros de la URL
     const params = new URLSearchParams();
-    
+
     if (inputVal) {
         params.set('search', inputVal);
     }
-    
+
     // Volvemos siempre a la página 1 al buscar
     params.set('page', 1);
 

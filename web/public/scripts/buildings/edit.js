@@ -1,4 +1,3 @@
-import Swal from 'sweetalert2';
 
 document.addEventListener("DOMContentLoaded", async () => {
     const form = document.getElementById("form-edificacio");
@@ -187,7 +186,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 body: JSON.stringify(data),
             });
             const result = await res.json();
-            
+
             Swal.fire({
                 icon: result.success ? 'success' : 'error',
                 title: result.success ? 'Éxit' : 'Error',

@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Función para eliminar un edificio
 async function deleteBuilding(id) {
     // Confirmar la eliminación
@@ -11,7 +10,7 @@ async function deleteBuilding(id) {
         });
         // Procesar la respuesta del servidor
         const data = await res.json();
-        
+
         Swal.fire({
             text: data.message
         });
@@ -38,7 +37,7 @@ function filterBuildings() {
     if (valSelect !== 'all') params.set('validated', valSelect);
     if (imgSelect !== 'all') params.set('image', imgSelect); // <--- Se envía al servidor
     if (pubSelect !== 'all') params.set('publication', pubSelect);
-    
+
     params.set('page', 1);
     window.location.href = `/buildings?${params.toString()}`;
 }
@@ -59,7 +58,7 @@ async function validateBuilding(id) {
         });
 
         const data = await res.json();
-        
+
         Swal.fire({
             text: data.message
         });

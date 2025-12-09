@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Formulario de creación de premio
 document.addEventListener("DOMContentLoaded", () => {
     // Obtenemos el formulario

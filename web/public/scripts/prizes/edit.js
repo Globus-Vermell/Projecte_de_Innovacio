@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Formulario de edición de premio
 const form = document.getElementById('form-prize-edit');
 
@@ -23,7 +22,7 @@ form.addEventListener('submit', async (e) => {
         Swal.fire({
             text: result.message
         });
-        
+
         if (result.success) window.location.href = '/prizes';
     } catch (err) {
         console.error(err);

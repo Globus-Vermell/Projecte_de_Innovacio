@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Función para eliminar una protección
 async function deleteProtection(id) {
     // Confirmar la eliminación
@@ -27,8 +26,8 @@ async function deleteProtection(id) {
 function filterProtections() {
     const inputVal = document.getElementById('searchInput').value;
     const params = new URLSearchParams();
-    
+
     if (inputVal) params.set('search', inputVal);
-    
+
     window.location.href = `/protections?${params.toString()}`;
 }

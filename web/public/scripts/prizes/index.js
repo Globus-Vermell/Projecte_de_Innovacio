@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Función para eliminar un premio
 async function deletePrize(id) {
     // Confirmar la eliminación
@@ -28,8 +27,8 @@ async function deletePrize(id) {
 function filterPrizes() {
     const inputVal = document.getElementById('searchInput').value;
     const params = new URLSearchParams();
-    
+
     if (inputVal) params.set('search', inputVal);
-    
+
     window.location.href = `/prizes?${params.toString()}`;
 }

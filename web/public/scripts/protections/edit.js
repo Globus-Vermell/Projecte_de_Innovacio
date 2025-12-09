@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 // Formulario de edición de protección
 document.addEventListener("DOMContentLoaded", () => {
     // Obtenemos el formulario

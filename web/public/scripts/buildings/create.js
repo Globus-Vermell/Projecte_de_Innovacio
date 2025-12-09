@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-edificacio");
     const selectPublicacions = document.getElementById("publications");
