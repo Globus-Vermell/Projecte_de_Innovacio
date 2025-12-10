@@ -2,48 +2,46 @@
 <html lang="ca">
 
 <head>
-    <%- include('../partials/head', { title: 'Nova Reforma', cssType: 'form' }) %>
+    <%- include('../partials/head', { title: 'Nova Reforma' , cssType: 'form' }) %>
 </head>
 
 <body>
     <!-- Encabezado del formulario -->
-    <%- include('../partials/headerForm', { backUrl: '/reforms', title: 'Nova Reforma' }) %>
+    <%- include('../partials/headerForm', { backUrl: '/reforms' , title: 'Nova Reforma' }) %>
 
-    <!-- Contenedor principal del formulario -->
-    <main class="flex-container">
-        <section class="form-container">
-            <!-- Formulario para añadir nueva reforma -->
-            <form id="form-reform">
-                <!-- Campos del formulario -->
-                <div class="form-group">
-                    <label for="year">Any de reforma</label>
-                    <input type="number" id="year" name="year" />
-                </div>
+        <!-- Contenedor principal del formulario -->
+        <main class="flex-container">
+            <section class="form-container">
+                <!-- Formulario para añadir nueva reforma -->
+                <form id="form-reform" class="api-form" action="/reforms/create" method="POST">
+                    <!-- Campos del formulario -->
+                    <div class="form-group">
+                        <label for="year">Any de reforma</label>
+                        <input type="number" id="year" name="year" />
+                    </div>
 
-                <div class="form-group">
-                    <label for="id_architect">Arquitecte responsable <span class="required">*</span></label>
-                    <select id="id_architect" name="id_architect" required>
-                        <option value="">-- Selecciona un arquitecte --</option>
-                        <% if (architects && architects.length> 0) { %>
-                            <% architects.forEach(arq=> { %>
-                                <option value="<%= arq.id_architect %>">
-                                    <%= arq.name %>
-                                </option>
-                                <% }) %>
-                                    <% } %>
-                    </select>
-                </div>
+                    <div class="form-group">
+                        <label for="id_architect">Arquitecte responsable <span class="required">*</span></label>
+                        <select id="id_architect" name="id_architect" required>
+                            <option value="">-- Selecciona un arquitecte --</option>
+                            <% if (architects && architects.length> 0) { %>
+                                <% architects.forEach(arq=> { %>
+                                    <option value="<%= arq.id_architect %>">
+                                        <%= arq.name %>
+                                    </option>
+                                    <% }) %>
+                                        <% } %>
+                        </select>
+                    </div>
 
-                <!-- Botón de envío -->
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> Desar
-                </button>
-            </form>
-        </section>
-    </main>
+                    <!-- Botón de envío -->
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-save"></i> Desar
+                    </button>
+                </form>
+            </section>
+        </main>
 
-    <!-- Script con la lógica del formulario -->
-    <script src="/scripts/reforms/create.js"></script>
 </body>
 
 </html>

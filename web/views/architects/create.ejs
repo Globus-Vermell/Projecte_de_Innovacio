@@ -2,55 +2,53 @@
 <html lang="ca">
 
 <head>
-    <%- include('../partials/head', { title: 'Nou Arquitecte', cssType: 'form' }) %>
+    <%- include('../partials/head', { title: 'Nou Arquitecte' , cssType: 'form' }) %>
 </head>
 
 <body>
     <!-- Encabezado del formulario -->
-    <%- include('../partials/headerForm', { backUrl: '/architects', title: 'Nou Arquitecte' }) %>
+    <%- include('../partials/headerForm', { backUrl: '/architects' , title: 'Nou Arquitecte' }) %>
 
-    <!-- Contenedor principal del formulario -->
-    <main class="flex-container">
-        <section class="form-container">
-            <!-- Formulario para añadir un nuevo arquitecte -->
-            <form id="form-arquitecte">
-                <!-- Campos del formulario -->
-                <div class="form-group">
-                    <label for="name">Nom <span class="required">*</span></label>
-                    <input type="text" id="name" name="name" required />
-                </div>
-
-                <div class="form-row">
+        <!-- Contenedor principal del formulario -->
+        <main class="flex-container">
+            <section class="form-container">
+                <!-- Formulario para añadir un nuevo arquitecte -->
+                <form id="form-architect" class="api-form" action="/architects/create" method="POST">
+                    <!-- Campos del formulario -->
                     <div class="form-group">
-                        <label for="birth_year">Any de naixement</label>
-                        <input type="number" id="birth_year" name="birth_year" />
+                        <label for="name">Nom <span class="required">*</span></label>
+                        <input type="text" id="name" name="name" required />
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="birth_year">Any de naixement</label>
+                            <input type="number" id="birth_year" name="birth_year" />
+                        </div>
+                        <div class="form-group">
+                            <label for="death_year">Any de defunció</label>
+                            <input type="number" id="death_year" name="death_year" />
+                        </div>
+                    </div>
+
                     <div class="form-group">
-                        <label for="death_year">Any de defunció</label>
-                        <input type="number" id="death_year" name="death_year" />
+                        <label for="nationality">Nacionalitat</label>
+                        <input type="text" id="nationality" name="nationality" />
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label for="nationality">Nacionalitat</label>
-                    <input type="text" id="nationality" name="nationality" />
-                </div>
+                    <div class="form-group">
+                        <label for="description">Biografia</label>
+                        <textarea id="description" name="description"></textarea>
+                    </div>
 
-                <div class="form-group">
-                    <label for="description">Biografia</label>
-                    <textarea id="description" name="description"></textarea>
-                </div>
+                    <!-- Botón de envío -->
+                    <button type="submit" class="submit-button">
+                        <i class="fas fa-save"></i> Guardar
+                    </button>
+                </form>
+            </section>
+        </main>
 
-                <!-- Botón de envío -->
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> Guardar
-                </button>
-            </form>
-        </section>
-    </main>
-
-    <!-- Script con la lógica del formulario -->
-    <script src="/scripts/architects/create.js"></script>
 </body>
 
 </html>

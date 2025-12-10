@@ -59,49 +59,6 @@ const AppUtils = {
     },
 
     /**
-     * Función para manejar el envío de formularios vía AJAX
-     * @param {string} formId - ID del formulario
-     * @param {string} url - Endpoint de destino
-     * @param {string} method - POST o PUT
-     * @param {string} redirectUrl - URL para redirigir si hay éxito
-     */
-    GeneralFormSubmit: async (formId, url, method, redirectUrl = null) => {
-        const form = document.getElementById(formId);
-        if (!form) return;
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const data = AppUtils.serializeForm(form);
-
-            try {
-                const res = await fetch(url, {
-                    method: method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data),
-                });
-
-                const result = await res.json();
-
-                await Swal.fire({
-                    text: result.message,
-                    icon: result.success ? 'success' : 'error'
-                });
-
-                if (result.success) {
-                    if (redirectUrl) {
-                        window.location.href = redirectUrl;
-                    } else if (method === 'POST') {
-                        form.reset();
-                    }
-                }
-            } catch (err) {
-                console.error(err);
-                Swal.fire({ icon: 'error', title: 'Error', text: 'Error de conexión.' });
-            }
-        });
-    },
-
-    /**
      * Función para subir archivos a una URL específica.
      * @param {string} inputId - ID del input type="file".
      * @param {string} uploadUrl - Endpoint del servidor.
