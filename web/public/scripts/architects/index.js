@@ -1,28 +1,6 @@
 // Función para eliminar un arquitecto
 async function deleteArchitect(id) {
-    // Confirmar la eliminación
-    if (!confirm("Segur que vols eliminar aquest arquitecte?")) return;
-
-    try {
-        // Realizar la solicitud DELETE al servidor
-        const res = await fetch(`/architects/delete/${id}`, {
-            method: "DELETE"
-        });
-
-        // Procesar la respuesta del servidor
-        const data = await res.json();
-        Swal.fire({
-            text: data.message,
-        });
-
-        if (data.success) location.reload();
-    } catch (err) {
-        Swal.fire({
-            title: "Error",
-            icon: "error",
-            text: "Error al eliminar l'arquitecte",
-        });
-    }
+    await AppUtils.confirmAndDelete(`/architects/delete/${id}`, "Segur que vols eliminar aquest arquitecte?");
 }
 
 // Función para filtrar arquitectos

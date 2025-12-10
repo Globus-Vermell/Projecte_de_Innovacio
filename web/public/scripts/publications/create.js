@@ -1,47 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-publication");
 
-    // Inicializamos el MultiSelect para el campo de tipologías y temas 
-    const typologiesMS = new MultiSelect(document.getElementById('typologies'), {
-        placeholder: 'Selecciona tipologies...',
-        search: true,
-        selectAll: true
-    });
-
-    const themesMS = new MultiSelect(document.getElementById('themes'), {
-        placeholder: 'Selecciona temàtiques...',
-        search: true,
-        selectAll: true
-    });
-
+    const typologiesMS = AppUtils.initMultiSelect('typologies', 'Selecciona tipologies...');
+    const themesMS = AppUtils.initMultiSelect('themes', 'Selecciona temàtiques...');
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const formData = new FormData(form);
-        const data = {};
+        const data = AppUtils.serializeForm(form);
 
-        // Procesamos los datos 
-        for (const [key, value] of formData.entries()) {
-            // Limpiamos los corchetes [] que añade la librería MultiSelect
-            const cleanKey = key.replace('[]', '');
-
-            if (data[cleanKey]) {
-                if (!Array.isArray(data[cleanKey])) {
-                    data[cleanKey] = [data[cleanKey]];
-                }
-                data[cleanKey].push(value);
-            } else {
-                data[cleanKey] = value;
-            }
-        }
-
-        // Aseguramos que sea array por si acaso
         if (data.themes && !Array.isArray(data.themes)) {
             data.themes = [data.themes];
         }
+        if (data.selectedTypologies && !Array.isArray(data.selectedTypologies)) {
+            data.selectedTypologies = [data.selectedTypologies];
+        }
 
-        // Enviamos los datos
         try {
             const res = await fetch("/publications/create", {
                 method: "POST",
@@ -50,20 +24,24 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const result = await res.json();
-            alert(result.message);
+
+            Swal.fire({
+                text: result.message,
+                icon: result.success ? 'success' : 'error'
+            });
 
             if (result.success) {
                 form.reset();
-                if (typologiesMS) {
-                    typologiesMS.reset();
-                }
-                if (themesMS) {
-                    themesMS.reset();
-                }
+                if (typologiesMS) typologiesMS.reset();
+                if (themesMS) themesMS.reset();
             }
         } catch (err) {
             console.error("Error:", err);
-            alert("Error al enviar el formulari.");
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: "Error al enviar el formulari."
+            });
         }
     });
 });

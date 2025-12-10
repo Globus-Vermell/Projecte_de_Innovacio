@@ -1,12 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("form-edificacio");
-    const selectPublicacions = document.getElementById("publications");
-    const selectArquitectes = document.getElementById("architects");
-    const selectTipologia = document.getElementById("typologies");
     const containerTipologia = document.getElementById("typologies-container");
+    const selectTipologia = document.getElementById("typologies");
     const descriptionsContainer = document.getElementById('descriptions-container');
     const btnAddDescription = document.getElementById('button-add-description');
-    const selectPrizes = document.getElementById("prizes");
+
+    const architectsMS = AppUtils.initMultiSelect('architects', 'Selecciona arquitectes...');
+    const reformsMS = AppUtils.initMultiSelect('reforms', 'Selecciona reformes...');
+    const prizesMS = AppUtils.initMultiSelect('prizes', 'Selecciona premis...');
+
+    const publicationsMS = AppUtils.initMultiSelect('publications', 'Selecciona publicacions...', {
+        onChange: () => actualizarTipologias()
+    });
 
     function addDescriptionField(value = '') {
         const div = document.createElement('div');
@@ -21,10 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
         deleteButton.type = "button";
         deleteButton.innerHTML = '<img src="/images/icons/trash-2-64.png" alt="Borrar">';
         deleteButton.classList.add('delete-description-button');
-
-        deleteButton.onclick = function () {
-            div.remove();
-        };
+        deleteButton.onclick = () => div.remove();
 
         div.appendChild(textarea);
         div.appendChild(deleteButton);
@@ -35,36 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btnAddDescription.addEventListener('click', () => addDescriptionField());
     }
 
-    const architectsMS = new MultiSelect(selectArquitectes, {
-        placeholder: 'Selecciona arquitectes...',
-        search: true,
-        selectAll: true
-    });
-
-    const publicationsMS = new MultiSelect(selectPublicacions, {
-        placeholder: 'Selecciona publicacions...',
-        search: true,
-        selectAll: true,
-        onChange: function () {
-            actualizarTipologias();
-        }
-    });
-
-    const reformsMS = new MultiSelect(document.getElementById('reforms'), {
-        placeholder: 'Selecciona reformes...',
-        search: true,
-        selectAll: true
-    });
-
-    const prizesMS = new MultiSelect(selectPrizes, {
-        placeholder: 'Selecciona premis...',
-        search: true,
-        selectAll: true
-    });
-
     async function actualizarTipologias() {
-        const hiddenInputs = document.querySelectorAll('input[name="publications[]"]');
-        const selectedIds = Array.from(hiddenInputs).map(input => input.value);
+        const selectedIds = publicationsMS.selectedValues;
 
         containerTipologia.style.display = 'none';
         selectTipologia.innerHTML = '<option value="">-- Selecciona una tipologia --</option>';
@@ -78,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (typologies && typologies.length > 0) {
                 containerTipologia.style.display = 'block';
-
                 typologies.forEach(t => {
                     const opt = document.createElement("option");
                     opt.value = t.id_typology;
@@ -87,90 +60,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
             }
         } catch (err) {
-            console.error(err);
+            console.error("Error cargando tipologías:", err);
         }
     }
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const formData = new FormData(form);
-        const data = {};
+        const data = AppUtils.serializeForm(form);
 
-        for (const [key, value] of formData.entries()) {
-            if (key === 'pictures') continue;
-
-            const cleanKey = key.replace('[]', '');
-
-            if (data[cleanKey]) {
-                if (!Array.isArray(data[cleanKey])) {
-                    data[cleanKey] = [data[cleanKey]];
-                }
-                data[cleanKey].push(value);
-            } else {
-                data[cleanKey] = value;
-            }
-        }
-
-        if (data.publications && !Array.isArray(data.publications)) data.publications = [data.publications];
-        if (data.architects && !Array.isArray(data.architects)) data.architects = [data.architects];
-
-        if (data.extra_descriptions && !Array.isArray(data.extra_descriptions)) {
-            data.extra_descriptions = [data.extra_descriptions];
-        }
-
-        if (data.prizes && !Array.isArray(data.prizes)) data.prizes = [data.prizes];
-
-        let pictureUrls = [];
-        const pictureInput = document.getElementById("picture");
-
-        if (pictureInput.files && pictureInput.files.length > 0) {
-            const uploadData = new FormData();
-            for (const file of pictureInput.files) {
-                uploadData.append("pictures", file);
-            }
-
-            try {
-                const uploadRes = await fetch("/buildings/upload", {
-                    method: "POST",
-                    body: uploadData
-                });
-                const uploadResult = await uploadRes.json();
-
-                if (uploadResult.success) {
-                    pictureUrls = uploadResult.filePaths;
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error',
-                        text: "Error al pujar la imatge: " + uploadResult.message
-                    });
-                    return;
-                }
-            } catch (err) {
-                console.error(err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error',
-                    text: "Error de connexió al pujar imatge."
-                });
-                return;
-            }
-        }
-        data.pictureUrls = pictureUrls;
+        ["publications", "architects", "extra_descriptions", "prizes"].forEach(field => {
+            if (data[field] && !Array.isArray(data[field])) data[field] = [data[field]];
+        });
 
         const obligatorios = ["name", "address", "construction_year", "publications"];
         for (let field of obligatorios) {
             const val = data[field];
             if (!val || (Array.isArray(val) && val.length === 0)) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Warning',
-                    text: `El camp "${field}" és obligatori.`
-                });
-                return;
+                return Swal.fire({ icon: 'warning', title: 'Atenció', text: `El camp "${field}" és obligatori.` });
             }
         }
+
+        let pictureUrls = [];
+        const pictureInput = document.getElementById("picture");
+        if (pictureInput.files && pictureInput.files.length > 0) {
+            const uploadData = new FormData();
+            for (const file of pictureInput.files) uploadData.append("pictures", file);
+
+            try {
+                const uploadRes = await fetch("/buildings/upload", { method: "POST", body: uploadData });
+                const uploadResult = await uploadRes.json();
+                if (uploadResult.success) pictureUrls = uploadResult.filePaths;
+                else return Swal.fire({ icon: 'error', title: 'Error', text: uploadResult.message });
+            } catch (err) {
+                return Swal.fire({ icon: 'error', title: 'Error', text: "Error de connexió al pujar imatge." });
+            }
+        }
+        data.pictureUrls = pictureUrls;
 
         try {
             const res = await fetch("/buildings/create", {
@@ -178,45 +104,25 @@ document.addEventListener("DOMContentLoaded", () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             });
-
             const result = await res.json();
+
             Swal.fire({
-                icon: result.success ? 'success' : 'error',
-                title: result.success ? 'Éxit' : 'Error',
-                text: result.message
+                text: result.message,
+                icon: result.success ? 'success' : 'error'
             });
 
             if (result.success) {
                 form.reset();
-
-                if (architectsMS) {
-                    architectsMS.reset();
-                }
-                if (publicationsMS) {
-                    publicationsMS.reset();
-                }
-                if (reformsMS) {
-                    reformsMS.reset();
-                }
-                if (containerTipologia) {
-                    containerTipologia.style.display = 'none';
-                }
-                if (descriptionsContainer) {
-                    descriptionsContainer.innerHTML = '';
-                }
-
-                if (prizesMS) {
-                    prizesMS.reset();
-                }
+                architectsMS.reset();
+                publicationsMS.reset();
+                reformsMS.reset();
+                prizesMS.reset();
+                containerTipologia.style.display = 'none';
+                descriptionsContainer.innerHTML = '';
             }
-
         } catch (err) {
             console.error(err);
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: "Error al enviar el formulari."
-            });
+            Swal.fire({ icon: 'error', title: 'Error', text: "Error al enviar el formulari." });
         }
     });
 });
