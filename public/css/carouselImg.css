@@ -3,12 +3,14 @@
             overflow: hidden; 
             height: 350px; /* IMPORTANTE: Define una altura fija */
             width: 100%;
+            
         }
         
         /* Contenedor que agrupa las imágenes. */
         .carousel-images {
             width: 100%;
             height: 100%;
+            
         }
 
         /* CLAVES: Apilamiento y Ocultación */
@@ -61,6 +63,7 @@
             z-index: 10;
             display: flex;
             gap: 5px;
+            
         }
         
         .indicator {
