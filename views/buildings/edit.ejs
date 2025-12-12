@@ -88,10 +88,40 @@
                                                     <% } %>
                                     </select>
                                 </div>
-
                                 <div class="form-group" id="typologies-container">
                                     <label for="typologies">Tipologia:</label>
                                     <select id="typologies" name="typologies"></select>
+                                </div>
+                            </div>
+
+                            <div class="split-row form-group">
+                                <div class="form-group">
+                                    <label for="reforms">Reformes:</label>
+                                    <select id="reforms" name="reforms" multiple>
+                                        <% if (reforms && reforms.length> 0) { %>
+                                            <% reforms.forEach(reform=> { %>
+                                                <% const isSelected=currentReforms.includes(reform.id_reform)
+                                                    ? 'selected' : '' %>
+                                                    <option value="<%= reform.id_reform %>" <%=isSelected %>><%=
+                                                            reform.architects?.name %>
+                                                    </option>
+                                                    <% }) %>
+                                                        <% } %>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prizes">Premis:</label>
+                                    <select id="prizes" name="prizes" multiple>
+                                        <% if (prizes && prizes.length> 0) { %>
+                                            <% prizes.forEach(prize=> { %>
+                                                <% const isSelected=currentPrizes &&
+                                                    currentPrizes.includes(prize.id_prize) ? 'selected' : '' %>
+                                                    <option value="<%= prize.id_prize %>" <%=isSelected %>>
+                                                        <%= prize.name %> (<%= prize.year %>)
+                                                    </option>
+                                                    <% }) %>
+                                                        <% } %>
+                                    </select>
                                 </div>
                             </div>
 
@@ -99,6 +129,7 @@
                                 <label for="picture">Canviar Imatge:</label>
                                 <input type="file" id="picture" name="picture" multiple accept="image/*" />
                             </div>
+
                         </div>
 
                         <div class="col-right">
@@ -135,34 +166,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="reforms">Reformes:</label>
-                        <select id="reforms" name="reforms" multiple>
-                            <% if (reforms && reforms.length> 0) { %>
-                                <% reforms.forEach(reform=> { %>
-                                    <% const isSelected=currentReforms.includes(reform.id_reform) ? 'selected' : '' %>
-                                        <option value="<%= reform.id_reform %>" <%=isSelected %>><%=
-                                                reform.architects?.name %>
-                                        </option>
-                                        <% }) %>
-                                            <% } %>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="prizes">Premis:</label>
-                        <select id="prizes" name="prizes" multiple>
-                            <% if (prizes && prizes.length> 0) { %>
-                                <% prizes.forEach(prize=> { %>
-                                    <% const isSelected=currentPrizes && currentPrizes.includes(prize.id_prize)
-                                        ? 'selected' : '' %>
-                                        <option value="<%= prize.id_prize %>" <%=isSelected %>>
-                                            <%= prize.name %> (<%= prize.year %>)
-                                        </option>
-                                        <% }) %>
-                                            <% } %>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <label>Descripcions Extra:</label>
                         <div id="descriptions-container"></div>
                         <button type="button" id="button-add-description" class="add-description-button">
@@ -170,7 +173,7 @@
                         </button>
                     </div>
 
-                    
+
 
                 </form>
             </section>

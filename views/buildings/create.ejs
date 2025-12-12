@@ -78,6 +78,30 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label for="reforms">Reformes:</label>
+                                <select id="reforms" name="reforms" multiple>
+                                    <% if (reforms && reforms.length> 0) { %>
+                                        <% reforms.forEach(reform=> { %>
+                                            <option value="<%= reform.id_reform %>">
+                                                <%= reform.year %> - <%= reform.architects?.name %>
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="prizes">Premis:</label>
+                                <select id="prizes" name="prizes" multiple>
+                                    <% if (prizes && prizes.length> 0) { %>
+                                        <% prizes.forEach(prize=> { %>
+                                            <option value="<%= prize.id_prize %>">
+                                                <%= prize.name %> (<%= prize.year %>)
+                                            </option>
+                                            <% }) %>
+                                                <% } %>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
@@ -92,30 +116,6 @@
                     <div class="form-group">
                         <label for="description">Descripció:</label>
                         <textarea id="description" name="description"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="reforms">Reformes:</label>
-                        <select id="reforms" name="reforms" multiple>
-                            <% if (reforms && reforms.length> 0) { %>
-                                <% reforms.forEach(reform=> { %>
-                                    <option value="<%= reform.id_reform %>">
-                                        <%= reform.year %> - <%= reform.architects?.name %>
-                                    </option>
-                                    <% }) %>
-                                        <% } %>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="prizes">Premis:</label>
-                        <select id="prizes" name="prizes" multiple>
-                            <% if (prizes && prizes.length> 0) { %>
-                                <% prizes.forEach(prize=> { %>
-                                    <option value="<%= prize.id_prize %>">
-                                        <%= prize.name %> (<%= prize.year %>)
-                                    </option>
-                                    <% }) %>
-                                        <% } %>
-                        </select>
                     </div>
                     <div class="form-group">
                         <label>Descripcions Extra:</label>
