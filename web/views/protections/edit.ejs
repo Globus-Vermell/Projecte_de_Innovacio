@@ -14,7 +14,7 @@
 
             <!-- Contenedor del formulario -->
             <section class="form-container">
-                <form id="form-protection-edit" class="api-form"
+                <form id="main-form" class="api-form"
                     action="/protections/edit/<%= protection.id_protection %>" method="PUT"
                     data-redirect="/protections">
 
@@ -27,12 +27,6 @@
                         <label for="description">Descripción</label>
                         <textarea id="description" name="description"><%= protection.description %></textarea>
                     </div>
-
-                    <!-- Botón de enviar -->
-                    <button type="submit" class="submit-button">
-                        <i class="fas fa-save"></i> Desar
-                    </button>
-
                 </form>
             </section>
 

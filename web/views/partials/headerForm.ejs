@@ -2,29 +2,36 @@
     <a href="<%= backUrl %>" class="back-link" id="smart-back-btn">
         <i class="fas fa-arrow-left"></i>
     </a>
-    <h1 class="page-title"><%= title %></h1>
+    <h1 class="page-title">
+        <%= title %>
+    </h1>
+    <div class="header-line">
+    <button type="submit" class="submit-button" form="main-form">
+        <i class="fas fa-save"></i> Desar
+    </button>
+    </div>
 </header>
 
 <script>
-    document.getElementById('smart-back-btn').addEventListener('click', function(e) {
+    document.getElementById('smart-back-btn').addEventListener('click', function (e) {
         e.preventDefault(); // Detenemos el link normal 
-        
+
         // Detectamos en qué sección estamos basándonos en la URL actual o el backUrl
         let storageKey = '';
         const path = "<%= backUrl %>"; // ej: '/buildings'
 
-        if(path.includes('buildings')) storageKey = 'buildings_filters';
-        else if(path.includes('architects')) storageKey = 'architects_filters';
-        else if(path.includes('publications')) storageKey = 'publications_filters';
-        else if(path.includes('prizes')) storageKey = 'prizes_filters';
-        else if(path.includes('users')) storageKey = 'users_filters';
-        else if(path.includes('reforms')) storageKey = 'reforms_filters';
-        else if(path.includes('typologies')) storageKey = 'typologies_filters';
-        else if(path.includes('protections')) storageKey = 'protections_filters'; 
+        if (path.includes('buildings')) storageKey = 'buildings_filters';
+        else if (path.includes('architects')) storageKey = 'architects_filters';
+        else if (path.includes('publications')) storageKey = 'publications_filters';
+        else if (path.includes('prizes')) storageKey = 'prizes_filters';
+        else if (path.includes('users')) storageKey = 'users_filters';
+        else if (path.includes('reforms')) storageKey = 'reforms_filters';
+        else if (path.includes('typologies')) storageKey = 'typologies_filters';
+        else if (path.includes('protections')) storageKey = 'protections_filters';
 
         // Recuperamos
         const params = sessionStorage.getItem(storageKey) || '';
-        
+
         // ¡Viaje en el tiempo! ⏳
         window.location.href = path + params;
     });

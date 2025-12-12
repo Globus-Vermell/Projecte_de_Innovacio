@@ -19,7 +19,7 @@
 
         <!-- Contenedor del formulario -->
         <section class="form-container">
-            <form id="form-user-edit" class="api-form" action="/users/edit/<%= user.id_user %>" method="PUT"
+            <form id="main-form" class="api-form" action="/users/edit/<%= user.id_user %>" method="PUT"
                 data-redirect="/users">
 
                 <!-- Nombre -->
@@ -48,12 +48,6 @@
                         <option value="Editor" <%=user.level==="Editor" ? "selected" : "" %>>Editor</option>
                     </select>
                 </div>
-
-                <!-- Botón de envío -->
-                <button type="submit" class="submit-button">
-                    <i class="fas fa-save"></i> Guardar Canvis
-                </button>
-
             </form>
         </section>
 

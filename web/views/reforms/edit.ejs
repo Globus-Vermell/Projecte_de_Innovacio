@@ -14,7 +14,7 @@
 
             <!-- Contenedor del formulario -->
             <section class="form-container">
-                <form id="form-reform-edit" class="api-form" action="/reforms/edit/<%= reform.id_reform %>" method="PUT"
+                <form id="main-form" class="api-form" action="/reforms/edit/<%= reform.id_reform %>" method="PUT"
                     data-redirect="/reforms">
 
                     <!-- Año de la reforma -->
@@ -36,12 +36,6 @@
                                 <% }) %>
                         </select>
                     </div>
-
-                    <!-- Botón de enviar -->
-                    <button type="submit" class="submit-button">
-                        <i class="fas fa-save"></i> Desar
-                    </button>
-
                 </form>
             </section>
 

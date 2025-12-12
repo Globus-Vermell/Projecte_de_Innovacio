@@ -13,7 +13,7 @@
         <main class="flex-container">
             <section class="form-container">
                 <!-- Formulario para añadir un nuevo arquitecte -->
-                <form id="form-architect" class="api-form" action="/architects/create" method="POST">
+                <form id="main-form" class="api-form" action="/architects/create" method="POST">
                     <!-- Campos del formulario -->
                     <div class="form-group">
                         <label for="name">Nom <span class="required">*</span></label>
@@ -40,11 +40,6 @@
                         <label for="description">Biografia</label>
                         <textarea id="description" name="description"></textarea>
                     </div>
-
-                    <!-- Botón de envío -->
-                    <button type="submit" class="submit-button">
-                        <i class="fas fa-save"></i> Guardar
-                    </button>
                 </form>
             </section>
         </main>

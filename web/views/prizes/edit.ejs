@@ -13,7 +13,7 @@
         <main class="flex-container">
             <!-- Formulario de edición del premio -->
             <section class="form-container">
-                <form id="form-prize-edit" class="api-form" action="/prizes/edit/<%= prize.id_prize %>" method="PUT"
+                <form id="main-form" class="api-form" action="/prizes/edit/<%= prize.id_prize %>" method="PUT"
                     data-redirect="/prizes">
 
                     <!-- Campos del formulario -->
@@ -36,12 +36,6 @@
                         <label for="description">Descripción</label>
                         <textarea id="description" name="description"><%= prize.description %></textarea>
                     </div>
-
-                    <!-- Botón de envío -->
-                    <button type="submit" class="submit-button">
-                        <i class="fas fa-save"></i> Desar
-                    </button>
-
                 </form>
             </section>
         </main>
