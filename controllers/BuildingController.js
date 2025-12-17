@@ -13,27 +13,49 @@ export class BuildingController {
      * @param {Object} res Respuesta HTTP
      * @param {Function} next Función Next
      */
-    // En: controllers/BuildingController.js
 
-static async index(req, res, next) {
-    try {
-        const data = await BuildingService.getAllBuildings(req.query);
+    static async index(req, res, next) {
+        try {
+            const data = await BuildingService.getAllBuildings(req.query);
 
-        if (req.query.format === 'json' || req.headers.accept === 'application/json') {
-            return res.json({
-                success: true,
-                buildings: data.buildings, 
-                pagination: data.pagination
-            });
+            if (req.query.format === 'json' || req.headers.accept === 'application/json') {
+                return res.json({
+                    success: true,
+                    buildings: data.buildings,
+                    pagination: data.pagination
+                });
+            }
+            res.render("buildings/index", data);
+        } catch (err) {
+            if (req.query.format === 'json') {
+                return res.status(500).json({ success: false, error: err.message });
+            }
+            next(err);
         }
-        res.render("buildings/index", data);
-    } catch (err) {
-        if (req.query.format === 'json') {
-            return res.status(500).json({ success: false, error: err.message });
-        }
-        next(err);
     }
-}
+
+    /**
+         * Método GetOne
+         * Obtiene un edificio por su ID.
+         * @param {Object} req Petición HTTP
+         * @param {Object} res Respuesta HTTP
+         * @param {Function} next Función Next
+         */
+    static async getOne(req, res, next) {
+        const id = Number(req.params.id);
+        try {
+            const { building, related } = await BuildingService.getBuildingById(id);
+            res.json({
+                success: true,
+                building: building,
+                architects: related.architects,
+                publications: related.publications,
+                images: related.images
+            });
+        } catch (err) {
+            next(err);
+        }
+    }
 
     /**
      * Método FormCreate
