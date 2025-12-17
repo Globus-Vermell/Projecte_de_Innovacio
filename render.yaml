@@ -31,10 +31,3 @@ services:
 
       - key: SUPABASE_ANON_KEY
         sync: false   # Se define en Render Dashboard
-
-databases:
-  - name: globus_vermell_db
-    type: postgres
-    plan: basic-0
-    region: frankfurt
-    version: "14"
