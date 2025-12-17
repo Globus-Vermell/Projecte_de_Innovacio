@@ -1,5 +1,6 @@
 import { UserModel } from "../models/UserModel.js";
 import { AppError } from "../utils/AppError.js";
+import bcrypt from 'bcrypt';
 
 export class UserService {
 
@@ -46,13 +47,17 @@ export class UserService {
 
     static async updateUser(id, data) {
         const { name, email, password, level } = data;
-        
-        return await UserModel.update(id, {
-            name,
-            email,
-            password,
-            level
-        });
+
+        const updateData = {
+            name: name,
+            email: email,
+            level: level,
+        }
+        if (password && password.trim() !== "") {
+            updateData.password = await bcrypt.hash(password, 10);
+        }
+
+        return await UserModel.update(id, updateData);
     }
 
     static async deleteUser(id) {

@@ -8,50 +8,45 @@
 <body>
 
     <!-- Header del formulario -->
-    <header class="form-header">
-        <a href="/users" class="back-link">
-            <i class="fas fa-arrow-left"></i>
-        </a>
-        <h1 class="page-title">Editar Usuaris</h1>
-    </header>
+    <%- include('../partials/headerForm', { backUrl: '/users' , title: 'Editar Usuaris' }) %>
 
-    <main class="flex-container">
+        <main class="flex-container">
 
-        <!-- Contenedor del formulario -->
-        <section class="form-container">
-            <form id="main-form" class="api-form" action="/users/edit/<%= user.id_user %>" method="PUT"
-                data-redirect="/users">
+            <!-- Contenedor del formulario -->
+            <section class="form-container">
+                <form id="main-form" class="api-form" action="/users/edit/<%= user.id_user %>" method="PUT"
+                    data-redirect="/users">
 
-                <!-- Nombre -->
-                <div class="form-group">
-                    <label for="name">Nom</label>
-                    <input type="text" id="name" name="name" value="<%= user.name %>" />
-                </div>
+                    <!-- Nombre -->
+                    <div class="form-group">
+                        <label for="name">Nom</label>
+                        <input type="text" id="name" name="name" value="<%= user.name %>" />
+                    </div>
 
-                <!-- Email -->
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" id="email" name="email" value="<%= user.email %>" />
-                </div>
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="text" id="email" name="email" value="<%= user.email %>" />
+                    </div>
 
-                <!-- Contraseña -->
-                <div class="form-group">
-                    <label for="password">Contrasenya</label>
-                    <input type="password" id="password" name="password" value="<%= user.password %>" />
-                </div>
+                    <!-- Contraseña -->
+                    <div class="form-group">
+                        <label for="password">Contrasenya</label>
+                        <input type="password" id="password" name="password" value="<%= user.password %>" />
+                    </div>
 
-                <!-- Nivel de usuario -->
-                <div class="form-group">
-                    <label for="level">Nivell <span class="required">*</span></label>
-                    <select id="level" name="level" required>
-                        <option value="Admin" <%=user.level==="Admin" ? "selected" : "" %>>Admin</option>
-                        <option value="Editor" <%=user.level==="Editor" ? "selected" : "" %>>Editor</option>
-                    </select>
-                </div>
-            </form>
-        </section>
+                    <!-- Nivel de usuario -->
+                    <div class="form-group">
+                        <label for="level">Nivell <span class="required">*</span></label>
+                        <select id="level" name="level" required>
+                            <option value="Admin" <%=user.level==="Admin" ? "selected" : "" %>>Admin</option>
+                            <option value="Editor" <%=user.level==="Editor" ? "selected" : "" %>>Editor</option>
+                        </select>
+                    </div>
+                </form>
+            </section>
 
-    </main>
+        </main>
 
 </body>
 
