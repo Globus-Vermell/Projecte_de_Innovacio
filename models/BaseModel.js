@@ -1,13 +1,13 @@
 
 /**
  * Clase base para modelos que interactúan con la base de datos.
- * Proporciona métodos comunes para operaciones CRUD y paginación.
+ * Proporciona funciones comunes para operaciones CRUD y paginación.
  */
 
 export default class BaseModel {
 
     /**
-     * Método que aplica la paginación a una query de Supabase.
+     * Función que aplica la paginación a una query de Supabase.
      * @param {Object} query - Objeto query de Supabase en construcción.
      * @param {number|null} page - Número de página.
      * @param {number|null} limit - Límite de elementos por página.
@@ -23,7 +23,7 @@ export default class BaseModel {
     }
 
     /**
-     * Método que calcula los metadatos de paginación para la respuesta.
+     * Función que calcula los metadatos de paginación para la respuesta.
      * @param {number} count - Total de registros.
      * @param {number} page - Página actual.
      * @param {number} limit - Límite aplicado.

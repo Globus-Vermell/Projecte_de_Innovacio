@@ -1,7 +1,18 @@
 import { BuildingService } from "../services/BuildingService.js";
 
+/**
+ * Controlador de Edificios
+ * Gestiona todas las operaciones CRUD de los edificios.
+ */
 export class BuildingController {
 
+    /**
+     * Método Index
+     * Muestra el listado de edificios.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async index(req, res, next) {
         try {
             const data = await BuildingService.getAllBuildings(req.query);
@@ -11,16 +22,29 @@ export class BuildingController {
         }
     }
 
+    /**
+     * Método FormCreate
+     * Muestra el formulario de creación cargando las opciones necesarias.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formCreate(req, res, next) {
         try {
             const formOptions = await BuildingService.getBuildingFormOptions();
-
             res.render("buildings/create", formOptions);
         } catch (error) {
             next(error);
         }
     }
 
+    /**
+     * Método Create
+     * Procesa la creación de un nuevo edificio.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async create(req, res, next) {
         try {
             await BuildingService.createBuilding(req.body);
@@ -30,17 +54,30 @@ export class BuildingController {
         }
     }
 
+    /**
+     * Método FormEdit
+     * Muestra el formulario de edición con los datos del edificio cargados.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
             const viewData = await BuildingService.getDataForEdit(id);
-
             res.render("buildings/edit", viewData);
         } catch (err) {
             next(err);
         }
     }
 
+    /**
+     * Método Update
+     * Actualiza un edificio existente.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async update(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -51,6 +88,13 @@ export class BuildingController {
         }
     }
 
+    /**
+     * Método Delete
+     * Elimina un edificio.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -61,6 +105,13 @@ export class BuildingController {
         }
     }
 
+    /**
+     * Método Validate
+     * Cambia el estado de validación de un edificio.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async validate(req, res, next) {
         const id = Number(req.params.id);
         const { validated } = req.body;
@@ -72,6 +123,13 @@ export class BuildingController {
         }
     }
 
+    /**
+     * Método FilterTypologies
+     * Devuelve tipologías basadas en una lista de IDs.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async filterTypologies(req, res, next) {
         try {
             const typologies = await BuildingService.getTypologiesByPublications(req.query.ids);
@@ -81,6 +139,13 @@ export class BuildingController {
         }
     }
 
+    /**
+     * Método Upload
+     * Gestiona la subida de imágenes al servidor.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async upload(req, res, next) {
         try {
             const filePaths = await BuildingService.uploadImages(req.files);

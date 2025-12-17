@@ -1,7 +1,18 @@
 import { ReformService } from "../services/ReformService.js";
 
+/**
+ * Controlador de Reformas
+ * Gestiona las operaciones relacionadas con las reformas.
+ */
 export class ReformController {
-    
+
+    /**
+     * Método Index
+     * Muestra la lista de reformas.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async index(req, res, next) {
         try {
             const data = await ReformService.getAllReforms(req.query);
@@ -11,6 +22,14 @@ export class ReformController {
         }
     }
 
+    /**
+     * Método FormCreate
+     * Muestra el formulario de creación.
+     * Carga datos necesarios para el formulario.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formCreate(req, res, next) {
         try {
             const data = await ReformService.getCreateFormData();
@@ -20,6 +39,13 @@ export class ReformController {
         }
     }
 
+    /**
+     * Método Create
+     * Guarda una nueva reforma.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async create(req, res, next) {
         try {
             await ReformService.createReform(req.body);
@@ -29,6 +55,13 @@ export class ReformController {
         }
     }
 
+    /**
+     * Método FormEdit
+     * Muestra el formulario de edición con los datos cargados.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -39,6 +72,13 @@ export class ReformController {
         }
     }
 
+    /**
+     * Método Update
+     * Actualiza una reforma existente.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async update(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -49,6 +89,13 @@ export class ReformController {
         }
     }
 
+    /**
+     * Método Delete
+     * Elimina una reforma.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {

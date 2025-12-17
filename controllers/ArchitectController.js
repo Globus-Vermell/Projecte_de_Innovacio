@@ -1,7 +1,18 @@
 import { ArchitectService } from "../services/ArchitectService.js";
 
+/**
+ * Controlador de Arquitectos
+ * Gestiona las operaciones relacionadas con los arquitectos.
+ */
 export class ArchitectController {
 
+    /**
+     * Método Index
+     * Muestra la lista de arquitectos.
+     * @param {Object} req Petición HTTP 
+     * @param {Object} res Respuesta HTTP 
+     * @param {Function} next Función Next para manejo de errores
+     */
     static async index(req, res, next) {
         try {
             const data = await ArchitectService.getAllArchitects(req.query);
@@ -11,10 +22,28 @@ export class ArchitectController {
         }
     }
 
+    /**
+     * Método FormCreate
+     * Muestra el formulario de creación de arquitecto.
+     * @param {Object} req Petición HTTP 
+     * @param {Object} res Respuesta HTTP 
+     * @param {Function} next Función Next 
+     */
     static async formCreate(req, res, next) {
-        res.render("architects/create");
+        try {
+            res.render("architects/create");
+        } catch (error) {
+            next(error);
+        }
     }
 
+    /**
+     * Método Create
+     * Crea un nuevo arquitecto.
+     * @param {Object} req Petición HTTP 
+     * @param {Object} res Respuesta HTTP 
+     * @param {Function} next Función Next 
+     */
     static async create(req, res, next) {
         try {
             await ArchitectService.createArchitect(req.body);
@@ -24,6 +53,13 @@ export class ArchitectController {
         }
     }
 
+    /**
+     * Método FormEdit
+     * Muestra el formulario de edición de arquitecto.
+     * @param {Object} req Petición HTTP 
+     * @param {Object} res Respuesta HTTP 
+     * @param {Function} next Función Next 
+     */
     static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -34,6 +70,13 @@ export class ArchitectController {
         }
     }
 
+    /**
+     * Método Update
+     * Actualiza un arquitecto existente.
+     * @param {Object} req Petición HTTP 
+     * @param {Object} res Respuesta HTTP 
+     * @param {Function} next Función Next 
+     */
     static async update(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -44,6 +87,13 @@ export class ArchitectController {
         }
     }
 
+    /**
+     * Método Delete
+     * Elimina un arquitecto existente.
+     * @param {Object} req Petición HTTP 
+     * @param {Object} res Respuesta HTTP 
+     * @param {Function} next Función Next 
+     */
     static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {

@@ -1,23 +1,47 @@
 import { ProtectionService } from "../services/ProtectionService.js";
 
+/**
+ * Controlador de Protecciones Patrimoniales
+ * Gestiona las operaciones relacionadas con las protecciones.
+ */
 export class ProtectionController {
-    
+
+    /**
+     * Método Index
+     * Muestra la lista de protecciones.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async index(req, res, next) {
         try {
             const protections = await ProtectionService.getAllProtections(req.query);
-            res.render("protections/index", { 
-                protections, 
-                currentFilters: { search: req.query.search || '' } 
+            res.render("protections/index", {
+                protections,
+                currentFilters: { search: req.query.search || '' }
             });
         } catch (error) {
             next(error);
         }
     }
 
-    static async formCreate(req, res, next) {
+    /**
+     * Método FormCreate
+     * Muestra el formulario de creación.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     */
+    static async formCreate(req, res) {
         res.render("protections/create");
     }
 
+    /**
+     * Método Create
+     * Guarda una nueva protección.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async create(req, res, next) {
         try {
             await ProtectionService.createProtection(req.body);
@@ -27,6 +51,13 @@ export class ProtectionController {
         }
     }
 
+    /**
+     * Método FormEdit
+     * Muestra el formulario de edición.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -37,6 +68,13 @@ export class ProtectionController {
         }
     }
 
+    /**
+     * Método Update
+     * Actualiza una protección existente.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async update(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -47,6 +85,13 @@ export class ProtectionController {
         }
     }
 
+    /**
+     * Método Delete
+     * Elimina una protección.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {

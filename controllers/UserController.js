@@ -1,7 +1,18 @@
 import { UserService } from "../services/UserService.js";
 
+/**
+ * Controlador de Usuarios
+ * Gestiona las operaciones relacionadas con los usuarios.
+ */
 export class UserController {
-    
+
+    /**
+     * Método Index
+     * Muestra la lista de usuarios.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async index(req, res, next) {
         try {
             const data = await UserService.getAllUsers(req.query);
@@ -11,10 +22,24 @@ export class UserController {
         }
     }
 
+    /**
+     * Método FormCreate
+     * Muestra el formulario de creación de usuario.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formCreate(req, res, next) {
         res.render('users/create');
     }
 
+    /**
+     * Método Create
+     * Crea un nuevo usuario.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async create(req, res, next) {
         try {
             await UserService.createUser(req.body);
@@ -24,6 +49,13 @@ export class UserController {
         }
     }
 
+    /**
+     * Método FormEdit
+     * Muestra el formulario de edición.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -34,6 +66,13 @@ export class UserController {
         }
     }
 
+    /**
+     * Método Update
+     * Actualiza un usuario existente.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async update(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -44,6 +83,13 @@ export class UserController {
         }
     }
 
+    /**
+     * Método Delete
+     * Elimina un usuario.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {

@@ -10,6 +10,6 @@ router.post("/create", isEditor, PublicationController.create);
 router.get("/edit/:id", isEditor, PublicationController.formEdit);
 router.put("/edit/:id", isEditor, PublicationController.update);
 router.delete("/delete/:id", isEditor, PublicationController.delete);
-router.put("/validation/:id", isEditor, PublicationController.validation);
+router.put("/validation/:id", isEditor, PublicationController.validate);
 
 export default router;

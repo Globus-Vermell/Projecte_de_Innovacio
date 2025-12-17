@@ -1,7 +1,18 @@
 import { PublicationService } from "../services/PublicationService.js";
 
+/**
+ * Controlador de Publicaciones
+ * Gestiona las operaciones relacionadas con las publicaciones.
+ */
 export class PublicationController {
 
+    /**
+     * Método Index
+     * Muestra la lista de publicaciones.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async index(req, res, next) {
         try {
             const data = await PublicationService.getAllPublications(req.query);
@@ -11,17 +22,29 @@ export class PublicationController {
         }
     }
 
+    /**
+     * Método FormCreate
+     * Muestra el formulario de creación y carga las tipologías disponibles.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formCreate(req, res, next) {
         try {
             const typologies = await PublicationService.getAllTypologies();
-            res.render('publications/create', {
-                typologies: typologies || []
-            });
+            res.render('publications/create', { typologies });
         } catch (err) {
             next(err);
         }
     }
 
+    /**
+     * Método Create
+     * Guarda una nueva publicación.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async create(req, res, next) {
         try {
             await PublicationService.createPublication(req.body);
@@ -31,6 +54,14 @@ export class PublicationController {
         }
     }
 
+    /**
+     * Método FormEdit
+     * Muestra el formulario de edición.
+     * Carga en paralelo los datos de la publicación y las tipologías.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async formEdit(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -50,6 +81,13 @@ export class PublicationController {
         }
     }
 
+    /**
+     * Método Update
+     * Actualiza una publicación existente.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async update(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -60,6 +98,13 @@ export class PublicationController {
         }
     }
 
+    /**
+     * Método Delete
+     * Elimina una publicación.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
     static async delete(req, res, next) {
         const id = Number(req.params.id);
         try {
@@ -70,7 +115,14 @@ export class PublicationController {
         }
     }
 
-    static async validation(req, res, next) {
+    /**
+     * Método Validate
+     * Actualiza el estado de validación de la publicación.
+     * @param {Object} req Petición HTTP
+     * @param {Object} res Respuesta HTTP
+     * @param {Function} next Función Next
+     */
+    static async validate(req, res, next) {
         const id = Number(req.params.id);
         const { validated } = req.body;
         try {
