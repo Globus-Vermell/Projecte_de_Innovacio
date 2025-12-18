@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login</title>
     <link rel="stylesheet" href="/css/login.css" />
+    <link rel="icon" type="image/png" href="/images/globus_vermell.png">
 </head>
 
 <body>
@@ -21,26 +22,31 @@
             <h2>Inici de sessió</h2>
             <form id="login-form" action="/" method="POST" autocomplete="off">
                 <label for="login-username">Usuari</label>
-                <input type="text" id="login-username" name="username" placeholder="Nom d'usuari" required autocomplete="username" />
+                <input type="text" id="login-username" name="username" placeholder="Nom d'usuari" required
+                    autocomplete="username" />
 
                 <label for="login-password">Contrasenya</label>
-                <input type="password" id="login-password" name="password" placeholder="Contrasenya" required autocomplete="current-password" />
+                <input type="password" id="login-password" name="password" placeholder="Contrasenya" required
+                    autocomplete="current-password" />
 
                 <button type="submit">Entrar</button>
             </form>
 
             <!-- Mensaje de error -->
             <% if (error) { %>
-                <p role="alert" class="message"><%= error %></p>
-            <% } %>
+                <p role="alert" class="message">
+                    <%= error %>
+                </p>
+                <% } %>
 
-            <!-- Footer  -->
-            <footer class="footer-message">
-                Projecte elaborat pel ITB amb conjunt del Globus Vermell
-            </footer>
+                    <!-- Footer  -->
+                    <footer class="footer-message">
+                        Projecte elaborat pel ITB amb conjunt del Globus Vermell
+                    </footer>
 
         </section>
     </main>
 
 </body>
+
 </html>
