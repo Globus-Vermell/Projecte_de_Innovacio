@@ -6,7 +6,7 @@ dotenv.config();
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
 if (!supabaseUrl || !supabaseKey) {
-    console.error("Error: Faltan las claves de Supabase en el archivo .env");
+    console.error("Error: Falten les claus de Supabase en el fitxer .env");
     process.exit(1);
 }
 

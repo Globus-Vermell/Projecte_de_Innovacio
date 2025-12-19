@@ -20,7 +20,7 @@ const PORT = 3000;
 const PgSession = pgSession(session);
 const pgPool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false }
+    ssl: { rejectUnauthorized: true }
 });
 const app = express();
 
@@ -44,7 +44,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 30 * 24 * 60 * 60 * 1000,
+        maxAge: 8 * 60 * 60 * 1000,
         httpOnly: true
     }
 }));
