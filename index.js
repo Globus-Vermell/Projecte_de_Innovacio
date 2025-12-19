@@ -20,7 +20,7 @@ const PORT = 3000;
 const PgSession = pgSession(session);
 const pgPool = new pg.Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: true }
+    ssl: { rejectUnauthorized: false }
 });
 const app = express();
 
